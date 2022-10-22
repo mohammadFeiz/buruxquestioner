@@ -60,3 +60,6 @@ button{
 .rsa.has-opened-popup{
   filter:blur(4px);
 }
+.rsa-bottom-menu-item.active{
+  background:#00B5A5 !important;
+}
