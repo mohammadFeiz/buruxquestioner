@@ -1,0 +1,18 @@
+.mozakere-tabs{
+    padding:0;
+}
+.mozakere-tabs .aio-button-tabs-option{
+    border:1px solid #bbb;
+    height:24px;
+    border-radius:24px;
+    padding:0 8px;
+    font-size:10px;
+    margin:0 3px;
+}
+.mozakere-tabs .aio-button-tabs-option.active{
+    background:#A066B4;
+    color:#fff;
+}
+.mozakere-tabs .aio-button-tabs-option:after{
+    display:none;
+}
