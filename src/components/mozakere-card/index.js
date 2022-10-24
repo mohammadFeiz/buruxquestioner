@@ -21,7 +21,7 @@ export default class MozakereCard extends Component{
     status_layout(status){
         let {mozakereStatuses} = this.context;
         let {text,color} = mozakereStatuses.find((o)=>o.value === status);
-        return {className:'mozakere-card-status',html:text,style:{color,background:color + '60'}}
+        return {className:'mozakere-card-status',html:text,style:{color,background:color + '30'}}
     }
     options_layout(mode){
         return {

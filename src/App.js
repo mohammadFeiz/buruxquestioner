@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import RSA from './npm/react-super-app/index';
+import RSA from 'react-super-app';
 import Mozakerat from "./components/mozakerat/index";
 import AppContext from "./app-context";
 import AIOService from 'aio-service';
@@ -16,7 +16,6 @@ export default class App extends Component {
     super(props);
     this.state = {
       services:AIOService({getState:()=>this.state,apis}),
-      navId:'mize_kar',
       mozakereStatuses:[
         {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
         {value:'1',text:'در حال مذاکره',color:'#CD9100'},
@@ -26,63 +25,10 @@ export default class App extends Component {
       ],
       results:[
         {value:'all',text:'همه نتیجه ها'},
-        {value:'0',text:'موفق ها',presentation:(o)=>{
-          return (
-            <RVD layout={{
-              style:{color:'#107C10'},
-              className:'size12',
-              gap:3,
-              row:[
-                {html:'نتیجه:',align:'v'},
-                {html:'موفق',align:'v'},
-                {html:<Icon path={mdiThumbUpOutline} size={0.7}/>,align:'vh'}
-              ]
-            }}/>
-          )
-        }},
-        {value:'1',text:'نا موفق ها',presentation:(o)=>{
-          return (
-            <RVD layout={{
-              style:{color:'#BE0000'},
-              className:'size12',
-              gap:3,
-              row:[
-                {html:'نتیجه:',align:'v'},
-                {html:'نا موفق',align:'v'},
-                {html:<Icon path={mdiThumbDownOutline} size={0.7}/>,align:'vh'}
-              ]
-            }}/>
-          )
-        }},
-        {value:'2',text:'نیاز به تماس ها',presentation:(o)=>{
-          return (
-            <RVD layout={{
-              style:{color:'#2BA4D8'},
-              className:'size12',
-              gap:3,
-              row:[
-                {html:'نتیجه:',align:'v'},
-                {html:'نیاز به تماس',align:'v'},
-                {html:<Icon path={mdiPhone} size={0.7}/>,align:'vh'}
-              ]
-            }}/>
-          )
-        }},
-        {value:'3',text:'نیاز به پیگیری ها',presentation:(o)=>{
-          return (
-            <RVD layout={{
-              style:{color:'#FF7A00'},
-              className:'size12',
-              gap:3,
-              row:[
-                {html:'نتیجه:',align:'v'},
-                {html:'نیاز به پیگیری',align:'v'},
-                {html:<Icon path={mdiStarOutline} size={0.7}/>,align:'vh'}
-              ]
-            }}/>
-          )
-        }},
-        
+        {value:'0',text:'موفق ها',presentation:(o)=><Result color='#107C10' path={mdiThumbUpOutline} text='موفق'/>},
+        {value:'1',text:'نا موفق ها',presentation:(o)=><Result color='#BE0000' path={mdiThumbDownOutline} text='نا موفق'/>},
+        {value:'2',text:'نیاز به تماس ها',presentation:(o)=><Result color='#2BA4D8' path={mdiPhone} text='نیاز به تماس'/>},
+        {value:'3',text:'نیاز به پیگیری ها',presentation:(o)=><Result color='#FF7A00' path={mdiStarOutline} text='نیاز به پیگیری'/>}
       ],
       mozakere_konandegan:[]
     }
@@ -100,55 +46,33 @@ export default class App extends Component {
   componentDidMount(){
     this.get_mozakere_konandegan()
   }
-  errorConfirm(text,subtext){
-    return (
-      <RVD
-        layout={{
-          column:[
-            {size:36},
-            {html:<Icon path={mdiClose} size={3}/>,style:{color:'red'},align:'vh'},
-            {size:12},
-            {html:text,style:{color:'red'},align:'vh'},
-            {size:12},
-            {html:subtext,align:'vh',className:'size10'}
-          ]
-        }}
-      />
-    )
-  }
-  successConfirm(text,subtext){
-    return (
-      <RVD
-        layout={{
-          column:[
-            {size:36},
-            {html:<Icon path={mdiCheckCircleOutline} size={3}/>,style:{color:'green'},align:'vh'},
-            {size:12},
-            {html:text,style:{color:'green'},align:'vh'},
-            {size:12},
-            {html:subtext,align:'vh',className:'size10'}
-          ]
-        }}
-      />
-    )
-  }
   setConfirm({type,text,subtext}){
-    let body;
+    let path,color;
     if(type === 'success'){
-      body = this.successConfirm(text,subtext);
+      path = mdiCheckCircleOutline;
+      color = 'green';
     }
     else if(type === 'error'){
-      body = this.errorConfirm(text,subtext);
+      path = mdiClose;
+      color = 'red';
     }
-    this.state.setConfirm({
-      text:body,style:{background:'#fff',height:'fit-content'},
-      buttons:[
-        {text:'بستن'}
-      ]  
-    })
+    let body = (
+      <RVD
+        layout={{
+          column:[
+            {size:36},
+            {html:<Icon path={path} size={3}/>,style:{color},align:'vh'},
+            {size:12},
+            {html:text,style:{color},align:'vh'},
+            {size:12},
+            {html:subtext,align:'vh',className:'size10'}
+          ]
+        }}
+      />
+    )
+    this.state.setConfirm({text:body,style:{background:'#fff',height:'fit-content'},buttons:[{text:'بستن'}]})
   }
   getContext(){
-    
     return {
       ...this.state,
       confirm:({type,text,subtext})=>{
@@ -156,66 +80,80 @@ export default class App extends Component {
       }
     }
   }
+  header_layout(){
+    return {
+      size:60,
+      html:(
+        <>
+          <img src={headerSrc} width='100%'/>
+          <img src={titleSrc} width='140' height='24' style={{position:'absolute',right:12,top:24}}/>
+        </>
+      )
+    }
+  }
+  body_layout(){
+    let navs = [
+      {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={1.5}/>},
+      {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={1.5}/>}
+    ]
+    return {
+      flex:1,
+      html:(
+        <RSA
+          style={{height:'calc(100% - 60px)',top:60}}
+          rtl={true}
+          navs={navs}
+          header={({addPopup})=><Header addPopup={addPopup}/>}
+          body={({navId})=><Mozakerat key={navId} mode={navId}/>}
+          getActions={(obj)=>this.setState(obj)}
+        />
+      )
+    }
+  }
   render(){
-    let {navId,addPopup} = this.state;
     return (
       <AppContext.Provider value={this.getContext()}>
-        <RVD
-          layout={{
-            column:[
-              {size:60,html:(
-                <>
-                  <img src={headerSrc} width='100%'/>
-                  <img src={titleSrc} width='140' height='24' style={{position:'absolute',right:12,top:24}}/>
-                </>
-              )},
-              {
-                flex:1,
-                html:(
-                  <RSA
-                    style={{height:'calc(100% - 60px)',top:60}}
-                    rtl={true}
-                    navId={navId}
-                    navs={[
-                      {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={1.5}/>},
-                      {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={1.5}/>}
-                    ]}
-                    header={()=>{
-                      return (
-                        <RVD
-                          layout={{
-                            row:[
-                              {html:<Icon path={mdiBell} size={0.7}/>,attrs:{
-                                onClick:()=>{
-                                  addPopup({
-                                    style:{background:'#fff'},
-                                    title:'اعلان ها',
-                                    type:'fullscreen',
-                                    content:()=>{
-                                      return <Notification/>
-                                    }
-                                  })
-                                }
-                              }}
-                            ]
-                          }}
-                        />
-                      )
-                    }}
-                    changeNavId={(navId)=>this.setState({navId})}
-                    body={()=>{
-                      let {navId} = this.state;
-                      if(navId === 'mize_kar'){return <Mozakerat key='mize_kar' mode='mize_kar'/>}
-                      if(navId === 'tarikhche'){return <Mozakerat key='tarikhche' mode='tarikhche'/>}
-                    }}
-                    getActions={(obj)=>this.setState(obj)}
-                  />
-                )
-              }
-            ]
-          }}
-        />
+        <RVD layout={{column:[this.header_layout(),this.body_layout()]}}/>
       </AppContext.Provider>   
     );
+  }
+}
+class Header extends Component{
+  render(){
+    let {addPopup} = this.props;
+    return (
+      <RVD
+        layout={{
+          row:[
+            {html:<Icon path={mdiBell} size={0.7}/>,attrs:{
+              onClick:()=>{
+                addPopup({
+                  style:{background:'#fff'},title:'اعلان ها',type:'fullscreen',
+                  content:()=><Notification/>
+                })
+              }
+            }}
+          ]
+        }}
+      />
+    )
+  }
+}
+
+class Result extends Component{
+  render(){
+    let {color,path,text} = this.props;
+    return (
+      <RVD layout={{
+        style:{color},
+        className:'size12',
+        gap:3,
+        row:[
+          {html:'نتیجه:',align:'v'},
+          {html:text,align:'v'},
+          {html:<Icon path={path} size={0.7}/>,align:'vh'}
+        ]
+      }}/>
+    )
   }
 }
