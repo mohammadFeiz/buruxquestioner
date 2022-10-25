@@ -9,10 +9,54 @@ export default function apis({Axios,getState}){
     //result:'1',text:'نا موفق'
     //result:'2',text:'نیاز به تماس'
     //result:'3',text:'نیاز به پیگیری'
-            
+    const hostName = `http://localhost:8000`
+    const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
+    const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
+    const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه
+    const referralUrl = `${hostName}/camunda/v1/changeassignee` // آدرس ارجا به دیگری
+    const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
+    // let username = 'a.taghavi'
+    // let username = 'a.hejazi'
+    let username = 'a.moghimi'
+    // let username = 's.ehteshami'
+
     return {
         async mozakere_konandegan(){
             //return 'خطایی پیش آمده'
+            let apiBody = {
+                "client": 1, // با توجه به غرفه ای که درخواست میکند 
+                "city": 'تهران',
+                // "market": '',
+                // "province": "فارس",
+              }
+
+            let result;
+            try{
+            result = await Axios.post(searchPersonUrl, apiBody)
+            }
+            catch(err) {
+            debugger
+            return 'خطا در دریافت لیست مذاکره کنندگان' 
+            }
+
+            let resMapping = result.data.map((o) => {
+
+                if(o.profile_photo_url) {
+                  o.profile_photo_url = `${hostName}${o.profile_photo_url}`
+                }
+                return {
+                  id: o.id,
+                  name: o.full_name,
+                  city: o.city,
+                  table:o.desk_number,
+                  status: o.status,
+                  src: o.profile_photo_url,
+                  username: o.username
+                }
+            })
+            // debugger
+            return resMapping
+
             return [
                 {name:'علی قربانی',city:'تهران',table:'2',id:'0'},
                 {name:'علی قربانی',city:'تهران',table:'2',id:'1'},
@@ -22,7 +66,45 @@ export default function apis({Axios,getState}){
             ]
         },
         async mozakere_haye_man(){
-            
+            let result;
+            let url = `${userTaskUrl}/1/${username}`
+            try{
+                result = await Axios.get(url)
+            }
+            catch(err){
+                debugger
+                return []
+            }
+
+            let resMapping = result.data.map((o) => {
+                let state;
+                // {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
+                // {value:'1',text:'در حال مذاکره',color:'#CD9100'},
+                // {value:'2',text:'پایان مذاکره',color:'#107C10'},
+                // {value:'3',text:'ارجاع به دیگری',color:'#814696'},
+                // {value:'4',text:'انصراف از مذاکره',color:'#A4262C'}
+                
+                if(o.state == 1){state = '0'} // o.state == 1 => ثبت اظلاعات  
+                else if(o.state == 2){state = '0'} // o.state == 2 => در انتظار مذاکره
+                else if(o.state == 3){state = '1'} // o.state == 3 => در حال مذاکره
+                else if(o.state == 4){state = '2'} // o.state == 4 => پایان مذاکره
+                else if(o.state == 5){state = '4'} // o.state == 5 => انصراف از مذاکره
+                else if(o.state == 6){state = '3'} // o.state == 6 => ارجاع به دیگری
+                else{state = '0'}
+                return {
+                    name: `${o.first_name} ${o.last_name}` || '',
+                    status: state,
+                    company: o.company_name || '',
+                    city: o.province || '',
+                    id: o.id_ ,
+                    process_instance_id: o.process_instance_id,
+                    time: new Date(o.created).getTime(),
+                    guest_id: o.guest_id
+                }
+            })
+            // return []
+            // debugger
+            return resMapping            
                 
             return [
                 //status : '0' {name,company,city,id,time}
@@ -38,8 +120,68 @@ export default function apis({Axios,getState}){
             ]
         },
         async tarikhche(){
+            let result;
+            let url = `${historyUrl}/1/${username}`
+
+            try{
+                result = await Axios.get(url)
+            }
+            catch(err){
+                return []
+            }
+
+            let resMapping = result.data.map((o) => {
+                let state;
+                let name;
+                let city;
+                let company_name;
+                let full_name;
+                let result;
+                if (Object.values(o.state).length != 0){
+                    if(o.state.id == 1){state = 0} // o.state == 1 => ثبت اظلاعات  
+                    else if(o.state.id == 2){state = '0'} // o.state == 2 => در انتظار مذاکره
+                    else if(o.state.id == 3){state = '1'} // o.state == 3 => در حال مذاکره
+                    else if(o.state.id == 4){state = '2'} // o.state == 4 => پایان مذاکره
+                    else if(o.state.id == 5){state = '4'} // o.state == 5 => انصراف از مذاکره
+                    else if(o.state.id == 6){state = '3'} // o.state == 6 => ارجاع به دیگری
+                    else{state = '3'}
+                }
+                else{
+                    state = '3'
+                }
+                
+                if (Object.values(o.guest).length != 0){
+                    name = `${o.guest.first_name} ${o.guest.last_name}`
+                    company_name = o.guest.company_name
+                    city = o.guest.province
+                }
+                if (Object.values(o.referral).length != 0) {
+                    full_name = o.referral.full_name
+                }
+                if (Object.values(o.negotiaition).length != 0) {
+                    result = o.negotiaition.result
+                    if(result == 'S'){result = '0'} //'موفق ها'
+                    if(result == 'U'){result = '1'} //'نا موفق ها'
+                    if(result == 'C'){result = '2'} //'نیاز به تماس ها'
+                    if(result == 'N'){result = '3'} //'نیاز به پیگیری ها'
+                }
+                
+                return {
+                    name: name || 'نامی وجود ندارد',
+                    status: state || '0',
+                    company: company_name || 'نام شرکت',
+                    city: city || 'نام شهر',
+                    id: o.task_id || '0',
+                    time: new Date(o.updated_at).getTime(),
+                    result: result || undefined,
+                    referencedTo: full_name
+                }
+            })
+            return resMapping.sort()
+
+
             return [
-                //status : '2' {name,company,city,id,time,result}
+                //status : '2' {name,company,city,id,time,result} //پایان یافته
                 {
                     name:'حامد یوسف زاده',status:'2',company:'شرکت طلوع روشن نور',city:'تهران',id:'21',
                     time:new Date().getTime(),result:'0'
@@ -56,7 +198,7 @@ export default function apis({Axios,getState}){
                     name:'رضا پورمحمدی',status:'2',company:'شرکت طلوع روشن نور',city:'مشهد',id:'23',
                     time:new Date().getTime(),result:'3'
                 },
-                //status : '3' {name,company,city,id,time,referencedTo}
+                //status : '3' {name,company,city,id,time,referencedTo} // ارجاع شده
                 {
                     name:'سلمان طیبی',status:'3',company:'شرکت طلوع روشن نور',city:'ارومیه',id:'31',
                     time:new Date().getTime(),referencedTo:'جواد زمانی'
@@ -73,7 +215,7 @@ export default function apis({Axios,getState}){
                     name:'شیما رادمنش',status:'3',company:'شرکت طلوع روشن نور',city:'مشهد',id:'34',
                     time:new Date().getTime(),referencedTo:'کوروش شجاعی'
                 },
-                //status : '3' {name,company,city,id,time}
+                //status : '4' {name,company,city,id,time} //انصراف
                 {
                     name:'احمد عزیزی',status:'4',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'41',
                     time:new Date().getTime()
@@ -93,7 +235,7 @@ export default function apis({Axios,getState}){
             ]
         },
         async notifications(){
-            return 'خطایی پیش آمده'
+            // return 'خطایی پیش آمده'
             return [
                 {
                     name:'حامد یوسف زاده',status:'0',city:'تهران',id:'0',
@@ -145,13 +287,54 @@ export default function apis({Axios,getState}){
             return 'خطایی پیش آمده'
             return true
         },
-        async erja({mozakere_konanade,object}){
-            //return 'خطایی پیش آمده'
-            return true
+
+        async erja({mozakere_konande, object}){
+            
+            let apiBody = {
+                client: 1, // با توجه به غرفه 
+                instance_id: object.process_instance_id,
+                task_id:object.id,
+                new_assignee: mozakere_konande.username,
+            }
+            debugger
+            let result;
+            let url = `${referralUrl}`
+            try{
+                result = await Axios.post(url, apiBody)
+                if (result.data.id){
+                    return true
+                }
+                debugger
+            }
+            catch(err){
+                debugger
+                if(err.response){
+                    if (err.response.data){
+                        return err.response.data.error.errorMessage
+                    }
+                }
+                return 'خطایی پیش آمده'
+            }
+            return 'پاسخ نامشخص'
         },
-        async enseraf({description,object}){
-            //return 'خطایی پیش آمده'
-            return true
+        async enseraf({description, object}){
+            
+            let task_id = object.id
+            let guest_id = object.guest_id
+            let url = `${discardRequeestUrl}?task_id=${task_id}&description=${description}&guest_id=${guest_id}`
+            debugger
+            let result;
+            try{
+                result = await Axios.get(url)
+                // debugger
+                return true
+            }
+            catch(err){
+                debugger
+                return 'خطایی پیش آمده'
+            }
+            
+            
         }
     }
 }

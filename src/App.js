@@ -21,7 +21,7 @@ export default class App extends Component {
         {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
         {value:'1',text:'در حال مذاکره',color:'#CD9100'},
         {value:'2',text:'پایان مذاکره',color:'#107C10'},
-        {value:'3',text:'ارجاع به دیگری',color:'#814696'},
+        {value:'3',text:'ارجاع شده به دیگری',color:'#814696'},
         {value:'4',text:'انصراف از مذاکره',color:'#A4262C'}
       ],
       results:[
