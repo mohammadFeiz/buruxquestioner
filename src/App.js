@@ -10,8 +10,24 @@ import Notification from './components/notification/index';
 import apis from './apis';
 import headerSrc from './images/header.png';
 import titleSrc from './images/title.png';
+import RKS from 'react-keycloak-spa';
 import "./index.css";
-export default class App extends Component {
+
+export default class App extends Component{
+  render(){
+    return (
+      <RKS
+        config={{
+          url: "https://iam.burux.com/auth",
+          realm: "master",
+          clientId: "exhibition"
+        }}
+        component={Main}
+      />
+    )
+  }
+}
+class Main extends Component {
   constructor(props){
     super(props);
     this.state = {
