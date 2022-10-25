@@ -120,7 +120,7 @@ export default class VirayesheMozakere extends Component{
             canSubmit = mozakere_konande !== false;
             onClick = async ()=>{
                 let obj = mozakere_konandegan.find((o)=>o.id === mozakere_konande)
-                let res = await services({type:'erja',parameter:{object,mozakere_konande}});
+                let res = await services({type:'erja',parameter:{object,mozakere_konande: obj}});
                 if(res === true){
                     removePopup(); 
                     onRemove(); 
