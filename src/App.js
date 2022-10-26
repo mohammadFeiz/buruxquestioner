@@ -10,8 +10,10 @@ import Notification from './components/notification/index';
 import apis from './apis';
 import headerSrc from './images/header.png';
 import titleSrc from './images/title.png';
+import AIOButton from 'aio-button';
 import RKS from 'react-keycloak-spa';
 import "./index.css";
+import aioButton from "aio-button";
 
 export default class App extends Component{
   render(){
@@ -30,7 +32,28 @@ export default class App extends Component{
 class Main extends Component {
   constructor(props){
     super(props);
+    let {keycloak} = this.props;
+    let access = false
+    let roles = keycloak.tokenParsed.roles
+    access = roles.indexOf('negotiator') !== -1 || roles.indexOf('admin') !== -1
+    let client_id;
+    if(roles.indexOf('burux') !== -1){
+      client_id = 1
+    } 
+    else if(roles.indexOf('aria') !== -1){
+      client_id = 2
+    } 
+    else if(roles.indexOf('paydar') !== -1){
+      client_id = 3
+    }
+    
     this.state = {
+      access,
+      client_id,
+      name:keycloak.tokenParsed.name,
+      username:keycloak.tokenParsed.username,
+      token: keycloak.token,
+      logout:keycloak.logout,
       services:AIOService({getState:()=>this.state,apis}),
       mozakereStatuses:[
         {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
@@ -112,6 +135,7 @@ class Main extends Component {
       {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={1.5}/>},
       {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={1.5}/>}
     ]
+    let {name, logout} = this.state
     return {
       flex:1,
       html:(
@@ -119,7 +143,7 @@ class Main extends Component {
           style={{height:'calc(100% - 60px)',top:60}}
           rtl={true}
           navs={navs}
-          header={({addPopup})=><Header addPopup={addPopup}/>}
+          header={({addPopup})=><Header addPopup={addPopup} name = {name} logout = {logout} />}
           body={({navId})=><Mozakerat key={navId} mode={navId}/>}
           getActions={(obj)=>this.setState(obj)}
         />
@@ -127,6 +151,10 @@ class Main extends Component {
     }
   }
   render(){
+    let {name, access} = this.state;
+    if(access === false){
+      return 'شما دسترسی به این اپلیکیشن ندارید'
+    }
     return (
       <AppContext.Provider value={this.getContext()}>
         <RVD layout={{column:[this.header_layout(),this.body_layout()]}}/>
@@ -136,19 +164,38 @@ class Main extends Component {
 }
 class Header extends Component{
   render(){
-    let {addPopup} = this.props;
+    let {addPopup, name, logout} = this.props;
     return (
       <RVD
         layout={{
+          gap: 6,
           row:[
-            {html:<Icon path={mdiBell} size={0.7}/>,attrs:{
+            {align: 'vh', html:<Icon  path={mdiBell} size={0.7}/>,attrs:{
               onClick:()=>{
                 addPopup({
                   style:{background:'#fff'},title:'اعلان ها',type:'fullscreen',
                   content:()=><Notification/>
                 })
               }
-            }}
+            }},
+            {
+              html: (
+                <AIOButton 
+                  type='select'
+                  text={name}
+                  options={[
+                    {text:'خروج از حساب کاربری' ,value:'logout'}
+                  ]}
+                  onChange={
+                    (value)=>{
+                      if (value === 'logout'){
+                        logout()
+                      }
+                    }
+                  }
+                />
+              ), align: 'v'
+            }
           ]
         }}
       />

@@ -15,6 +15,8 @@ export default function apis({Axios,getState}){
     const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه
     const referralUrl = `${hostName}/camunda/v1/changeassignee` // آدرس ارجا به دیگری
     const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
+    const startNegotiation = `${hostName}/main/forms/`
+    const endNegotiation = `${hostName}/negotiation/end`
     // let username = 'a.taghavi'
     // let username = 'a.hejazi'
     let username = 'a.moghimi'
@@ -22,13 +24,16 @@ export default function apis({Axios,getState}){
 
     return {
         async mozakere_konandegan(){
+            
+            let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
+            let client_id = getState().client_id
             //return 'خطایی پیش آمده'
             let apiBody = {
-                "client": 1, // با توجه به غرفه ای که درخواست میکند 
+                "client": client_id, // با توجه به غرفه ای که درخواست میکند 
                 "city": 'تهران',
                 // "market": '',
                 // "province": "فارس",
-              }
+            }
 
             let result;
             try{
@@ -54,7 +59,11 @@ export default function apis({Axios,getState}){
                   username: o.username
                 }
             })
+            resMapping = resMapping.filter((o) => { //فیلتر خود آن مذاکره کننده
+                return o.username != negotiatorUsername
+            })
             // debugger
+            
             return resMapping
 
             return [
@@ -67,7 +76,8 @@ export default function apis({Axios,getState}){
         },
         async mozakere_haye_man(){
             let result;
-            let url = `${userTaskUrl}/1/${username}`
+            let negotiatorUsername = getState().username
+            let url = `${userTaskUrl}/1/${negotiatorUsername}`
             try{
                 result = await Axios.get(url)
             }
@@ -99,11 +109,12 @@ export default function apis({Axios,getState}){
                     id: o.id_ ,
                     process_instance_id: o.process_instance_id,
                     time: new Date(o.created).getTime(),
-                    guest_id: o.guest_id
+                    guest_id: o.guest_id,
+                    person_id: o.person_id,
+                    market: o.market,
                 }
             })
             // return []
-            // debugger
             return resMapping            
                 
             return [
@@ -121,7 +132,8 @@ export default function apis({Axios,getState}){
         },
         async tarikhche(){
             let result;
-            let url = `${historyUrl}/1/${username}`
+            let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
+            let url = `${historyUrl}/1/${negotiatorUsername}`
 
             try{
                 result = await Axios.get(url)
@@ -186,7 +198,7 @@ export default function apis({Axios,getState}){
                     referencedTo: full_name
                 }
             })
-
+            debugger
             return resMapping.sort()
 
             return [
@@ -298,9 +310,12 @@ export default function apis({Axios,getState}){
         },
 
         async erja({mozakere_konande, object}){
-            
+            let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
+            let client_id = getState().client_id
+
+            // ***************** ارجا به شخص دیگر ***************** 
             let apiBody = {
-                client: 1, // با توجه به غرفه 
+                client: client_id, // با توجه به غرفه 
                 instance_id: object.process_instance_id,
                 task_id:object.id,
                 new_assignee: mozakere_konande.username,
@@ -325,9 +340,31 @@ export default function apis({Axios,getState}){
                 return 'خطایی پیش آمده'
             }
             return 'پاسخ نامشخص'
+
+
+            // **************** شروع مذاکره ************************
+            // let result;
+            // let apiBody = {
+            //     person_id: object.person_id,
+            //     guest_id: object.guest_id,
+            //     client: client_id,
+            //     task_id: object.id,
+            //     market: object.market
+            // }
+            // let url = `${startNegotiation}`
+            // try {
+            //     result = await Axios.post(url, apiBody)
+            //     debugger
+            //     return true
+            // }
+            // catch(err){
+            //     return 'خطایی پیش آمده'
+            // }
+
         },
+
+        // ********************* انصراف از مذاکره *************
         async enseraf({description, object}){
-            
             let task_id = object.id
             let guest_id = object.guest_id
             let url = `${discardRequeestUrl}?task_id=${task_id}&description=${description}&guest_id=${guest_id}`
@@ -342,8 +379,30 @@ export default function apis({Axios,getState}){
                 debugger
                 return 'خطایی پیش آمده'
             }
+
+            // ***********************پایان مذاکره *****************
+            // let negotiation_id = 1
+            // let apiBody = {
+            //     negotiation_id: negotiation_id,
+            //     guest_id: object.guest_id,
+            //     data: '',
+            //     result: 'S',
+            //     description: description,
+            // }
             
-            
+            // let url = `${endNegotiation}/`
+            // let result;
+            // debugger
+            // try{
+            //     result = await Axios.post(url, apiBody)
+            //     debugger
+            //     return true
+            // }
+            // catch(err){
+            //     debugger
+            //     return 'خطایی در ثبت اطلاعات پیش آمده است'
+            // }
+
         }
     }
 }
