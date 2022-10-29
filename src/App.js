@@ -73,10 +73,10 @@ class Main extends Component {
     }
   }
   async get_mozakere_konandegan(){
-    let {services} = this.state;
+    let {services,setConfirm} = this.state;
     let res = await services({type:'mozakere_konandegan'});
     if(typeof res === 'string'){
-      this.setConfirm({type:'error',text:'دریافت لیست مذاکره کنندگان با خطا مواجه شد',subtext:res})
+      setConfirm({type:'error',text:'دریافت لیست مذاکره کنندگان با خطا مواجه شد',subtext:res})
     }
     else {
       this.setState({mozakere_konandegan:res})
@@ -85,38 +85,9 @@ class Main extends Component {
   componentDidMount(){
     this.get_mozakere_konandegan()
   }
-  setConfirm({type,text,subtext}){
-    let path,color;
-    if(type === 'success'){
-      path = mdiCheckCircleOutline;
-      color = 'green';
-    }
-    else if(type === 'error'){
-      path = mdiClose;
-      color = 'red';
-    }
-    let body = (
-      <RVD
-        layout={{
-          column:[
-            {size:36},
-            {html:<Icon path={path} size={3}/>,style:{color},align:'vh'},
-            {size:12},
-            {html:text,style:{color},align:'vh'},
-            {size:12},
-            {html:subtext,align:'vh',className:'size10'}
-          ]
-        }}
-      />
-    )
-    this.state.setConfirm({text:body,style:{background:'#fff',height:'fit-content'},buttons:[{text:'بستن'}]})
-  }
   getContext(){
     return {
-      ...this.state,
-      confirm:({type,text,subtext})=>{
-        this.setConfirm({type,text,subtext})
-      }
+      ...this.state
     }
   }
   header_layout(){

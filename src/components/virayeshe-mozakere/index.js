@@ -112,7 +112,7 @@ export default class VirayesheMozakere extends Component{
         }
     }
     action_layout(){
-        let {services,removePopup,mozakere_konandegan,confirm} = this.context;
+        let {services,removePopup,mozakere_konandegan,setConfirm} = this.context;
         let {type,object,onRemove} = this.props;
         let {mozakere_konande,description} = this.state;
         let canSubmit = false,onClick = ()=>{};
@@ -124,10 +124,10 @@ export default class VirayesheMozakere extends Component{
                 if(res === true){
                     removePopup(); 
                     onRemove(); 
-                    confirm({type:'success',text:`ارجاع به ${obj.name} انجام شد`})
+                    setConfirm({type:'success',text:`ارجاع به ${obj.name} انجام شد`})
                 }
                 else if(typeof res === 'string'){
-                    confirm({type:'error',text:`ارجاع به ${obj.name} انجام نشد`,subtext:res})
+                    setConfirm({type:'error',text:`ارجاع به ${obj.name} انجام نشد`,subtext:res})
                 }
             }    
         }
@@ -138,10 +138,10 @@ export default class VirayesheMozakere extends Component{
                 if(res === true){
                     removePopup(); 
                     onRemove(); 
-                    confirm({type:'success',text:`انصراف انجام شد`})
+                    setConfirm({type:'success',text:`انصراف انجام شد`})
                 }
                 else if(typeof res === 'string'){
-                    confirm({type:'error',text:`انصراف انجام نشد`,subtext:res})
+                    setConfirm({type:'error',text:`انصراف انجام نشد`,subtext:res})
                 }
             }
         } 

@@ -3,17 +3,17 @@ import RVD from 'react-virtual-dom';
 import {Icon} from '@mdi/react';
 import { mdiCloseCircleOutline } from "@mdi/js";
 import AppContext from "../../app-context";
-export default class extends Component{
+export default class Notification extends Component{
     static contextType = AppContext;
     constructor(props){
         super(props);
         this.state = {items:[]}
     }
     async componentDidMount(){
-        let {services,confirm} = this.context;
+        let {services,setConfirm} = this.context;
         let res = await services({type:'notifications'});
         if(typeof res === 'string'){
-            confirm({type:'error',text:'دریافت اعلان ها با خطا مواجه شد',subtext:res})
+            setConfirm({type:'error',text:'دریافت اعلان ها با خطا مواجه شد',subtext:res})
         }
         else if(Array.isArray(res)){
             this.setState({items:res})
@@ -26,7 +26,7 @@ export default class extends Component{
         
     }
     render(){
-        let {services,confirm} = this.context;
+        let {services,setConfirm} = this.context;
         let {items} = this.state;
         return (
             <RVD
@@ -41,7 +41,7 @@ export default class extends Component{
                                     this.setState({items:this.state.items.filter((item)=>item.id !== o.id)})
                                 }
                                 else if(typeof res === 'string'){
-                                    confirm({type:'error',text:'حذف اعلان با خطا مواجه شد',subtext:res})
+                                    setConfirm({type:'error',text:'حذف اعلان با خطا مواجه شد',subtext:res})
                                 }
                             }}/>
                         }
