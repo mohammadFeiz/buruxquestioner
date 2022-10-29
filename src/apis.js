@@ -76,8 +76,9 @@ export default function apis({Axios,getState}){
         },
         async mozakere_haye_man(){
             let result;
+            let client_id = getState().client_id
             let negotiatorUsername = getState().username
-            let url = `${userTaskUrl}/1/${negotiatorUsername}`
+            let url = `${userTaskUrl}/${client_id}/${negotiatorUsername}`
             try{
                 result = await Axios.get(url)
             }
@@ -133,8 +134,9 @@ export default function apis({Axios,getState}){
         async tarikhche(){
             let result;
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
-            let url = `${historyUrl}/1/${negotiatorUsername}`
-
+            let client_id = getState().client_id
+            let url = `${historyUrl}/${client_id}/${negotiatorUsername}`
+            
             try{
                 result = await Axios.get(url)
             }
@@ -198,7 +200,6 @@ export default function apis({Axios,getState}){
                     referencedTo: full_name
                 }
             })
-            debugger
             return resMapping.sort()
 
             return [
