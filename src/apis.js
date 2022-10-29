@@ -17,10 +17,6 @@ export default function apis({Axios,getState}){
     const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
     const startNegotiation = `${hostName}/main/forms/`
     const endNegotiation = `${hostName}/negotiation/end`
-    // let username = 'a.taghavi'
-    // let username = 'a.hejazi'
-    let username = 'a.moghimi'
-    // let username = 's.ehteshami'
 
     return {
         async mozakere_konandegan(){
@@ -40,7 +36,7 @@ export default function apis({Axios,getState}){
             result = await Axios.post(searchPersonUrl, apiBody)
             }
             catch(err) {
-            debugger
+            // debugger
             return 'خطا در دریافت لیست مذاکره کنندگان' 
             }
 
@@ -83,7 +79,7 @@ export default function apis({Axios,getState}){
                 result = await Axios.get(url)
             }
             catch(err){
-                debugger
+                // debugger
                 return []
             }
 
@@ -141,7 +137,7 @@ export default function apis({Axios,getState}){
                 result = await Axios.get(url)
             }
             catch(err){
-                debugger
+                // debugger
                 return []
             }
 
@@ -321,7 +317,7 @@ export default function apis({Axios,getState}){
                 task_id:object.id,
                 new_assignee: mozakere_konande.username,
             }
-            debugger
+            // debugger
             let result;
             let url = `${referralUrl}`
             try{
@@ -329,10 +325,10 @@ export default function apis({Axios,getState}){
                 if (result.data.id){
                     return true
                 }
-                debugger
+                // debugger
             }
             catch(err){
-                debugger
+                // debugger
                 if(err.response){
                     if (err.response.data){
                         return err.response.data.error.errorMessage
@@ -369,7 +365,7 @@ export default function apis({Axios,getState}){
             let task_id = object.id
             let guest_id = object.guest_id
             let url = `${discardRequeestUrl}?task_id=${task_id}&description=${description}&guest_id=${guest_id}`
-            debugger
+            // debugger
             let result;
             try{
                 result = await Axios.get(url)
@@ -377,7 +373,7 @@ export default function apis({Axios,getState}){
                 return true
             }
             catch(err){
-                debugger
+                // debugger
                 return 'خطایی پیش آمده'
             }
 
