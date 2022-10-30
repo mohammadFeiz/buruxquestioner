@@ -9,6 +9,47 @@ export default function apis({Axios,getState}){
     //result:'1',text:'نا موفق'
     //result:'2',text:'نیاز به تماس'
     //result:'3',text:'نیاز به پیگیری'
+
+    let form1_default = {
+        javaze_kasb_darad:'',
+        malek_mibashad:'',
+        pakhsh_darad:'',
+        systeme_haml_va_naghl_darad:'',
+        ameliate_foroosh_ba_brande_khasi_darad:'',
+        brand_ha:'',
+        sabeghe_faaliat:'',
+        tedade_karkonan:'',
+        hajme_forooshe_lamp:'',
+        hajme_forooshe_cheragh:'',
+        avamele_tain_konande_dar_foroosh:[
+            'ارائه محصول با قیمت مناسب نسبت به سایر رقبا (بدون توجه به کیفیت کالا)',
+            'ارائه محصول با کیفیت بالا (صرف نظر از قیمت)',
+            'ارائه گارانتی و خدمات پس از فروش مناسب به مشتری',
+            'اعطای حاشیه سود بالا از طرف شرکت به فروشگاه'
+        ],
+        darsade_forooshe_led_na_shenakhte:false,
+        sahme_forooshe_lamp_ta_2_sale_ayande:false,
+        tozihate_bishtar:'',
+        natije_mozakere:false
+    }
+
+    let form2_default = {
+        noe_poroje:'',
+        makane_ejraye_poroje:'',
+        vaziate_ejraye_poroje:'',
+        khadamate_morede_niaz:[''],
+        mahsoolate_morede_niaz:[''],
+        poroje_darid:'',
+        tozihe_poroje:'',
+        mizane_shenakht:'',
+        az_mahsoolate_ma_estefade_karid:'',
+        name_mahsoolati_ke_estefade_kardid:'',
+        kalaye_pishnahadi:'',
+        tozihe_bishtar:'',
+        natije_mozakere:''
+
+    }
+    
     const hostName = `http://localhost:8000`
     const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
     const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
@@ -71,6 +112,18 @@ export default function apis({Axios,getState}){
             ]
         },
         async mozakere_haye_man(){
+            return [
+                //status : '0' {name,company,city,id,time}
+                {
+                    name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',mobile:'09123534314',activityZone:'الکتریکی',
+                    time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'1',title:'فرم غرفه پایدار',model:form1_default}
+                },
+                //status : '1' {name,company,city,id,time}
+                {
+                    name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',mobile:'09123534314',activityZone:'الکتریکی',
+                    time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'2',title:'فرم غرفه سازمانی',model:form2_default}
+                }
+            ]
             let result;
             let client_id = getState().client_id
             let negotiatorUsername = getState().username
@@ -128,6 +181,59 @@ export default function apis({Axios,getState}){
             ]
         },
         async tarikhche(){
+            return [
+                //status : '2' {name,company,city,id,time,result} //پایان یافته
+                {
+                    name:'حامد یوسف زاده',status:'2',company:'شرکت طلوع روشن نور',city:'تهران',id:'21',
+                    time:new Date().getTime(),result:'0'
+                },
+                {
+                    name:'مجید حسینی',status:'2',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'21',
+                    time:new Date().getTime(),result:'1'
+                },
+                {
+                    name:'علی رضایی',status:'2',company:'شرکت طلوع روشن نور',city:'تبریز',id:'22',
+                    time:new Date().getTime(),result:'2'
+                },
+                {
+                    name:'رضا پورمحمدی',status:'2',company:'شرکت طلوع روشن نور',city:'مشهد',id:'23',
+                    time:new Date().getTime(),result:'3'
+                },
+                //status : '3' {name,company,city,id,time,referencedTo} // ارجاع شده
+                {
+                    name:'سلمان طیبی',status:'3',company:'شرکت طلوع روشن نور',city:'ارومیه',id:'31',
+                    time:new Date().getTime(),referencedTo:'جواد زمانی'
+                },
+                {
+                    name:'محمد رضا پور عسکر',status:'3',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'32',
+                    time:new Date().getTime(),referencedTo:'مهدی شاد'
+                },
+                {
+                    name:'محمد شریف فیض',status:'3',company:'شرکت طلوع روشن نور',city:'تهران',id:'33',
+                    time:new Date().getTime(),referencedTo:'شاهین قلی'
+                },
+                {
+                    name:'شیما رادمنش',status:'3',company:'شرکت طلوع روشن نور',city:'مشهد',id:'34',
+                    time:new Date().getTime(),referencedTo:'کوروش شجاعی'
+                },
+                //status : '4' {name,company,city,id,time} //انصراف
+                {
+                    name:'احمد عزیزی',status:'4',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'41',
+                    time:new Date().getTime()
+                },
+                {
+                    name:'مجتبی بهمنی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'42',
+                    time:new Date().getTime()
+                },
+                {
+                    name:'همایون ارزنده',status:'4',company:'شرکت طلوع روشن نور',city:'تبریز',id:'43',
+                    time:new Date().getTime()
+                },
+                {
+                    name:'شایان پیر مرادی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'44',
+                    time:new Date().getTime()
+                },
+            ]
             let result;
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
@@ -400,6 +506,13 @@ export default function apis({Axios,getState}){
             //     return 'خطایی در ثبت اطلاعات پیش آمده است'
             // }
 
+        },
+        sabte_mozakere({mode,type,model}){
+            //mode: 'submit' | 'draft'
+            //type: '1' | '2'
+            //model: اطلاعات پر شده در فرم
+            //return 'خطایی پیش آمده'
+            return true
         }
     }
 }

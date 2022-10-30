@@ -24,6 +24,9 @@ button{
 .padding-12{
   padding:12px;
 }
+.padding-0-12{
+  padding: 0 12px;
+}
 .bold{
   font-weight:bold;
 }

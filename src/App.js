@@ -4,7 +4,7 @@ import Mozakerat from "./components/mozakerat/index";
 import AppContext from "./app-context";
 import AIOService from 'aio-service';
 import {Icon} from '@mdi/react';
-import {mdiClose,mdiCheckCircleOutline,mdiBell,mdiThumbUpOutline,mdiThumbDownOutline,mdiPhone,mdiStarOutline,mdiHistory,mdiCheckbook} from '@mdi/js';
+import {mdiBell,mdiThumbUpOutline,mdiThumbDownOutline,mdiPhone,mdiStarOutline,mdiHistory,mdiCheckbook} from '@mdi/js';
 import RVD from 'react-virtual-dom';
 import Notification from './components/notification/index';
 import apis from './apis';
@@ -13,7 +13,6 @@ import titleSrc from './images/title.png';
 import AIOButton from 'aio-button';
 import RKS from 'react-keycloak-spa';
 import "./index.css";
-import aioButton from "aio-button";
 
 export default class App extends Component{
   render(){
@@ -83,7 +82,7 @@ class Main extends Component {
     }
   }
   componentDidMount(){
-    this.get_mozakere_konandegan()
+    this.get_mozakere_konandegan();
   }
   getContext(){
     return {
@@ -123,9 +122,16 @@ class Main extends Component {
   }
   render(){
     let {name, access} = this.state;
-    if(access === false){
-      return 'شما دسترسی به این اپلیکیشن ندارید'
-    }
+    // if(access === false){
+    //   return (
+    //     <div 
+    //       style={{
+    //         position:'fixed',width:'100%',height:'100%',left:0,top:0,fontWeight:'bold',fontSize:18,
+    //         display:'flex',alignItems:'center',justifyContent:'center'
+    //       }}
+    //     >'شما دسترسی به این اپلیکیشن ندارید'</div>        
+    //   )
+    // }
     return (
       <AppContext.Provider value={this.getContext()}>
         <RVD layout={{column:[this.header_layout(),this.body_layout()]}}/>

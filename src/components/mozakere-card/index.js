@@ -6,6 +6,7 @@ import VirayesheMozakere from '../virayeshe-mozakere';
 import {Icon} from '@mdi/react';
 import {mdiDotsVertical,mdiChevronLeft} from '@mdi/js';
 import './index.css';
+import Mozakere from '../mozakere/mozakere';
 export default class MozakereCard extends Component{
     static contextType = AppContext;
     constructor(props){
@@ -89,12 +90,24 @@ export default class MozakereCard extends Component{
     }
     action_layout(status,mode){
         if(mode !== 'mize_kar'){return false}
+        let {addPopup} = this.context;
         let text = {
             '0':'شروع مذاکره',
             '1':'ادامه مذاکره',
         }[status];
+
         return {
             align:'v',className:'color783C8C size12',
+            attrs:{
+                onClick:()=>{
+                    let {object} = this.props;
+                    addPopup({
+                        type:'fullscreen',
+                        header:false,
+                        content:()=><Mozakere {...object}/>
+                    })
+                }
+            },
             row:[
                 {html:text},
                 {html:<Icon path={mdiChevronLeft} size={0.6}/>}
