@@ -49,6 +49,7 @@ class Main extends Component {
     this.state = {
       access,
       client_id,
+      roles: keycloak.tokenParsed.resource_access.exhibition.roles,
       name:keycloak.tokenParsed.name,
       username:keycloak.tokenParsed.username,
       token: keycloak.token,

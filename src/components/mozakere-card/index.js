@@ -90,7 +90,7 @@ export default class MozakereCard extends Component{
     }
     action_layout(status,mode){
         if(mode !== 'mize_kar'){return false}
-        let {addPopup} = this.context;
+        let {addPopup, services} = this.context;
         let text = {
             '0':'شروع مذاکره',
             '1':'ادامه مذاکره',
@@ -99,8 +99,9 @@ export default class MozakereCard extends Component{
         return {
             align:'v',className:'color783C8C size12',
             attrs:{
-                onClick:()=>{
+                onClick:async ()=>{
                     let {object} = this.props;
+                    await services({type: 'shorooe_mozakere', parameter: object})
                     addPopup({
                         type:'fullscreen',
                         header:false,

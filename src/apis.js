@@ -56,8 +56,9 @@ export default function apis({Axios,getState}){
     const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه
     const referralUrl = `${hostName}/camunda/v1/changeassignee` // آدرس ارجا به دیگری
     const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
-    const startNegotiation = `${hostName}/main/forms/`
+    // const startNegotiation = `${hostName}/main/forms/`
     const endNegotiation = `${hostName}/negotiation/end`
+    const startNegotiation = `${hostName}/negotiation/v1/negotiation/`
 
     return {
         async mozakere_konandegan(){
@@ -112,32 +113,60 @@ export default function apis({Axios,getState}){
             ]
         },
         async mozakere_haye_man(){
-            return [
-                //status : '0' {name,company,city,id,time}
-                {
-                    name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',mobile:'09123534314',activityZone:'الکتریکی',
-                    time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'1',title:'فرم غرفه پایدار',model:form1_default}
-                },
-                //status : '1' {name,company,city,id,time}
-                {
-                    name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',mobile:'09123534314',activityZone:'الکتریکی',
-                    time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'2',title:'فرم غرفه سازمانی',model:form2_default}
-                }
-            ]
+            // return [
+            //     //status : '0' {name,company,city,id,time}
+            //     {
+            //         name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',mobile:'09123534314',activityZone:'الکتریکی',
+            //         time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'1',title:'فرم غرفه پایدار',model:form1_default}
+            //     },
+            //     //status : '1' {name,company,city,id,time}
+            //     {
+            //         name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',mobile:'09123534314',activityZone:'الکتریکی',
+            //         time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'2',title:'فرم غرفه سازمانی',model:form2_default}
+            //     }
+            // ]
             let result;
+            let formType;
+            let formTitle;
+            let formModel;
+            let form;
             let client_id = getState().client_id
+            let roles = getState().roles
+            
+            if(client_id == 3 && roles.indexOf('Organizational') !== -1){ //"Organizational"
+                formType = 2
+                formTitle = 'فرم غرفه سازمانی'
+                formModel = form2_default
+            }
+            if(client_id == 3 && roles.indexOf('Sales') !== -1){
+                formType = 1
+                formTitle = 'فرم غرفه پایدار'
+                formModel = form1_default
+            }
+            if(client_id == 2){
+                formType = 2
+                formTitle = 'فرم غرفه سازمانی'
+                formModel = form2_default
+            }
+            debugger
             let negotiatorUsername = getState().username
             let url = `${userTaskUrl}/${client_id}/${negotiatorUsername}`
             try{
                 result = await Axios.get(url)
             }
             catch(err){
-                // debugger
+                debugger
                 return []
             }
-
+            form = {
+                type: formType,
+                title: formTitle,
+                model: formModel,
+            }
             let resMapping = result.data.map((o) => {
                 let state;
+                let time;
+                let activityZone;
                 // {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
                 // {value:'1',text:'در حال مذاکره',color:'#CD9100'},
                 // {value:'2',text:'پایان مذاکره',color:'#107C10'},
@@ -151,6 +180,15 @@ export default function apis({Axios,getState}){
                 else if(o.state == 5){state = '4'} // o.state == 5 => انصراف از مذاکره
                 else if(o.state == 6){state = '3'} // o.state == 6 => ارجاع به دیگری
                 else{state = '0'}
+                if(o.market == 'C'){activityZone = 'بازرگانی'}
+                if(o.market == 'G'){activityZone = 'سازمان دولتی'}
+                if(o.market == 'CO'){activityZone = 'پیمانکار'}
+                if(o.market == 'P'){activityZone = 'تولید کننده'}
+                if(o.market == 'S'){activityZone = 'پخش کننده'}
+                if(o.market == 'E'){activityZone = 'الکتریکی'}
+                if(o.market == 'T'){activityZone = 'بازرگانی'}
+                if(o.negotiation_created_at){time = o.negotiation_created_at}
+                if(!o.negotiation_created_at){time = o.created}
                 return {
                     name: `${o.first_name} ${o.last_name}` || '',
                     status: state,
@@ -158,13 +196,19 @@ export default function apis({Axios,getState}){
                     city: o.province || '',
                     id: o.id_ ,
                     process_instance_id: o.process_instance_id,
-                    time: new Date(o.created).getTime(),
+                    time: new Date(time).getTime(),
                     guest_id: o.guest_id,
                     person_id: o.person_id,
                     market: o.market,
+                    cardCode: o.b1_code,
+                    mobile: o.mobile_number,
+                    activityZone: activityZone,
+                    phone: o.phone,
+                    form: form,
                 }
             })
             // return []
+            debugger
             return resMapping            
                 
             return [
@@ -181,73 +225,73 @@ export default function apis({Axios,getState}){
             ]
         },
         async tarikhche(){
-            return [
-                //status : '2' {name,company,city,id,time,result} //پایان یافته
-                {
-                    name:'حامد یوسف زاده',status:'2',company:'شرکت طلوع روشن نور',city:'تهران',id:'21',
-                    time:new Date().getTime(),result:'0'
-                },
-                {
-                    name:'مجید حسینی',status:'2',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'21',
-                    time:new Date().getTime(),result:'1'
-                },
-                {
-                    name:'علی رضایی',status:'2',company:'شرکت طلوع روشن نور',city:'تبریز',id:'22',
-                    time:new Date().getTime(),result:'2'
-                },
-                {
-                    name:'رضا پورمحمدی',status:'2',company:'شرکت طلوع روشن نور',city:'مشهد',id:'23',
-                    time:new Date().getTime(),result:'3'
-                },
-                //status : '3' {name,company,city,id,time,referencedTo} // ارجاع شده
-                {
-                    name:'سلمان طیبی',status:'3',company:'شرکت طلوع روشن نور',city:'ارومیه',id:'31',
-                    time:new Date().getTime(),referencedTo:'جواد زمانی'
-                },
-                {
-                    name:'محمد رضا پور عسکر',status:'3',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'32',
-                    time:new Date().getTime(),referencedTo:'مهدی شاد'
-                },
-                {
-                    name:'محمد شریف فیض',status:'3',company:'شرکت طلوع روشن نور',city:'تهران',id:'33',
-                    time:new Date().getTime(),referencedTo:'شاهین قلی'
-                },
-                {
-                    name:'شیما رادمنش',status:'3',company:'شرکت طلوع روشن نور',city:'مشهد',id:'34',
-                    time:new Date().getTime(),referencedTo:'کوروش شجاعی'
-                },
-                //status : '4' {name,company,city,id,time} //انصراف
-                {
-                    name:'احمد عزیزی',status:'4',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'41',
-                    time:new Date().getTime()
-                },
-                {
-                    name:'مجتبی بهمنی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'42',
-                    time:new Date().getTime()
-                },
-                {
-                    name:'همایون ارزنده',status:'4',company:'شرکت طلوع روشن نور',city:'تبریز',id:'43',
-                    time:new Date().getTime()
-                },
-                {
-                    name:'شایان پیر مرادی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'44',
-                    time:new Date().getTime()
-                },
-            ]
-            let result;
+            // return [
+            //     //status : '2' {name,company,city,id,time,result} //پایان یافته
+            //     {
+            //         name:'حامد یوسف زاده',status:'2',company:'شرکت طلوع روشن نور',city:'تهران',id:'21',
+            //         time:new Date().getTime(),result:'0'
+            //     },
+            //     {
+            //         name:'مجید حسینی',status:'2',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'21',
+            //         time:new Date().getTime(),result:'1'
+            //     },
+            //     {
+            //         name:'علی رضایی',status:'2',company:'شرکت طلوع روشن نور',city:'تبریز',id:'22',
+            //         time:new Date().getTime(),result:'2'
+            //     },
+            //     {
+            //         name:'رضا پورمحمدی',status:'2',company:'شرکت طلوع روشن نور',city:'مشهد',id:'23',
+            //         time:new Date().getTime(),result:'3'
+            //     },
+            //     //status : '3' {name,company,city,id,time,referencedTo} // ارجاع شده
+            //     {
+            //         name:'سلمان طیبی',status:'3',company:'شرکت طلوع روشن نور',city:'ارومیه',id:'31',
+            //         time:new Date().getTime(),referencedTo:'جواد زمانی'
+            //     },
+            //     {
+            //         name:'محمد رضا پور عسکر',status:'3',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'32',
+            //         time:new Date().getTime(),referencedTo:'مهدی شاد'
+            //     },
+            //     {
+            //         name:'محمد شریف فیض',status:'3',company:'شرکت طلوع روشن نور',city:'تهران',id:'33',
+            //         time:new Date().getTime(),referencedTo:'شاهین قلی'
+            //     },
+            //     {
+            //         name:'شیما رادمنش',status:'3',company:'شرکت طلوع روشن نور',city:'مشهد',id:'34',
+            //         time:new Date().getTime(),referencedTo:'کوروش شجاعی'
+            //     },
+            //     //status : '4' {name,company,city,id,time} //انصراف
+            //     {
+            //         name:'احمد عزیزی',status:'4',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'41',
+            //         time:new Date().getTime()
+            //     },
+            //     {
+            //         name:'مجتبی بهمنی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'42',
+            //         time:new Date().getTime()
+            //     },
+            //     {
+            //         name:'همایون ارزنده',status:'4',company:'شرکت طلوع روشن نور',city:'تبریز',id:'43',
+            //         time:new Date().getTime()
+            //     },
+            //     {
+            //         name:'شایان پیر مرادی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'44',
+            //         time:new Date().getTime()
+            //     },
+            // ]
+            let res;
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
             let url = `${historyUrl}/${client_id}/${negotiatorUsername}`
             
             try{
-                result = await Axios.get(url)
+                res = await Axios.get(url)
             }
             catch(err){
                 // debugger
                 return []
             }
 
-            let resMapping = result.data.map((o) => {
+            let resMapping = res.data.map((o) => {
                 let state;
                 let name;
                 let city;
@@ -302,6 +346,7 @@ export default function apis({Axios,getState}){
                     referencedTo: full_name
                 }
             })
+            debugger
             return resMapping.sort()
 
             return [
@@ -507,12 +552,86 @@ export default function apis({Axios,getState}){
             // }
 
         },
-        sabte_mozakere({mode,type,model}){
+        
+        async sabte_mozakere({mode, type, model}){
             //mode: 'submit' | 'draft'
             //type: '1' | '2'
             //model: اطلاعات پر شده در فرم
             //return 'خطایی پیش آمده'
+            let res;
+            let url = `${startNegotiation}`
+            let result;
+            // ("S","succesfull"), # موفقیت آمیز
+            // ("C","call needed"), #نیاز به تماس
+            // ("N","need to follow up"), # نیاز به پیگیری
+            // ("U","unsuccesfull"),
+            if(model.natije_mozakere == "0"){result = "S"} //موفقیت آمیز
+            if(model.natije_mozakere == "1"){result = "U"} // ناموفق
+            if(model.natije_mozakere == "2"){result = "N"} // نیاز به پیگیری
+            if(model.natije_mozakere == "3"){result = "C"} // نیاز به تماس
+            let apiBody = {
+                person: model.person,
+                guest: model.guest,
+                id: model.id,
+                market: model.market,
+                negotiation_id: model.negotiation_id,
+                process_instance_id: model.process_instance_id,
+                data: model,
+                type: mode, // برای اتمام مذاکره این مقدار باید ست شود
+                result: result,
+            }
+
+            debugger
+            try{
+                res = await Axios.post(url, apiBody)
+            }
+            catch(err){
+                debugger
+                return 'خطا در ثبت مذاکره'
+            }
+            debugger
             return true
+        },
+        async shorooe_mozakere(obj){
+            let res;
+            let result
+            let url = `${startNegotiation}`
+            if(obj.form.model.natije_mozakere == "0"){result = "S"} //موفقیت آمیز
+            else if(obj.form.model.natije_mozakere == "1"){result = "U"} // ناموفق
+            else if(obj.form.model.natije_mozakere == "2"){result = "N"} // نیاز به پیگیری
+            else if(obj.form.model.natije_mozakere == "3"){result = "C"} // نیاز به تماس
+            let apiBody = {
+                person: obj.person_id,
+                guest: obj.guest_id,
+                id: obj.id,
+                market: obj.market,
+                process_instance_id: obj.process_instance_id,
+                data: obj.form.model,
+                result: result,
+                type: 'start' // برای شروع مذاکره این مقدار باید ست شود
+                
+            }
+            debugger
+            try{
+                res = await Axios.post(url, apiBody)
+            }
+            catch(err){
+                debugger
+                //todo error handling
+                // obj.form.model = []
+                return []
+            }
+            if(res.data.isSuccess == true) {
+                obj.form.model = res.data.results.data
+                obj.negotiation_id = res.data.results.negotiation_id
+                obj.form.model.negotiation_id = res.data.results.negotiation_id
+                obj.form.model.guest = obj.guest_id
+                obj.form.model.person = obj.person_id
+                obj.form.model.id = obj.id
+                obj.form.model.market = obj.market
+                obj.form.model.process_instance_id = obj.process_instance_id
+            }
+            debugger
         }
     }
 }
