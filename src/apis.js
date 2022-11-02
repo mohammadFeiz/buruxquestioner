@@ -1,3 +1,14 @@
+const hostName = `http://localhost:8000`
+const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
+const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
+const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه
+const referralUrl = `${hostName}/camunda/v1/changeassignee` // آدرس ارجا به دیگری
+const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
+// const startNegotiation = `${hostName}/main/forms/`
+const endNegotiation = `${hostName}/negotiation/end`
+const startNegotiation = `${hostName}/negotiation/v1/negotiation/`
+
+
 export default function apis({Axios,getState}){
     //status:'0',text:'در انتظار مذاکره'
     //status:'1',text:'در حال مذاکره'
@@ -50,15 +61,7 @@ export default function apis({Axios,getState}){
 
     }
     
-    const hostName = `http://localhost:8000`
-    const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
-    const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
-    const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه
-    const referralUrl = `${hostName}/camunda/v1/changeassignee` // آدرس ارجا به دیگری
-    const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
-    // const startNegotiation = `${hostName}/main/forms/`
-    const endNegotiation = `${hostName}/negotiation/end`
-    const startNegotiation = `${hostName}/negotiation/v1/negotiation/`
+
 
     return {
         async mozakere_konandegan(){
