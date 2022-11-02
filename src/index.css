@@ -63,6 +63,20 @@ button{
 .rsa.has-opened-popup{
   filter:blur(4px);
 }
+.rsa-bottom-menu{
+  height: 60px !important;
+}
 .rsa-bottom-menu-item.active{
   background:#00B5A5 !important;
+}
+
+
+.loading-box{
+  width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    border-radius: 12px;
 }

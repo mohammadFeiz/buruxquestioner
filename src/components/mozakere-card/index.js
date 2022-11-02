@@ -25,6 +25,8 @@ export default class MozakereCard extends Component{
         return {className:'mozakere-card-status',html:text,style:{color,background:color + '30'}}
     }
     options_layout(mode){
+        let {object} = this.props;
+        let {status} = object;
         return {
             html:(
                 <AIOButton
@@ -34,16 +36,27 @@ export default class MozakereCard extends Component{
                         {text:'انصراف از مذاکره',value:'enseraf',show:mode === 'mize_kar'},
                         {text:'ارجاع به دیگری',value:'erja',show:mode === 'mize_kar'},
                         {text:'ویرایش',value:'virayesh',show:mode === 'tarikhche'},
+                        {text:'مشاهده علت ارجاع',value:'ellate_erja',show:status === '3'},
+                        {text:'مشاهده علت انصراف',value:'ellate_enseraf',show:status === '4'},
                     ]}
                     text={<Icon path={mdiDotsVertical} size={0.8}/>}
                     onChange={(value)=>{
-                        let {addPopup} = this.context;
+                        let {addPopup,setConfirm} = this.context;
                         let {object,onRemove} = this.props;
-                        addPopup({
-                            type:'fullscreen',
-                            header:false,
-                            content:()=><VirayesheMozakere object={object} type={value} onRemove={onRemove}/>
-                        })
+                        if(value === 'ellate_erja'){
+                            setConfirm({type:'info',text:'علت ارجاع',subtext:object.description})
+                        }
+                        else if(value === 'ellate_enseraf'){
+                            setConfirm({type:'info',text:'علت انصراف',subtext:object.description})
+                        }
+                        else{
+                            addPopup({
+                                type:'fullscreen',
+                                header:false,
+                                content:()=><VirayesheMozakere object={object} type={value} onRemove={onRemove}/>
+                            })
+                        }
+                        
                     }}
                 />
             )
