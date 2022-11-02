@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
 import AIOButton from 'aio-button';
-import './index.css';
 import AppContext from '../../app-context';
+import './index.css';
 export default class VirayesheMozakere extends Component{
     static contextType = AppContext
     constructor(props){

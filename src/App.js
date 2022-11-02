@@ -12,6 +12,7 @@ import headerSrc from './images/header.png';
 import titleSrc from './images/title.png';
 import AIOButton from 'aio-button';
 import RKS from 'react-keycloak-spa';
+import AIOLoading from 'aio-loading';
 import "./index.css";
 
 export default class App extends Component{
@@ -103,8 +104,8 @@ class Main extends Component {
   }
   body_layout(){
     let navs = [
-      {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={1.5}/>},
-      {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={1.5}/>}
+      {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={1}/>},
+      {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={1}/>}
     ]
     let {name, logout} = this.state
     return {
@@ -136,6 +137,7 @@ class Main extends Component {
     return (
       <AppContext.Provider value={this.getContext()}>
         <RVD layout={{column:[this.header_layout(),this.body_layout()]}}/>
+        <Loading/>
       </AppContext.Provider>   
     );
   }
@@ -195,6 +197,31 @@ class Result extends Component{
           {html:<Icon path={path} size={0.7}/>,align:'vh'}
         ]
       }}/>
+    )
+  }
+}
+
+
+class Loading extends Component{
+  render(){
+    return (
+      <div className='loading' style={{position:'fixed',left:0,top:0,width:'100%',height:'100%',zIndex:1000000000000000000000000,display:'none',alignItems:'center',justifyContent:'center'}}>
+        <div className='loading-box'>
+          <AIOLoading config={{
+              "name": "cubes2",
+              "count": 5,
+              "size": 60,
+              "gap": 3,
+              "thickness": [
+                  4,
+                  30
+              ],
+              "fill": "#ffffff",
+              "duration": 1.3,
+              "delay": 0.1
+          }}/>
+        </div>
+      </div>
     )
   }
 }
