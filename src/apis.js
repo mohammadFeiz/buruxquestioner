@@ -8,6 +8,10 @@ const discardRequeestUrl = `${hostName}/camunda/v1/cancel`
 const endNegotiation = `${hostName}/negotiation/end`
 const startNegotiation = `${hostName}/negotiation/v1/negotiation/`
 
+let form1_default_market = ['AG', 'E', 'A', 'S', 'T'] // لامپ پایدار
+let form2_default_market = ['G', 'PR', 'CO'] // لامپ پایدار سازمانی
+let form3_default_market = ['P'] // آریا
+
 
 export default function apis({Axios,getState}){
     //status:'0',text:'در انتظار مذاکره'
@@ -60,18 +64,26 @@ export default function apis({Axios,getState}){
         natije_mozakere:''
 
     }
+    let form3_default = {
+        zamine_faalit:'',
+        ameliate_foroosh_ba_brande_khasi_darad:'',
+        brand_ha:'',
+        noe_hamkari:'',
+        natije_mozakere:''
+
+    }
     
 
 
     return {
         async mozakere_konandegan(){
-            return [
-                {name:'علی قربانی',city:'تهران',table:'2',id:'0'},
-                {name:'علی قربانی',city:'تهران',table:'2',id:'1'},
-                {name:'علی قربانی',city:'تهران',table:'2',id:'2'},
-                {name:'علی قربانی',city:'تهران',table:'2',id:'3'},
-                {name:'علی قربانی',city:'تهران',table:'2',id:'4'}
-            ]
+            // return [
+            //     {name:'علی قربانی',city:'تهران',table:'2',id:'0'},
+            //     {name:'علی قربانی',city:'تهران',table:'2',id:'1'},
+            //     {name:'علی قربانی',city:'تهران',table:'2',id:'2'},
+            //     {name:'علی قربانی',city:'تهران',table:'2',id:'3'},
+            //     {name:'علی قربانی',city:'تهران',table:'2',id:'4'}
+            // ]
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
             //return 'خطایی پیش آمده'
@@ -87,7 +99,7 @@ export default function apis({Axios,getState}){
             result = await Axios.post(searchPersonUrl, apiBody)
             }
             catch(err) {
-            // debugger
+                debugger
             return 'خطا در دریافت لیست مذاکره کنندگان' 
             }
 
@@ -109,48 +121,30 @@ export default function apis({Axios,getState}){
             resMapping = resMapping.filter((o) => { //فیلتر خود آن مذاکره کننده
                 return o.username != negotiatorUsername
             })
-            // debugger
             
             return resMapping
 
             
         },
         async mozakere_haye_man(){
-            return [
-                //status : '0' {name,company,city,id,time}
-                {
-                    name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',mobile:'09123534314',activityZone:'الکتریکی',
-                    time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'1',title:'فرم غرفه پایدار',model:form1_default}
-                },
-                //status : '1' {name,company,city,id,time}
-                {
-                    name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',mobile:'09123534314',activityZone:'الکتریکی',
-                    time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'2',title:'فرم غرفه سازمانی',model:form2_default}
-                }
-            ]
+            // return [
+            //     //status : '0' {name,company,city,id,time}
+            //     {
+            //         name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',mobile:'09123534314',activityZone:'الکتریکی',
+            //         time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'1',title:'فرم غرفه پایدار',model:form1_default}
+            //     },
+            //     //status : '1' {name,company,city,id,time}
+            //     {
+            //         name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',mobile:'09123534314',activityZone:'الکتریکی',
+            //         time:new Date().getTime(),phone:'02188050006',cardCode:'123456',form:{type:'2',title:'فرم غرفه سازمانی',model:form2_default}
+            //     }
+            // ]
             let result;
-            let formType;
-            let formTitle;
-            let formModel;
-            let form;
+
             let client_id = getState().client_id
             let roles = getState().roles
-            
-            if(client_id == 3 && roles.indexOf('Organizational') !== -1){ //"Organizational"
-                formType = 2
-                formTitle = 'فرم غرفه سازمانی'
-                formModel = form2_default
-            }
-            if(client_id == 3 && roles.indexOf('Sales') !== -1){
-                formType = 1
-                formTitle = 'فرم غرفه پایدار'
-                formModel = form1_default
-            }
-            if(client_id == 2){
-                formType = 2
-                formTitle = 'فرم غرفه سازمانی'
-                formModel = form2_default
-            }
+
+
             let negotiatorUsername = getState().username
             let url = `${userTaskUrl}/${client_id}/${negotiatorUsername}`
             try{
@@ -159,13 +153,33 @@ export default function apis({Axios,getState}){
             catch(err){
                 return []
             }
-            form = {
-                type: formType,
-                title: formTitle,
-                model: formModel,
-            }
+           
+            // if(client_id == 3 && roles.indexOf('Organizational') !== -1){ //"Organizational"
+            //     formType = 2
+            //     formTitle = 'لامپ پایدار سازمانی'
+            //     formModel = form2_default
+            // }
+            // if(client_id == 3 && roles.indexOf('Sales') !== -1){
+            //     formType = 1
+            //     formTitle = 'لامپ پایدار'
+            //     formModel = form1_default
+            // }
+            // if(client_id == 2){
+            //     formType = 3
+            //     formTitle = 'آریا'
+            //     formModel = form3_default
+            // }
+            // form = {
+            //     type: formType,
+            //     title: formTitle,
+            //     model: formModel,
+            // }
             let resMapping = result.data.map((o) => {
                 let state;
+                let formType;
+                let formTitle;
+                let formModel;
+                let form;
                 let time;
                 let activityZone;
                 // {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
@@ -173,6 +187,26 @@ export default function apis({Axios,getState}){
                 // {value:'2',text:'پایان مذاکره',color:'#107C10'},
                 // {value:'3',text:'ارجاع به دیگری',color:'#814696'},
                 // {value:'4',text:'انصراف از مذاکره',color:'#A4262C'}
+                if(form2_default_market.includes(o.market)){ //"Organizational"
+                    formType = 2
+                    formTitle = 'لامپ پایدار سازمانی'
+                    formModel = form2_default
+                }
+                if(form1_default_market.includes(o.market)){
+                    formType = 1
+                    formTitle = 'لامپ پایدار'
+                    formModel = form1_default
+                }
+                if(form3_default_market.includes(o.market)){
+                    formType = 3
+                    formTitle = 'آریا'
+                    formModel = form3_default
+                }
+                form = {
+                    type: formType,
+                    title: formTitle,
+                    model: formModel,
+                }
                 
                 if(o.state == 1){state = '0'} // o.state == 1 => ثبت اظلاعات  
                 else if(o.state == 2){state = '0'} // o.state == 2 => در انتظار مذاکره
@@ -188,6 +222,9 @@ export default function apis({Axios,getState}){
                 if(o.market == 'S'){activityZone = 'پخش کننده'}
                 if(o.market == 'E'){activityZone = 'الکتریکی'}
                 if(o.market == 'T'){activityZone = 'بازرگانی'}
+                if(o.market == 'AG'){activityZone = 'نمایندگی'}
+                if(o.market == 'PR'){activityZone = 'پروژه'}
+                if(o.market == 'A'){activityZone = 'عامل'}
                 if(o.negotiation_created_at){time = o.negotiation_created_at}
                 if(!o.negotiation_created_at){time = o.created}
                 return {
@@ -209,6 +246,7 @@ export default function apis({Axios,getState}){
                 }
             })
             // return []
+            debugger
             return resMapping            
                 
             return [
@@ -225,60 +263,62 @@ export default function apis({Axios,getState}){
             ]
         },
         async tarikhche(){
-            return [
-                //status : '2' {name,company,city,id,time,result} //پایان یافته
-                {
-                    name:'حامد یوسف زاده',status:'2',company:'شرکت طلوع روشن نور',city:'تهران',id:'21',
-                    time:new Date().getTime(),result:'0'
-                },
-                {
-                    name:'مجید حسینی',status:'2',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'21',
-                    time:new Date().getTime(),result:'1'
-                },
-                {
-                    name:'علی رضایی',status:'2',company:'شرکت طلوع روشن نور',city:'تبریز',id:'22',
-                    time:new Date().getTime(),result:'2'
-                },
-                {
-                    name:'رضا پورمحمدی',status:'2',company:'شرکت طلوع روشن نور',city:'مشهد',id:'23',
-                    time:new Date().getTime(),result:'3'
-                },
-                //status : '3' {name,company,city,id,time,referencedTo} // ارجاع شده
-                {
-                    name:'سلمان طیبی',status:'3',company:'شرکت طلوع روشن نور',city:'ارومیه',id:'31',
-                    time:new Date().getTime(),referencedTo:'جواد زمانی',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                {
-                    name:'محمد رضا پور عسکر',status:'3',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'32',
-                    time:new Date().getTime(),referencedTo:'مهدی شاد',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                {
-                    name:'محمد شریف فیض',status:'3',company:'شرکت طلوع روشن نور',city:'تهران',id:'33',
-                    time:new Date().getTime(),referencedTo:'شاهین قلی',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                {
-                    name:'شیما رادمنش',status:'3',company:'شرکت طلوع روشن نور',city:'مشهد',id:'34',
-                    time:new Date().getTime(),referencedTo:'کوروش شجاعی',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                //status : '4' {name,company,city,id,time} //انصراف
-                {
-                    name:'احمد عزیزی',status:'4',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'41',
-                    time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                {
-                    name:'مجتبی بهمنی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'42',
-                    time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                {
-                    name:'همایون ارزنده',status:'4',company:'شرکت طلوع روشن نور',city:'تبریز',id:'43',
-                    time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-                {
-                    name:'شایان پیر مرادی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'44',
-                    time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
-                },
-            ]
+            // return [
+            //     //status : '2' {name,company,city,id,time,result} //پایان یافته
+            //     {
+            //         name:'حامد یوسف زاده',status:'2',company:'شرکت طلوع روشن نور',city:'تهران',id:'21',
+            //         time:new Date().getTime(),result:'0'
+            //     },
+            //     {
+            //         name:'مجید حسینی',status:'2',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'21',
+            //         time:new Date().getTime(),result:'1'
+            //     },
+            //     {
+            //         name:'علی رضایی',status:'2',company:'شرکت طلوع روشن نور',city:'تبریز',id:'22',
+            //         time:new Date().getTime(),result:'2'
+            //     },
+            //     {
+            //         name:'رضا پورمحمدی',status:'2',company:'شرکت طلوع روشن نور',city:'مشهد',id:'23',
+            //         time:new Date().getTime(),result:'3'
+            //     },
+            //     //status : '3' {name,company,city,id,time,referencedTo} // ارجاع شده
+            //     {
+            //         name:'سلمان طیبی',status:'3',company:'شرکت طلوع روشن نور',city:'ارومیه',id:'31',
+            //         time:new Date().getTime(),referencedTo:'جواد زمانی',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     {
+            //         name:'محمد رضا پور عسکر',status:'3',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'32',
+            //         time:new Date().getTime(),referencedTo:'مهدی شاد',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     {
+            //         name:'محمد شریف فیض',status:'3',company:'شرکت طلوع روشن نور',city:'تهران',id:'33',
+            //         time:new Date().getTime(),referencedTo:'شاهین قلی',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     {
+            //         name:'شیما رادمنش',status:'3',company:'شرکت طلوع روشن نور',city:'مشهد',id:'34',
+            //         time:new Date().getTime(),referencedTo:'کوروش شجاعی',description:'علت ارجاع اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     //status : '4' {name,company,city,id,time} //انصراف
+            //     {
+            //         name:'احمد عزیزی',status:'4',company:'شرکت طلوع روشن نور',city:'اصفهان',id:'41',
+            //         time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     {
+            //         name:'مجتبی بهمنی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'42',
+            //         time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     {
+            //         name:'همایون ارزنده',status:'4',company:'شرکت طلوع روشن نور',city:'تبریز',id:'43',
+            //         time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            //     {
+            //         name:'شایان پیر مرادی',status:'4',company:'شرکت طلوع روشن نور',city:'تهران',id:'44',
+            //         time:new Date().getTime(),description:'علت انصراف اینست که این یک متن تستی برای نمایش در کانفرم باکس ری اکت سوپر اپ است'
+            //     },
+            // ]
             let res;
+
+            
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
             let url = `${historyUrl}/${client_id}/${negotiatorUsername}`
@@ -287,17 +327,23 @@ export default function apis({Axios,getState}){
                 res = await Axios.get(url)
             }
             catch(err){
-                // debugger
+                debugger
                 return []
             }
 
             let resMapping = res.data.map((o) => {
+                let formType;
+                let formTitle;
+                let formModel;
+                let form;
                 let state;
                 let name;
                 let city;
                 let company_name;
                 let full_name;
                 let result;
+                let disable;
+                let activityZone;
                 if (Object.values(o.state).length != 0){
                     if(o.state.id == 1){state = 0} // o.state == 1 => ثبت اظلاعات  
                     else if(o.state.id == 2){state = '0'} // o.state == 2 => در انتظار مذاکره
@@ -310,12 +356,50 @@ export default function apis({Axios,getState}){
                 else{
                     state = '3'
                 }
+                if(form2_default_market.includes(o.guest.market)){ //"Organizational"
+                    formType = 2
+                    formTitle = 'لامپ پایدار سازمانی'
+                    formModel = form2_default
+                }
+                if(form1_default_market.includes(o.guest.market)){
+                    formType = 1
+                    formTitle = 'لامپ پایدار'
+                    formModel = form1_default
+                }
+                if(form3_default_market.includes(o.guest.market)){
+                    formType = 3
+                    formTitle = 'آریا'
+                    formModel = form3_default
+                }
+                if(o.negotiaition.data){
+                    formModel = o.negotiaition.data
+                }
+                if (state != "2"){
+                    disable = true
+                }
+
+                form = {
+                    type: formType,
+                    title: formTitle,
+                    model: formModel,
+                    disable: disable
+                }
                 
                 if(o.guest !== null){
                     if (Object.values(o.guest).length != 0){
                         name = `${o.guest.first_name} ${o.guest.last_name}`
                         company_name = o.guest.company_name
                         city = o.guest.province
+                        if(o.guest.market == 'C'){activityZone = 'بازرگانی'}
+                        if(o.guest.market == 'G'){activityZone = 'سازمان دولتی'}
+                        if(o.guest.market == 'CO'){activityZone = 'پیمانکار'}
+                        if(o.guest.market == 'P'){activityZone = 'تولید کننده'}
+                        if(o.guest.market == 'S'){activityZone = 'پخش کننده'}
+                        if(o.guest.market == 'E'){activityZone = 'الکتریکی'}
+                        if(o.guest.market == 'T'){activityZone = 'بازرگانی'}
+                        if(o.guest.market == 'AG'){activityZone = 'نمایندگی'}
+                        if(o.guest.market == 'PR'){activityZone = 'پروژه'}
+                        if(o.guest.market == 'A'){activityZone = 'عامل'}
                     }
                 }
 
@@ -336,17 +420,26 @@ export default function apis({Axios,getState}){
                 }
                 
                 return {
-                    name: name || 'نامی وجود ندارد',
+                    name: name || '',
                     status: state || '0',
-                    company: company_name || 'نام شرکت',
-                    city: city || 'نام شهر',
+                    company: company_name || '',
+                    city: city || '',
                     id: o.task_id || '0',
                     time: new Date(o.updated_at).getTime(),
                     result: result || undefined,
-                    referencedTo: full_name
+                    referencedTo: full_name,
+                    guest_id: o.guest_id,
+                    person_id: o.person_id,
+                    market: o.guest.market,
+                    cardCode: o.guest.b1_code,
+                    mobile: o.guest.mobile_number,
+                    activityZone: activityZone,
+                    phone: o.guest.phone,
+                    form: form
                 }
             })
-            return resMapping.sort()
+            debugger
+            return resMapping
 
             return [
                 //status : '2' {name,company,city,id,time,result} //پایان یافته
@@ -467,7 +560,6 @@ export default function apis({Axios,getState}){
                 task_id:object.id,
                 new_assignee: mozakere_konande.username,
             }
-            // debugger
             let result;
             let url = `${referralUrl}`
             try{
@@ -475,10 +567,8 @@ export default function apis({Axios,getState}){
                 if (result.data.id){
                     return true
                 }
-                // debugger
             }
             catch(err){
-                // debugger
                 if(err.response){
                     if (err.response.data){
                         return err.response.data.error.errorMessage
@@ -501,7 +591,6 @@ export default function apis({Axios,getState}){
             // let url = `${startNegotiation}`
             // try {
             //     result = await Axios.post(url, apiBody)
-            //     debugger
             //     return true
             // }
             // catch(err){
@@ -515,15 +604,12 @@ export default function apis({Axios,getState}){
             let task_id = object.id
             let guest_id = object.guest_id
             let url = `${discardRequeestUrl}?task_id=${task_id}&description=${description}&guest_id=${guest_id}`
-            // debugger
             let result;
             try{
                 result = await Axios.get(url)
-                // debugger
                 return true
             }
             catch(err){
-                // debugger
                 return 'خطایی پیش آمده'
             }
 
@@ -539,14 +625,11 @@ export default function apis({Axios,getState}){
             
             // let url = `${endNegotiation}/`
             // let result;
-            // debugger
             // try{
             //     result = await Axios.post(url, apiBody)
-            //     debugger
             //     return true
             // }
             // catch(err){
-            //     debugger
             //     return 'خطایی در ثبت اطلاعات پیش آمده است'
             // }
 
