@@ -36,18 +36,100 @@ export default class MozakereCard extends Component{
                         {text:'انصراف از مذاکره',value:'enseraf',show:mode === 'mize_kar'},
                         {text:'ارجاع به دیگری',value:'erja',show:mode === 'mize_kar'},
                         {text:'ویرایش',value:'virayesh',show:mode === 'tarikhche'},
-                        {text:'مشاهده علت ارجاع',value:'ellate_erja',show:status === '3'},
-                        {text:'مشاهده علت انصراف',value:'ellate_enseraf',show:status === '4'},
+                        {text:'مشاهده جزییات',value:'ellate_erja',show:status === '3'},
+                        {text:'مشاهده جزییات',value:'ellate_enseraf',show:status === '4'},
                     ]}
                     text={<Icon path={mdiDotsVertical} size={0.8}/>}
                     onChange={(value)=>{
                         let {addPopup,setConfirm} = this.context;
                         let {object,onRemove} = this.props;
                         if(value === 'ellate_erja'){
-                            setConfirm({type:'info',text:'علت ارجاع',subtext:object.description})
+                            addPopup({
+                                type:'bottom',
+                                title:'جزییات ارجاع',
+                                content:()=>{
+                                    return <RVD
+                                        layout={{
+                                            style:{background:'#fff',height:'100%'},
+                                            className:'size14 color605E5C padding-12',
+                                            column:[
+                                                {html:object.name + ' | ' + object.city,className:'bold'},
+                                                {size:6},
+                                                {
+                                                    row:[
+                                                        {html:'شماره همراه :'},
+                                                        {size:12},
+                                                        {html:object.mobile,className:'bold'}
+                                                    ]
+                                                },
+                                                {size:6},
+                                                {
+                                                    row:[
+                                                        {html:'حوزه فعالیت :'},
+                                                        {size:12},
+                                                        {html:object.activityZone,className:'bold'}
+                                                    ]
+                                                },
+                                                {size:6},
+                                                {
+                                                    row:[
+                                                        {html:'شرکت/فروشگاه :'},
+                                                        {size:12},
+                                                        {html:object.company,className:'bold'}
+                                                    ]
+                                                },
+                                                {size:6},
+                                                {
+                                                    row:[
+                                                        {html:'شماره ثابت :'},
+                                                        {size:12},
+                                                        {html:object.phone,className:'bold'}
+                                                    ]
+                                                },
+                                                {size:6},
+                                                {html:'علت ارجاع :'},
+                                                {html:object.description,style:{background:'#eee',padding:6}}
+                                            ]
+                                        }}
+                                    />
+                                }
+                            })
                         }
                         else if(value === 'ellate_enseraf'){
-                            setConfirm({type:'info',text:'علت انصراف',subtext:object.description})
+                            addPopup({
+                                type:'bottom',
+                                title:'جزییات انصراف',
+                                content:()=>{
+                                    return <RVD
+                                        layout={{
+                                            style:{background:'#fff',height:'100%'},
+                                            className:'size14 color605E5C padding-12',
+                                            column:[
+                                                {html:object.name + ' | ' + object.city,className:'bold'},
+                                                {size:6},
+                                                {
+                                                    row:[
+                                                        {html:'شماره همراه :'},
+                                                        {size:12},
+                                                        {html:object.mobile,className:'bold'}
+                                                    ]
+                                                },
+                                                {size:6},
+                                                {
+                                                    row:[
+                                                        {html:'حوزه فعالیت :'},
+                                                        {size:12},
+                                                        {html:object.activityZone,className:'bold'}
+                                                    ]
+                                                },
+                                                {size:6},
+                                                {html:'علت انصراف :'},
+                                                {html:object.description,style:{background:'#efb9b9',padding:6}}
+                                            ]
+                                        }}
+                                    />
+                                }
+                            })
                         }
                         else{
                             addPopup({

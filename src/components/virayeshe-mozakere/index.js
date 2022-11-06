@@ -96,20 +96,35 @@ export default class VirayesheMozakere extends Component{
         let {type} = this.props;
         let input,title;
         if(type === 'erja'){
-            title = 'مذاکره کننده مورد نظر را انتخاب کنید :';
-            input = this.mozakereKonande_layout()
+            return {
+                column:[
+                    {
+                        column:[
+                            {html:'مذاکره کننده مورد نظر را انتخاب کنید :',className:'size16'},
+                            {size:8},
+                            input        
+                        ]
+                    },
+                    {
+                        column:[
+                            {html:'علت ارجاع را وارد کنید (حداقل 10 کاراکتر) :',className:'size16'},
+                            {size:8},
+                            this.mozakereKonande_layout()        
+                        ]
+                    }
+                ]
+            }
         }
         else if(type === 'enseraf'){
-            title = 'علت انصراف را وارد کنید (حداقل 10 کاراکتر) :';
-            input = this.description_layout()
+            return {
+                column:[
+                    {html:'علت انصراف را وارد کنید (حداقل 10 کاراکتر) :',className:'size16'},
+                    {size:8},
+                    this.description_layout()        
+                ]
+            }
         }
-        return {
-            column:[
-                {html:title,className:'size16'},
-                {size:8},
-                input        
-            ]
-        }
+        
     }
     action_layout(){
         let {services,removePopup,mozakere_konandegan,setConfirm} = this.context;
@@ -120,7 +135,7 @@ export default class VirayesheMozakere extends Component{
             canSubmit = mozakere_konande !== false;
             onClick = async ()=>{
                 let obj = mozakere_konandegan.find((o)=>o.id === mozakere_konande)
-                let res = await services({type:'erja',parameter:{object,mozakere_konande: obj}});
+                let res = await services({type:'erja',parameter:{object,mozakere_konande: obj,description}});
                 if(res === true){
                     removePopup(); 
                     onRemove(); 
