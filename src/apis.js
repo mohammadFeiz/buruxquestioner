@@ -99,7 +99,6 @@ export default function apis({Axios,getState}){
             result = await Axios.post(searchPersonUrl, apiBody)
             }
             catch(err) {
-                debugger
             return 'خطا در دریافت لیست مذاکره کنندگان' 
             }
 
@@ -246,7 +245,6 @@ export default function apis({Axios,getState}){
                 }
             })
             // return []
-            debugger
             return resMapping            
                 
             return [
@@ -327,7 +325,6 @@ export default function apis({Axios,getState}){
                 res = await Axios.get(url)
             }
             catch(err){
-                debugger
                 return []
             }
 
@@ -439,7 +436,6 @@ export default function apis({Axios,getState}){
                     form: form
                 }
             })
-            debugger
             return resMapping
 
             return [
@@ -565,7 +561,6 @@ export default function apis({Axios,getState}){
             }
             let result;
             let url = `${referralUrl}`
-            debugger
             try{
                 result = await Axios.post(url, apiBody)
 
@@ -577,6 +572,9 @@ export default function apis({Axios,getState}){
                 if(err.response){
                     if (err.response.data){
                         return err.response.data.error.errorMessage
+                    }
+                    else{
+                        return ' خطا در ارجا به دیگری'
                     }
                 }
                 return 'خطایی پیش آمده'
@@ -656,7 +654,6 @@ export default function apis({Axios,getState}){
             if(model.natije_mozakere == "1"){result = "U"} // ناموفق
             if(model.natije_mozakere == "2"){result = "N"} // نیاز به پیگیری
             if(model.natije_mozakere == "3"){result = "C"} // نیاز به تماس
-            debugger
             let apiBody = {
                 person: model.person,
                 guest: model.guest,
