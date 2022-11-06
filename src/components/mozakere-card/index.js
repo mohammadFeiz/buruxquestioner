@@ -131,6 +131,13 @@ export default class MozakereCard extends Component{
                                 }
                             })
                         }
+                        else if(value === 'details'){
+                            addPopup({
+                                type:'fullscreen',
+                                header:false,
+                                content:()=><Mozakere {...object} disabled={true}/>
+                            })
+                        }
                         else{
                             addPopup({
                                 type:'fullscreen',

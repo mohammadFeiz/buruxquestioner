@@ -49,3 +49,10 @@
     background:#fff;
     font-weight: bold;
 }
+
+.form-submit:disabled{
+    opacity:0.3;
+}
+.form-draft:disabled{
+    opacity:0.3;
+}
