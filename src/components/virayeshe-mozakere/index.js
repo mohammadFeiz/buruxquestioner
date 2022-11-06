@@ -100,18 +100,22 @@ export default class VirayesheMozakere extends Component{
                 column:[
                     {
                         column:[
-                            {html:'مذاکره کننده مورد نظر را انتخاب کنید :',className:'size16'},
-                            {size:8},
-                            input        
-                        ]
-                    },
-                    {
-                        column:[
                             {html:'علت ارجاع را وارد کنید (حداقل 10 کاراکتر) :',className:'size16'},
                             {size:8},
-                            this.mozakereKonande_layout()        
+                            this.description_layout()        
+
                         ]
-                    }
+                    },
+                    
+                    {size:24},
+                    {
+                        column:[
+                            {html:'مذاکره کننده مورد نظر را انتخاب کنید :',className:'size16'},
+                            {size:8},
+                            this.mozakereKonande_layout()        
+        
+                        ]
+                    },
                 ]
             }
         }

@@ -36,6 +36,7 @@ export default class MozakereCard extends Component{
                         {text:'انصراف از مذاکره',value:'enseraf',show:mode === 'mize_kar'},
                         {text:'ارجاع به دیگری',value:'erja',show:mode === 'mize_kar'},
                         {text:'مشاهده جزییات',value:'joziate_payan_yafte',show:mode === 'tarikhche' && status === '2'},
+                        {text:'ویرایش',value:'virayeshe_payan_yafte',show:mode === 'tarikhche' && status === '2'},
                         {text:'مشاهده جزییات',value:'ellate_erja',show:status === '3'},
                         {text:'مشاهده جزییات',value:'ellate_enseraf',show:status === '4'},
                     ]}
@@ -136,6 +137,13 @@ export default class MozakereCard extends Component{
                                 type:'fullscreen',
                                 header:false,
                                 content:()=><Mozakere {...object} disabled={true}/>
+                            })
+                        }
+                        else if(value === 'virayeshe_payan_yafte'){
+                            addPopup({
+                                type:'fullscreen',
+                                header:false,
+                                content:()=><Mozakere {...object}/>
                             })
                         }
                         else{

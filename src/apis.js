@@ -121,7 +121,7 @@ export default function apis({Axios,getState}){
             resMapping = resMapping.filter((o) => { //فیلتر خود آن مذاکره کننده
                 return o.username != negotiatorUsername
             })
-            
+
             return resMapping
 
             
@@ -371,8 +371,8 @@ export default function apis({Axios,getState}){
                     formTitle = 'آریا'
                     formModel = form3_default
                 }
-                if(o.negotiaition.data){
-                    formModel = o.negotiaition.data
+                if(o.negotiaition.form_data){
+                    formModel = o.negotiaition.form_data
                 }
                 if (state != "2"){
                     disable = true
@@ -435,6 +435,7 @@ export default function apis({Axios,getState}){
                     mobile: o.guest.mobile_number,
                     activityZone: activityZone,
                     phone: o.guest.phone,
+                    description: o.description,
                     form: form
                 }
             })
@@ -549,9 +550,10 @@ export default function apis({Axios,getState}){
             return true
         },
 
-        async erja({mozakere_konande, object}){
+        async erja({mozakere_konande, object, description}){
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
+
 
             // ***************** ارجا به شخص دیگر ***************** 
             let apiBody = {
@@ -559,11 +561,14 @@ export default function apis({Axios,getState}){
                 instance_id: object.process_instance_id,
                 task_id:object.id,
                 new_assignee: mozakere_konande.username,
+                description: description
             }
             let result;
             let url = `${referralUrl}`
+            debugger
             try{
                 result = await Axios.post(url, apiBody)
+
                 if (result.data.id){
                     return true
                 }
@@ -651,6 +656,7 @@ export default function apis({Axios,getState}){
             if(model.natije_mozakere == "1"){result = "U"} // ناموفق
             if(model.natije_mozakere == "2"){result = "N"} // نیاز به پیگیری
             if(model.natije_mozakere == "3"){result = "C"} // نیاز به تماس
+            debugger
             let apiBody = {
                 person: model.person,
                 guest: model.guest,
@@ -658,7 +664,7 @@ export default function apis({Axios,getState}){
                 market: model.market,
                 negotiation_id: model.negotiation_id,
                 process_instance_id: model.process_instance_id,
-                data: model,
+                form_data: model,
                 type: mode, // برای اتمام مذاکره این مقدار باید ست شود
                 result: result,
             }
@@ -685,7 +691,7 @@ export default function apis({Axios,getState}){
                 id: obj.id,
                 market: obj.market,
                 process_instance_id: obj.process_instance_id,
-                data: obj.form.model,
+                form_data: obj.form.model,
                 result: result,
                 type: 'start' // برای شروع مذاکره این مقدار باید ست شود
                 
@@ -699,7 +705,7 @@ export default function apis({Axios,getState}){
                 return []
             }
             if(res.data.isSuccess == true) {
-                obj.form.model = res.data.results.data
+                obj.form.model = res.data.results.form_data
                 obj.negotiation_id = res.data.results.negotiation_id
                 obj.form.model.negotiation_id = res.data.results.negotiation_id
                 obj.form.model.guest = obj.guest_id
