@@ -242,6 +242,7 @@ export default function apis({Axios,getState}){
                     activityZone: activityZone,
                     phone: o.phone,
                     form: form,
+                    negotiation_id: o.negotiation_id
                 }
             })
             // return []
@@ -557,7 +558,8 @@ export default function apis({Axios,getState}){
                 instance_id: object.process_instance_id,
                 task_id:object.id,
                 new_assignee: mozakere_konande.username,
-                description: description
+                description: description,
+                negotiation_id: object.negotiation_id
             }
             let result;
             let url = `${referralUrl}`
