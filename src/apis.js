@@ -546,13 +546,14 @@ export default function apis({Axios,getState}){
             return 'خطایی پیش آمده'
             return true
         },
-
+        
+        // ***************** ارجا به شخص دیگر ***************** 
         async erja({mozakere_konande, object, description}){
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
 
 
-            // ***************** ارجا به شخص دیگر ***************** 
+            
             let apiBody = {
                 client: client_id, // با توجه به غرفه 
                 instance_id: object.process_instance_id,
