@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
 import Form from 'aio-form-react';
 import {Icon} from '@mdi/react';
-import {mdiChevronRight,mdiPlusCircle} from '@mdi/js';
+import {mdiChevronRight,mdiPlusCircle,mdiDelete} from '@mdi/js';
 import AppContext from '../../app-context';
 import titleSrc from './../../images/title2.png';
 import './index.css';
@@ -58,7 +58,7 @@ export default class Mozakere extends Component{
             },
             column:[
                 {row:[{html:'نام و نام خانوادگی :'},{html:name}]},
-                {row:[{html:'شهر'},{html:city}]},
+                {row:[{html:'شهر :'},{html:city}]},
                 {row:[{html:'شماره همراه :'},{html:mobile}]},
                 {row:[{html:'حوزه فعالیت :'},{html:activityZone}]},
                 {row:[{html:'شرکت/فروشگاه :'},{html:company}]},
@@ -140,14 +140,20 @@ export default class Mozakere extends Component{
         return (
             <RVD
                 layout={{
-                    style:{background:'#fff',height:'100%'},
+                    style:{background:'#fff',height:'100%',maxWidth:600},
                     scroll:'v',
                     className:'size12',
                     column:[
                         this.header_layout(),
-                        this.details_layout(),
-                        this.form_layout(),
-                        this.footer_layout()
+                        {
+                            flex:1,scroll:'v',
+                            column:[
+                                this.details_layout(),
+                                this.form_layout(),
+                                this.footer_layout()
+                            ]
+                        }
+                        
                     ]
                 }}
             />
@@ -477,7 +483,6 @@ class Form2 extends Component{
         )
     }
 }
-
 
 class Form3 extends Component{
     constructor(props){

@@ -1,4 +1,4 @@
-const hostName = `http://localhost:8000`
+const hostName = `http://172.16.7.34:8001`
 const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
 const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
 const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه

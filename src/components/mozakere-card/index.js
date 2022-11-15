@@ -134,21 +134,19 @@ export default class MozakereCard extends Component{
                         }
                         else if(value === 'joziate_payan_yafte'){
                             addPopup({
-                                type:'fullscreen',
                                 header:false,
-                                content:()=><Mozakere {...object} disabled={true}/>
+                                content:()=><Mozakere {...object} disabled={true}/>,
+                                
                             })
                         }
                         else if(value === 'virayeshe_payan_yafte'){
                             addPopup({
-                                type:'fullscreen',
                                 header:false,
                                 content:()=><Mozakere {...object}/>
                             })
                         }
                         else{
                             addPopup({
-                                type:'fullscreen',
                                 header:false,
                                 content:()=><VirayesheMozakere object={object} type={value} onRemove={onRemove}/>
                             })
