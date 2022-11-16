@@ -2,10 +2,11 @@ import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
 import Form from 'aio-form-react';
 import {Icon} from '@mdi/react';
-import {mdiChevronRight,mdiPlusCircle,mdiDelete} from '@mdi/js';
+import {mdiChevronRight,mdiPlusCircle,mdiDelete,mdiPrinter} from '@mdi/js';
 import AppContext from '../../app-context';
 import titleSrc from './../../images/title2.png';
 import './index.css';
+import $ from 'jquery';
 export default class Mozakere extends Component{
     static contextType = AppContext;
     constructor(props){
@@ -14,6 +15,18 @@ export default class Mozakere extends Component{
             initModel:JSON.stringify(props.form.model),
             model:{...props.form.model}
         }
+    }
+    print(){
+        let myWindow=window.open('','',"width="+window.screen.availWidth+",height="+window.screen.availHeight);
+        myWindow.document.write(document.getElementsByTagName('head')[0].innerHTML);
+        myWindow.document.write($('.mozakere-form').html());
+
+
+
+
+        myWindow.focus();
+        myWindow.print(); 
+        myWindow.close();
     }
     resetForm(){
         this.setState({model:JSON.parse(this.state.initModel)})
@@ -41,6 +54,8 @@ export default class Mozakere extends Component{
                     flex:1,
                     row:[
                         {flex:1},
+                        {html:<Icon path={mdiPrinter} size={1}/>,attrs:{onClick:()=>this.print()}},
+                        {size:6},
                         {show:!!!disabled,html:<button className='reset-form-button' onClick={()=>this.resetForm()}>پاک کردن فرم</button>}
                     ]
                 }
@@ -140,9 +155,9 @@ export default class Mozakere extends Component{
         return (
             <RVD
                 layout={{
-                    style:{background:'#fff',height:'100%',maxWidth:600},
+                    style:{background:'#fff',height:'90%',maxWidth:560,borderRadius:16},
                     scroll:'v',
-                    className:'size12',
+                    className:'size12 mozakere-form',
                     column:[
                         this.header_layout(),
                         {

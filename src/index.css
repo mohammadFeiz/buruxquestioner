@@ -5,6 +5,11 @@ body{
 button{
   font-family: inherit;
 }
+.rsa-popup-body{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
 .page{
   padding:12px;
   background:#f2f2f2;
