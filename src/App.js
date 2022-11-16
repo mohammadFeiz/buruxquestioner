@@ -117,7 +117,7 @@ class Main extends Component {
           navs={navs}
           header={({addPopup})=><Header addPopup={addPopup} name = {name} logout = {logout} />}
           body={({navId})=><Mozakerat key={navId} mode={navId}/>}
-          getActions={(obj)=>this.setState(obj)}
+          getActions={(obj)=>{this.state = {...this.state,...obj}; this.setState(obj)}}
         />
       )
     }
