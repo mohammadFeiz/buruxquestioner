@@ -1,9 +1,8 @@
 
-// const hostName = `http://localhost:8000`
 const hostName = `http://172.16.7.34:8000`
+// const hostName = `http://localhost:8000`
+// const hostName =  process.env.BACKEND_URL
 // const hostName = `http://192.168.10.51:8075`
-
-// const hostName = `http://172.16.7.34:8001`
 const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
 const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
 const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه

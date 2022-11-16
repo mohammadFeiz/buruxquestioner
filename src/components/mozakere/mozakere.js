@@ -434,11 +434,19 @@ class Form2 extends Component{
                             type:'group',id:'khadamat',text:'khadamat',show:false,
                             inputs:model.khadamate_morede_niaz.map((o,i)=>{
                                 return {
-                                    disabled,type:'text',groupId:'khedmat',
-                                    options:'props.data.khadamate_morede_niaz_options',
-                                    field:`model.khadamate_morede_niaz[${i}]`,
-                                    placeholder:'خدمات مورد نیاز را انتخاب یا وارد نمائید',
-                                    inputStyle:style1
+                                    type:'group',id:'dgdfg' + i,show:false,
+                                    inputs:[
+                                        {
+                                            disabled,type:'text',groupId:'khedmat',
+                                            options:'props.data.khadamate_morede_niaz_options',
+                                            field:`model.khadamate_morede_niaz[${i}]`,
+                                            placeholder:'خدمات مورد نیاز را انتخاب یا وارد نمائید',
+                                            inputStyle:style1
+                                        },
+                                        {type:'html',html:()=><Icon path={mdiPlusCircle} size={0.8} style={{color:'#4ECCC1'}} onClick={()=>{
+                                            model.khadamate_morede_niaz.splice(i,1);
+                                            onChange(model)
+                                        }}/>}                                    ]
                                 }
                         
                             })
