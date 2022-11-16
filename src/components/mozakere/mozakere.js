@@ -145,8 +145,8 @@ export default class Mozakere extends Component{
             gap:12,
             column:[
                 {size:36},
-                {html:<button disabled={!!!model.natije_mozakere || disabled} onClick={()=>this.submit('submit')} className='form-submit'>{mode === 'virayeshe_payan_yafte'?'بروزرسانی':'ثبت و اتمام مذاکره'}</button>},
-                {show:mode !== 'virayeshe_payan_yafte',html:<button onClick={()=>this.submit('draft')} className='form-draft'>ثبت به عنوان پیشنویس</button>},
+                {show:!!!disabled,html:<button disabled={!!!model.natije_mozakere} onClick={()=>this.submit('submit')} className='form-submit'>{mode === 'virayeshe_payan_yafte'?'بروزرسانی':'ثبت و اتمام مذاکره'}</button>},
+                {show:mode !== 'virayeshe_payan_yafte' && !!!disabled,html:<button disabled={!!!model.natije_mozakere} onClick={()=>this.submit('draft')} className='form-draft'>ثبت به عنوان پیشنویس</button>},
                 {size:168,align:'vh',html:<img src={titleSrc} alt=''/>}
             ]
         }
