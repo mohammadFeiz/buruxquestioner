@@ -142,7 +142,7 @@ export default class MozakereCard extends Component{
                         else if(value === 'virayeshe_payan_yafte'){
                             addPopup({
                                 header:false,
-                                content:()=><Mozakere {...object} mode={value}/>
+                                content:()=><Mozakere {...object} mode={value} disabled={this.dif > 24 * 60 * 60 * 1000}/>
                             })
                         }
                         else{
