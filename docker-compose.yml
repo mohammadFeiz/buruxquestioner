@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   app:
-    container_name: questionary_front
+    container_name: questionary_front_ham
     build:
       context: .
       dockerfile: Dockerfile
