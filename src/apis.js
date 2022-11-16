@@ -1,4 +1,6 @@
-const hostName = `http://localhost:8000`
+// const hostName = `http://localhost:8000`
+const hostName = `http://172.16.7.34:8000`
+// const hostName = `http://192.168.10.51:8075`
 const searchPersonUrl = `${hostName}/person/v1/person` // ادرس جستجوی مذاکره کننده
 const userTaskUrl = `${hostName}/camunda/v1/usertask` // ادرس میز کار
 const historyUrl = `${hostName}/camunda/v1/history` // آدرس تاریخچه
@@ -437,6 +439,10 @@ export default function apis({Axios,getState}){
                     form: form
                 }
             })
+
+            resMapping = resMapping.sort(
+                (objA, objB) => Number(objB.time) - Number(objA.time),
+            )
             return resMapping
 
             return [
@@ -552,8 +558,6 @@ export default function apis({Axios,getState}){
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
 
-
-            
             let apiBody = {
                 client: client_id, // با توجه به غرفه 
                 instance_id: object.process_instance_id,
