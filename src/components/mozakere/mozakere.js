@@ -140,13 +140,13 @@ export default class Mozakere extends Component{
     }
     footer_layout(){
         let {model} = this.state;
-        let {disabled} = this.props;
+        let {disabled,mode} = this.props;
         return {
             gap:12,
             column:[
                 {size:36},
-                {html:<button disabled={!!!model.natije_mozakere || disabled} onClick={()=>this.submit('submit')} className='form-submit'>ثبت و اتمام مذاکره</button>},
-                {html:<button onClick={()=>this.submit('draft')} className='form-draft'>ثبت به عنوان پیشنویس</button>},
+                {html:<button disabled={!!!model.natije_mozakere || disabled} onClick={()=>this.submit('submit')} className='form-submit'>{mode === 'virayeshe_payan_yafte'?'بروزرسانی':'ثبت و اتمام مذاکره'}</button>},
+                {show:mode !== 'virayeshe_payan_yafte',html:<button onClick={()=>this.submit('draft')} className='form-draft'>ثبت به عنوان پیشنویس</button>},
                 {size:168,align:'vh',html:<img src={titleSrc} alt=''/>}
             ]
         }

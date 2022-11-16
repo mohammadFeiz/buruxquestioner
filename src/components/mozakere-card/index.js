@@ -36,7 +36,7 @@ export default class MozakereCard extends Component{
                         {text:'انصراف از مذاکره',value:'enseraf',show:mode === 'mize_kar'},
                         {text:'ارجاع به دیگری',value:'erja',show:mode === 'mize_kar'},
                         {text:'مشاهده جزییات',value:'joziate_payan_yafte',show:mode === 'tarikhche' && status === '2'},
-                        {text:'ویرایش',value:'virayeshe_payan_yafte',show:mode === 'tarikhche' && status === '2'},
+                        {text:'ویرایش',value:'virayeshe_payan_yafte',show:mode === 'tarikhche' && status === '2',disabled:this.dif > 24 * 60 * 60 * 1000},
                         {text:'مشاهده جزییات',value:'ellate_erja',show:status === '3'},
                         {text:'مشاهده جزییات',value:'ellate_enseraf',show:status === '4'},
                     ]}
@@ -142,7 +142,7 @@ export default class MozakereCard extends Component{
                         else if(value === 'virayeshe_payan_yafte'){
                             addPopup({
                                 header:false,
-                                content:()=><Mozakere {...object}/>
+                                content:()=><Mozakere {...object} mode={value}/>
                             })
                         }
                         else{
@@ -184,6 +184,7 @@ export default class MozakereCard extends Component{
         time = new Date(time).getTime();
         let now = new Date().getTime();
         let dif = now - time;
+        this.dif = dif
         let hours = Math.floor(dif / (60 * 60 * 1000));
         dif -= hours * (60 * 60 * 1000);
         let minutes = Math.floor(dif / (60 * 1000));
