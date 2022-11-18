@@ -317,18 +317,18 @@ class Form2 extends Component{
                 {value:'1',text:'تجاری'},
                 {value:'2',text:'اداری'},
                 {value:'3',text:'صنعتی'},
-                {value:'4',text:'سایر'}
+                {value:'sayer',text:'سایر'}
             ],
             makane_ejraye_poroje_options:[
                 {value:'0',text:'تهران'},
                 {value:'1',text:'البرز'},
-                {value:'2',text:'سایر'},
+                {value:'sayer',text:'سایر'},
             ],
             vaziate_ejraye_poroje_options:[
                 {value:'0',text:'پیش طراحی روشنایی'},
                 {value:'1',text:'طراحی روشنایی'},
                 {value:'2',text:'انتخاب محصول'},
-                {value:'3',text:'سایر'},
+                {value:'sayer',text:'سایر'},
             ],
             mizane_shenakht_options:[
                 {value:'0',text:'شناختی ندارم'},
@@ -420,12 +420,18 @@ class Form2 extends Component{
                         {type:'html',html:()=>this.getLabel('نوع پروژه را مشخص نمائید:',1),disabled},
                         {type:'radio',options:'props.data.noe_poroje_options',field:'model.noe_poroje',inputStyle:style2,disabled},
                         
+                        {type:'textarea',autoHeight:true,placeholder:'نوع پروژه ...',field:'model.tozihe_noe_poroje',inputStyle:style1,show:model.noe_proje === 'sayer',disabled},
+
                         {type:'html',html:()=>this.getLabel('مکان اجرای پروژه را مشخص نمائید:',2),disabled},
                         {type:'radio',options:'props.data.makane_ejraye_poroje_options',field:'model.makane_ejraye_poroje',inputStyle:style2,disabled},
                         
-                        {type:'html',html:()=>this.getLabel('مکان اجرای پروژه را مشخص نمائید:',3),disabled},
+                        {type:'textarea',autoHeight:true,placeholder:'مکان پروژه ...',field:'model.tozihe_makane_ejraye_poroje',inputStyle:style1,show:model.makane_ejraye_proje === 'sayer',disabled},
+
+                        {type:'html',html:()=>this.getLabel('وضعیت اجرای پروژه را مشخص نمائید:',3),disabled},
                         {type:'radio',options:'props.data.vaziate_ejraye_poroje_options',field:'model.vaziate_ejraye_poroje',inputStyle:style2,disabled},
                         
+                        {type:'textarea',autoHeight:true,placeholder:'وضعیت پروژه ...',field:'model.vaziate_ejraye_poroje',inputStyle:style1,show:model.vaziate_ejraye_proje === 'sayer',disabled},
+
                         {type:'html',html:()=>this.getLabel('خدمات مورد نیاز مشتری چیست؟',4,disabled?undefined:()=>{
                             model.khadamate_morede_niaz.push('');
                             onChange(model)
@@ -525,7 +531,7 @@ class Form3 extends Component{
                 {value:'4',text:'صنایع چاپ و بسته بندی'},
                 {value:'5',text:'شرکت حمل و نقل'},
                 {value:'6',text:'شرکت های بازرگانی و صادرات'},
-                {value:'7',text:'سایر'},
+                {value:'sayer',text:'سایر'},
             ],
             noe_hamkari_options:[
                 {value:'0',text:'خرید قطعات لامپ'},
@@ -585,6 +591,8 @@ class Form3 extends Component{
                         {type:'html',html:()=>this.getLabel('زمینه فعالیت شرکت چیست؟',1),disabled},
                         {type:'radio',options:'props.data.zamine_faalit_options',field:'model.zamine_faaliat',inputStyle:style2,disabled},
                         
+                        {type:'textarea',autoHeight:true,placeholder:'زمینه فعالیت ...',field:'model.tozihe_zamine_faaliat',inputStyle:style1,show:model.zamine_faaliat === 'sayer',disabled},
+
                         {...booleanProps,field:'model.ameliate_foroosh_ba_brande_khasi_darad',label:this.getLabel('آیا در حال حاضر مالک برند خاصی هستید ؟',2),disabled},
                         
                         {type:'html',html:()=>this.getLabel('نوع و زمینه همکاری مورد تقاضا چیست؟ ',1),disabled},
