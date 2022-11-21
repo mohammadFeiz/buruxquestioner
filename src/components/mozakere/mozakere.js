@@ -420,17 +420,17 @@ class Form2 extends Component{
                         {type:'html',html:()=>this.getLabel('نوع پروژه را مشخص نمائید:',1),disabled},
                         {type:'radio',options:'props.data.noe_poroje_options',field:'model.noe_poroje',inputStyle:style2,disabled},
                         
-                        {type:'textarea',autoHeight:true,placeholder:'نوع پروژه ...',field:'model.tozihe_noe_poroje',inputStyle:style1,show:model.noe_proje === 'sayer',disabled},
+                        {type:'textarea',autoHeight:true,placeholder:'نوع پروژه ...',field:'model.tozihe_noe_poroje',inputStyle:style1,show:model.noe_poroje === 'sayer',disabled},
 
                         {type:'html',html:()=>this.getLabel('مکان اجرای پروژه را مشخص نمائید:',2),disabled},
                         {type:'radio',options:'props.data.makane_ejraye_poroje_options',field:'model.makane_ejraye_poroje',inputStyle:style2,disabled},
                         
-                        {type:'textarea',autoHeight:true,placeholder:'مکان پروژه ...',field:'model.tozihe_makane_ejraye_poroje',inputStyle:style1,show:model.makane_ejraye_proje === 'sayer',disabled},
+                        {type:'textarea',autoHeight:true,placeholder:'مکان پروژه ...',field:'model.tozihe_makane_ejraye_poroje',inputStyle:style1,show:model.makane_ejraye_poroje === 'sayer',disabled},
 
                         {type:'html',html:()=>this.getLabel('وضعیت اجرای پروژه را مشخص نمائید:',3),disabled},
                         {type:'radio',options:'props.data.vaziate_ejraye_poroje_options',field:'model.vaziate_ejraye_poroje',inputStyle:style2,disabled},
                         
-                        {type:'textarea',autoHeight:true,placeholder:'وضعیت پروژه ...',field:'model.vaziate_ejraye_poroje',inputStyle:style1,show:model.vaziate_ejraye_proje === 'sayer',disabled},
+                        {type:'textarea',autoHeight:true,placeholder:'وضعیت پروژه ...',field:'model.vaziate_ejraye_poroje',inputStyle:style1,show:model.vaziate_ejraye_poroje === 'sayer',disabled},
 
                         {type:'html',html:()=>this.getLabel('خدمات مورد نیاز مشتری چیست؟',4,disabled?undefined:()=>{
                             model.khadamate_morede_niaz.push('');
@@ -523,7 +523,7 @@ class Form3 extends Component{
                 {value:'2',text:'نیاز به پیگیری'},
                 {value:'3',text:'نیاز به تماس'}
             ],
-            zamine_faalit_options:[
+            zamine_faaliat_options:[
                 {value:'0',text:'تولید کننده لامپ'},
                 {value:'1',text:'صنایع مرتبط با روشنائی'},
                 {value:'2',text:'صنایع غیر روشنائی'},
@@ -555,7 +555,7 @@ class Form3 extends Component{
     }
     body_layout(){
         let {
-            zamine_faalit_options,
+            zamine_faaliat_options,
             natije_mozakere_options,
             noe_hamkari_options
         } = this.state;
@@ -583,13 +583,13 @@ class Form3 extends Component{
                     style={{background:'#fff'}}
                     data={{
                         natije_mozakere_options,
-                        zamine_faalit_options,
+                        zamine_faaliat_options,
                         noe_hamkari_options
                     }}
                     onChange={(model)=>onChange(model)}
                     inputs={[
                         {type:'html',html:()=>this.getLabel('زمینه فعالیت شرکت چیست؟',1),disabled},
-                        {type:'radio',options:'props.data.zamine_faalit_options',field:'model.zamine_faaliat',inputStyle:style2,disabled},
+                        {type:'radio',options:'props.data.zamine_faaliat_options',field:'model.zamine_faaliat',inputStyle:style2,disabled},
                         
                         {type:'textarea',autoHeight:true,placeholder:'زمینه فعالیت ...',field:'model.tozihe_zamine_faaliat',inputStyle:style1,show:model.zamine_faaliat === 'sayer',disabled},
 

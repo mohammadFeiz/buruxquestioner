@@ -1,5 +1,8 @@
 
-const hostName = `http://172.16.7.34:8000`
+// const hostName = `http://192.168.10.51:8075`
+// const hostName = `http://172.20.20.141:8000`
+// const hostName = `http://192.168.1.2:8000`
+const hostName = `http://manage.paydarnoor.ir`
 // const hostName = `http://localhost:8000`
 // const hostName =  process.env.BACKEND_URL
 // const hostName = `http://192.168.10.51:8075`
@@ -103,6 +106,7 @@ export default function apis({Axios,getState}){
             result = await Axios.post(searchPersonUrl, apiBody)
             }
             catch(err) {
+            console.log('mozakere_konandegan', err);
             return 'خطا در دریافت لیست مذاکره کنندگان' 
             }
 
@@ -154,6 +158,7 @@ export default function apis({Axios,getState}){
                 result = await Axios.get(url)
             }
             catch(err){
+                console.log('mozakere_haye_man', err)
                 return []
             }
            
@@ -330,6 +335,7 @@ export default function apis({Axios,getState}){
                 res = await Axios.get(url)
             }
             catch(err){
+                console.log('tarikhche', err);
                 return []
             }
 
@@ -578,6 +584,7 @@ export default function apis({Axios,getState}){
                 }
             }
             catch(err){
+                console.log('erja', err);
                 if(err.response){
                     if (err.response.data){
                         return err.response.data.error.errorMessage
