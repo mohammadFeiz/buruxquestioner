@@ -1,7 +1,7 @@
 
 // const hostName = `http://192.168.10.51:8075`
-// const hostName = `http://172.20.20.141:8000`
-// const hostName = `http://192.168.1.2:8000`
+// const hostName = `http://172.16.7.34:8000`
+// const hostName = `http://192.168.195.136:8000`
 const hostName = `http://manage.paydarnoor.ir`
 // const hostName = `http://localhost:8000`
 // const hostName =  process.env.BACKEND_URL
@@ -126,7 +126,7 @@ export default function apis({Axios,getState}){
                 }
             })
             resMapping = resMapping.filter((o) => { //فیلتر خود آن مذاکره کننده
-                return o.username != negotiatorUsername
+                return o.username !== negotiatorUsername
             })
 
             return resMapping
@@ -153,26 +153,32 @@ export default function apis({Axios,getState}){
 
 
             let negotiatorUsername = getState().username
-            let url = `${userTaskUrl}/${client_id}/${negotiatorUsername}`
+            // let url = `${userTaskUrl}/${client_id}/${negotiatorUsername}/`
+            let url = `${userTaskUrl}/`
+            let urlBody = {
+                assignee: negotiatorUsername,
+                client: client_id,
+            }
+
             try{
-                result = await Axios.get(url)
+                result = await Axios.post(url, urlBody)
             }
             catch(err){
                 console.log('mozakere_haye_man', err)
                 return []
             }
            
-            // if(client_id == 3 && roles.indexOf('Organizational') !== -1){ //"Organizational"
+            // if(client_id === 3 && roles.indexOf('Organizational') !== -1){ //"Organizational"
             //     formType = 2
             //     formTitle = 'لامپ پایدار سازمانی'
             //     formModel = form2_default
             // }
-            // if(client_id == 3 && roles.indexOf('Sales') !== -1){
+            // if(client_id === 3 && roles.indexOf('Sales') !== -1){
             //     formType = 1
             //     formTitle = 'لامپ پایدار'
             //     formModel = form1_default
             // }
-            // if(client_id == 2){
+            // if(client_id === 2){
             //     formType = 3
             //     formTitle = 'آریا'
             //     formModel = form3_default
@@ -216,23 +222,23 @@ export default function apis({Axios,getState}){
                     model: formModel,
                 }
                 
-                if(o.state == 1){state = '0'} // o.state == 1 => ثبت اظلاعات  
-                else if(o.state == 2){state = '0'} // o.state == 2 => در انتظار مذاکره
-                else if(o.state == 3){state = '1'} // o.state == 3 => در حال مذاکره
-                else if(o.state == 4){state = '2'} // o.state == 4 => پایان مذاکره
-                else if(o.state == 5){state = '4'} // o.state == 5 => انصراف از مذاکره
-                else if(o.state == 6){state = '3'} // o.state == 6 => ارجاع به دیگری
+                if(o.state === 1){state = '0'} // o.state == 1 => ثبت اظلاعات  
+                else if(o.state === 2){state = '0'} // o.state == 2 => در انتظار مذاکره
+                else if(o.state === 3){state = '1'} // o.state == 3 => در حال مذاکره
+                else if(o.state === 4){state = '2'} // o.state == 4 => پایان مذاکره
+                else if(o.state === 5){state = '4'} // o.state == 5 => انصراف از مذاکره
+                else if(o.state === 6){state = '3'} // o.state == 6 => ارجاع به دیگری
                 else{state = '0'}
-                if(o.market == 'C'){activityZone = 'بازرگانی'}
-                if(o.market == 'G'){activityZone = 'سازمان دولتی'}
-                if(o.market == 'CO'){activityZone = 'پیمانکار'}
-                if(o.market == 'P'){activityZone = 'تولید کننده'}
-                if(o.market == 'S'){activityZone = 'پخش کننده'}
-                if(o.market == 'E'){activityZone = 'الکتریکی'}
-                if(o.market == 'T'){activityZone = 'بازرگانی'}
-                if(o.market == 'AG'){activityZone = 'نمایندگی'}
-                if(o.market == 'PR'){activityZone = 'پروژه'}
-                if(o.market == 'A'){activityZone = 'عامل'}
+                if(o.market === 'C'){activityZone = 'بازرگانی'}
+                if(o.market === 'G'){activityZone = 'سازمان دولتی'}
+                if(o.market === 'CO'){activityZone = 'پیمانکار'}
+                if(o.market === 'P'){activityZone = 'تولید کننده'}
+                if(o.market === 'S'){activityZone = 'پخش کننده'}
+                if(o.market === 'E'){activityZone = 'الکتریکی'}
+                if(o.market === 'T'){activityZone = 'بازرگانی'}
+                if(o.market === 'AG'){activityZone = 'نمایندگی'}
+                if(o.market === 'PR'){activityZone = 'پروژه'}
+                if(o.market === 'A'){activityZone = 'عامل'}
                 if(o.negotiation_created_at){time = o.negotiation_created_at}
                 if(!o.negotiation_created_at){time = o.created}
                 return {
@@ -257,18 +263,18 @@ export default function apis({Axios,getState}){
             // return []
             return resMapping            
                 
-            return [
-                //status : '0' {name,company,city,id,time}
-                {
-                    name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',
-                    time:new Date().getTime()
-                },
-                //status : '1' {name,company,city,id,time}
-                {
-                    name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',
-                    time:new Date().getTime()
-                }
-            ]
+            // return [
+            //     //status : '0' {name,company,city,id,time}
+            //     {
+            //         name:'حامد یوسف زاده',status:'0',company:'شرکت طلوع روشن نور',city:'تهران',id:'00',
+            //         time:new Date().getTime()
+            //     },
+            //     //status : '1' {name,company,city,id,time}
+            //     {
+            //         name:'حامد یوسف زاده',status:'1',company:'شرکت طلوع روشن نور',city:'تهران',id:'10',
+            //         time:new Date().getTime()
+            //     }
+            // ]
         },
         async tarikhche(){
             // return [
@@ -329,10 +335,14 @@ export default function apis({Axios,getState}){
             
             let negotiatorUsername = getState().username //یوزر نیم شخصی که لاگین کرده
             let client_id = getState().client_id
-            let url = `${historyUrl}/${client_id}/${negotiatorUsername}`
+            let url = `${historyUrl}/`
+            let apiBody = {
+                client_id: client_id,
+                assignee: negotiatorUsername,
+            }
             
             try{
-                res = await Axios.get(url)
+                res = await Axios.post(url, apiBody)
             }
             catch(err){
                 console.log('tarikhche', err);
@@ -352,13 +362,13 @@ export default function apis({Axios,getState}){
                 let result;
                 let disable;
                 let activityZone;
-                if (Object.values(o.state).length != 0){
-                    if(o.state.id == 1){state = 0} // o.state == 1 => ثبت اظلاعات  
-                    else if(o.state.id == 2){state = '0'} // o.state == 2 => در انتظار مذاکره
-                    else if(o.state.id == 3){state = '1'} // o.state == 3 => در حال مذاکره
-                    else if(o.state.id == 4){state = '2'} // o.state == 4 => پایان مذاکره
-                    else if(o.state.id == 5){state = '4'} // o.state == 5 => انصراف از مذاکره
-                    else if(o.state.id == 6){state = '3'} // o.state == 6 => ارجاع به دیگری
+                if (Object.values(o.state).length !== 0){
+                    if(o.state.id === 1){state = 0} // o.state == 1 => ثبت اظلاعات  
+                    else if(o.state.id === 2){state = '0'} // o.state == 2 => در انتظار مذاکره
+                    else if(o.state.id === 3){state = '1'} // o.state == 3 => در حال مذاکره
+                    else if(o.state.id === 4){state = '2'} // o.state == 4 => پایان مذاکره
+                    else if(o.state.id === 5){state = '4'} // o.state == 5 => انصراف از مذاکره
+                    else if(o.state.id === 6){state = '3'} // o.state == 6 => ارجاع به دیگری
                     else{state = '3'}
                 }
                 else{
@@ -382,7 +392,7 @@ export default function apis({Axios,getState}){
                 if(o.negotiaition.form_data){
                     formModel = o.negotiaition.form_data
                 }
-                if (state != "2"){
+                if (state !== "2"){
                     disable = true
                 }
 
@@ -394,36 +404,36 @@ export default function apis({Axios,getState}){
                 }
                 
                 if(o.guest !== null){
-                    if (Object.values(o.guest).length != 0){
+                    if (Object.values(o.guest).length !== 0){
                         name = `${o.guest.first_name} ${o.guest.last_name}`
                         company_name = o.guest.company_name
                         city = o.guest.province
-                        if(o.guest.market == 'C'){activityZone = 'بازرگانی'}
-                        if(o.guest.market == 'G'){activityZone = 'سازمان دولتی'}
-                        if(o.guest.market == 'CO'){activityZone = 'پیمانکار'}
-                        if(o.guest.market == 'P'){activityZone = 'تولید کننده'}
-                        if(o.guest.market == 'S'){activityZone = 'پخش کننده'}
-                        if(o.guest.market == 'E'){activityZone = 'الکتریکی'}
-                        if(o.guest.market == 'T'){activityZone = 'بازرگانی'}
-                        if(o.guest.market == 'AG'){activityZone = 'نمایندگی'}
-                        if(o.guest.market == 'PR'){activityZone = 'پروژه'}
-                        if(o.guest.market == 'A'){activityZone = 'عامل'}
+                        if(o.guest.market === 'C'){activityZone = 'بازرگانی'}
+                        if(o.guest.market === 'G'){activityZone = 'سازمان دولتی'}
+                        if(o.guest.market === 'CO'){activityZone = 'پیمانکار'}
+                        if(o.guest.market === 'P'){activityZone = 'تولید کننده'}
+                        if(o.guest.market === 'S'){activityZone = 'پخش کننده'}
+                        if(o.guest.market === 'E'){activityZone = 'الکتریکی'}
+                        if(o.guest.market === 'T'){activityZone = 'بازرگانی'}
+                        if(o.guest.market === 'AG'){activityZone = 'نمایندگی'}
+                        if(o.guest.market === 'PR'){activityZone = 'پروژه'}
+                        if(o.guest.market === 'A'){activityZone = 'عامل'}
                     }
                 }
 
                 if (o.referral !== null){
-                    if (Object.values(o.referral).length != 0) {
+                    if (Object.values(o.referral).length !== 0) {
                         full_name = o.referral.full_name
                     }
                 }
 
                 if(o.negotiaition !== null){ 
-                    if (Object.values(o.negotiaition).length != 0) {
+                    if (Object.values(o.negotiaition).length !== 0) {
                         result = o.negotiaition.result
-                        if(result == 'S'){result = '0'} //'موفق ها'
-                        if(result == 'U'){result = '1'} //'نا موفق ها'
-                        if(result == 'C'){result = '2'} //'نیاز به تماس ها'
-                        if(result == 'N'){result = '3'} //'نیاز به پیگیری ها'
+                        if(result === 'S'){result = '0'} //'موفق ها'
+                        if(result === 'U'){result = '1'} //'نا موفق ها'
+                        if(result === 'C'){result = '2'} //'نیاز به تماس ها'
+                        if(result === 'N'){result = '3'} //'نیاز به پیگیری ها'
                     }
                 }
                 
@@ -629,6 +639,7 @@ export default function apis({Axios,getState}){
                 return true
             }
             catch(err){
+                console.log('enseraf', err);
                 return 'خطایی پیش آمده'
             }
 
@@ -666,10 +677,10 @@ export default function apis({Axios,getState}){
             // ("C","call needed"), #نیاز به تماس
             // ("N","need to follow up"), # نیاز به پیگیری
             // ("U","unsuccesfull"),
-            if(model.natije_mozakere == "0"){result = "S"} //موفقیت آمیز
-            if(model.natije_mozakere == "1"){result = "U"} // ناموفق
-            if(model.natije_mozakere == "2"){result = "N"} // نیاز به پیگیری
-            if(model.natije_mozakere == "3"){result = "C"} // نیاز به تماس
+            if(model.natije_mozakere === "0"){result = "S"} //موفقیت آمیز
+            if(model.natije_mozakere === "1"){result = "U"} // ناموفق
+            if(model.natije_mozakere === "2"){result = "N"} // نیاز به پیگیری
+            if(model.natije_mozakere === "3"){result = "C"} // نیاز به تماس
             let apiBody = {
                 person: model.person,
                 guest: model.guest,
@@ -686,6 +697,7 @@ export default function apis({Axios,getState}){
                 res = await Axios.post(url, apiBody)
             }
             catch(err){
+                console.log('sabte_mozakere', err);
                 return 'خطا در ثبت مذاکره'
             }
             return true
@@ -694,10 +706,10 @@ export default function apis({Axios,getState}){
             let res;
             let result
             let url = `${startNegotiation}`
-            if(obj.form.model.natije_mozakere == "0"){result = "S"} //موفقیت آمیز
-            else if(obj.form.model.natije_mozakere == "1"){result = "U"} // ناموفق
-            else if(obj.form.model.natije_mozakere == "2"){result = "N"} // نیاز به پیگیری
-            else if(obj.form.model.natije_mozakere == "3"){result = "C"} // نیاز به تماس
+            if(obj.form.model.natije_mozakere === "0"){result = "S"} //موفقیت آمیز
+            else if(obj.form.model.natije_mozakere === "1"){result = "U"} // ناموفق
+            else if(obj.form.model.natije_mozakere === "2"){result = "N"} // نیاز به پیگیری
+            else if(obj.form.model.natije_mozakere === "3"){result = "C"} // نیاز به تماس
             let apiBody = {
                 person: obj.person_id,
                 guest: obj.guest_id,
@@ -715,9 +727,10 @@ export default function apis({Axios,getState}){
             catch(err){
                 //todo error handling
                 // obj.form.model = []
+                console.log('shorooe_mozakere', err)
                 return []
             }
-            if(res.data.isSuccess == true) {
+            if(res.data.isSuccess === true) {
                 obj.form.model = res.data.results.form_data
                 obj.negotiation_id = res.data.results.negotiation_id
                 obj.form.model.negotiation_id = res.data.results.negotiation_id
