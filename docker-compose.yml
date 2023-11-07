@@ -2,15 +2,16 @@ version: "3.3"
 
 services:
   app:
-    container_name: questionary_front_ham
+    container_name: negotiation_front
     build:
       context: .
       dockerfile: Dockerfile
       #target: development
     volumes:
-      - './src:/app/src'
-      - '/app/node_modules'
+     - './src:/app/src'
+     - '/app/node_modules'
     ports:
       - 3004:3000
     environment:
-      - BACKEND_URL=http://192.168.10.51:8077/
+      - NODE_ENV=production
+    #  - BACKEND_URL=http://192.168.10.51:8076/

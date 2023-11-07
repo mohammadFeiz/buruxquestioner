@@ -1,0 +1,62 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  work: '$(Build.SourceDirectory)/app'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    timeoutInMinutes: 0 
+    displayName: Build
+    pool:
+      name: ppool
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'docker-hub'
+        repository: 'BRX/QuestionaryFrontend'
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        buildContext: './'
+        tags: '$(tag)'
+
+
+
+- stage: Deploy
+  displayName: Deploy image
+  jobs:
+  - job: Deploy
+    timeoutInMinutes: 0
+    displayName: Deploy
+    pool:
+      name: ppool
+    steps:
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: 'docker-lab'
+        sourceFolder: './'
+        contents: '**'
+        targetFolder: '/home/exhabition/questionary-front'
+        readyTimeout: '20000'
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'docker-lab'
+        runOptions: 'commands'
+        commands: |
+          docker-compose -f /home/exhabition/exhabition-front/docker-compose.yml pull
+          docker-compose -f /home/exhabition/exhabition-front/docker-compose.yml down
+          docker-compose -f /home/exhabition/exhabition-front/docker-compose.yml up -d --force-recreate
+        failOnStdErr: false
+        readyTimeout: '20000'
+         

@@ -649,12 +649,15 @@ class Priority extends Component{
     }
     render(){
         let {items} = this.props;
-        return (
-            <RVD
-                layout={{
-                    column:items.map((o,i)=>this.box_layout(o,i))
-                }}
-            />
-        )
+        if (items) {
+            return (
+                <RVD
+                    layout={{
+                        column:items.map((o,i)=>this.box_layout(o,i))
+                    }}
+                />
+            )
+        }
+        
     }
 }
