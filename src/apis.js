@@ -143,8 +143,8 @@ export default function apis({ Axios, getState }) {
       let attendance, user;
       let current_date = getCurrentDate();
 
-      // let url = `${base_url}/api/attendance_tracker/negotiations?negotiator_username=${negotiator_username}&created_at=${current_date}&negotiation_status=1,2`;
-      let url = `${base_url}/api/attendance_tracker/negotiations?negotiator_username=${negotiator_username}&negotiation_status=1,2`;
+      let url = `${base_url}/api/attendance_tracker/negotiations?negotiator_username=${negotiator_username}&created_at=${current_date}&negotiation_status=1,2`;
+      // let url = `${base_url}/api/attendance_tracker/negotiations?negotiator_username=${negotiator_username}&negotiation_status=1,2`;
       let response_data = await Axios.get(url);
       result = response_data.data.data.map((o) => {
         attendance = o.attendance_info;
@@ -197,7 +197,6 @@ export default function apis({ Axios, getState }) {
           negotiation_id: o.id,
         };
       });
-      // debugger
       return result;
 
       // return [
@@ -874,13 +873,13 @@ export default function apis({ Axios, getState }) {
     },
 
     async sabte_mozakere({ mode, type, model }) {
+      let registrar_username = getState().username;
       //mode: 'submit' | 'draft'
       //type: '1' | '2'
       //model: اطلاعات پر شده در فرم
       //return 'خطایی پیش آمده'
       let url, body, res, result, response_data;
-      
-      let sd = model
+
       url = `${base_url}/api/attendance_tracker/negotiations_form/register/${model.id}`
       if (model.natije_mozakere === "0") {result = "1";} //موفقیت آمیز
       if (model.natije_mozakere === "1") {result = "4";} // ناموفق
@@ -890,8 +889,8 @@ export default function apis({ Axios, getState }) {
         form_data: model,
         saved_as: mode,
         result: result,
+        registrar_username: registrar_username,
       }
-      debugger
       try {
         response_data = await Axios.post(url, body)
         return true
@@ -933,12 +932,17 @@ export default function apis({ Axios, getState }) {
 
     // ************************************
     async shorooe_mozakere(obj) {
-
-      let url, response_data, data;
+      let registrar_username = getState().username;
+      let url, response_data, data, body;
       url = `${base_url}/api/attendance_tracker/negotiations/start/${obj.id}` 
+      
+      body = {
+        registrar_username: registrar_username
+      }
 
       try {
-        response_data = await Axios.post(url)
+        response_data = await Axios.post(url, body)
+
         if (response_data.data.is_success === true) {
           data = response_data.data.data
           obj.form.model = data.form.form_data;
