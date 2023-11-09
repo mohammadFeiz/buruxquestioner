@@ -3,11 +3,11 @@ import { data } from "jquery";
 
 // const base_url = `http://manage.paydarnoor.ir`;
 // const base_url = "registerapi.davat.app";
-// const base_url = "http://localhost:8000";
+const base_url = "http://localhost:8000";
 // const base_url = "http://192.168.118.1:8000";
 // const base_url = "http://192.168.10.50:8054";
 // const base_url = "https://exhibition.bbeta.ir";
-const base_url = "https://exhibitiontest.bbeta.ir";
+// const base_url = "https://exhibitiontest.bbeta.ir";
 // const base_url = "http://91.107.159.118:8054";
 
 const searchPersonUrl = `${base_url}/person/v1/person`; // ادرس جستجوی مذاکره کننده
