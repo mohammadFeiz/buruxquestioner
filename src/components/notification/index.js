@@ -10,10 +10,10 @@ export default class Notification extends Component{
         this.state = {items:[]}
     }
     async componentDidMount(){
-        let {services,setConfirm} = this.context;
+        let {services,rsa} = this.context;
         let res = await services({type:'notifications'});
         if(typeof res === 'string'){
-            setConfirm({type:'error',text:'دریافت اعلان ها با خطا مواجه شد',subtext:res})
+            rsa.addAlert({type:'error',text:'دریافت اعلان ها با خطا مواجه شد',subtext:res})
         }
         else if(Array.isArray(res)){
             this.setState({items:res})
@@ -26,12 +26,12 @@ export default class Notification extends Component{
         
     }
     render(){
-        let {services,setConfirm} = this.context;
+        let {services,rsa} = this.context;
         let {items} = this.state;
         return (
             <RVD
                 layout={{
-                    scroll:'v',
+                    className:'ofy-auto',
                     style:{background:'#fff',width:'100%',height:'100%'},
                     column:items.map((o)=>{
                         return {
@@ -41,7 +41,7 @@ export default class Notification extends Component{
                                     this.setState({items:this.state.items.filter((item)=>item.id !== o.id)})
                                 }
                                 else if(typeof res === 'string'){
-                                    setConfirm({type:'error',text:'حذف اعلان با خطا مواجه شد',subtext:res})
+                                    rsa.addAlert({type:'error',text:'حذف اعلان با خطا مواجه شد',subtext:res})
                                 }
                             }}/>
                         }

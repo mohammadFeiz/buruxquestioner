@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
 import AppContext from './../../app-context';
 import SearchBox from './../../components/search-box/index';
-import AIOButton from 'aio-button';
+import AIOInput from './../../npm/aio-input/aio-input';
 import {Icon} from '@mdi/react';
 import MozakereCard from '../mozakere-card';
 import {mdiFilterVariant} from '@mdi/js';
@@ -63,6 +63,7 @@ export default class Mozakerat extends Component{
             'tarikhche':'tarikhche'
         }[mode]
         let items = await services({type:apiType});
+        debugger
         this.setState({items})
     }
     componentDidMount(){
@@ -79,7 +80,7 @@ export default class Mozakerat extends Component{
                 {
                     show:mode === 'tarikhche' && tab === 'end',
                     html:()=>(
-                        <AIOButton
+                        <AIOInput
                             type='select' caret={false}
                             style={{color:'#00B5A5',fontSize:14}}
                             options={results}
@@ -131,7 +132,7 @@ export default class Mozakerat extends Component{
                 },
                 this.tabs_layout(),
                 {
-                    flex:1,scroll:'v',gap:12,
+                    flex:1,className:'ofy-auto',gap:12,
                     column:filteredItems.map((o)=>{
                         return {
                             html:(
@@ -172,7 +173,7 @@ export default class Mozakerat extends Component{
                             else if(status === '4'){rejected++}
                         }
                         return (
-                            <AIOButton
+                            <AIOInput
                                 type='tabs'
                                 className='mozakere-tabs'
                                 options={[

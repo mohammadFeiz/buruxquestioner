@@ -1,20 +1,20 @@
 import React,{Component} from "react";
-import RSA from 'react-super-app';
+import RSA from './npm/react-super-app/react-super-app';
 import Mozakerat from "./components/mozakerat/index";
 import AppContext from "./app-context";
 import AIOService from 'aio-service';
 import {Icon} from '@mdi/react';
-import {mdiBell,mdiThumbUpOutline,mdiThumbDownOutline,mdiPhone,mdiStarOutline,mdiHistory,mdiCheckbook} from '@mdi/js';
+import {mdiBell,mdiThumbUpOutline,mdiThumbDownOutline,mdiPhone,mdiStarOutline,mdiHistory,mdiCheckbook, mdiAccount} from '@mdi/js';
 import RVD from 'react-virtual-dom';
 import Notification from './components/notification/index';
 import apis from './apis';
 import headerSrc from './images/header.png';
 import titleSrc from './images/title.png';
-import AIOButton from 'aio-button';
+import AIOInput from './npm/aio-input/aio-input';
 import RKS from 'react-keycloak-spa';
 import AIOLoading from 'aio-loading';
 import "./index.css";
-
+AIOInput.defaults.validate = true;
 export default class App extends Component{
   render(){
     return (
@@ -48,6 +48,33 @@ class Main extends Component {
     }
     
     this.state = {
+      rsa:new RSA({
+        id:'buruxnegotiator',
+        rtl:true,
+        nav:{
+          id:'mize_kar',
+          items:[
+            {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={0.7}/>},
+            {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={0.7}/>}
+          ],
+          header:()=>{
+            return (
+              <RVD
+                layout={{
+                  column:[
+                    {size:24},
+                    {html:'BURUX',align:'h',className:'bold h-36',style:{color:'orange',fontSize:30}},
+                    {html:'Negotiator',align:'h',style:{color:'#fff',fontSize:14,letterSpacing:3}},
+                    {size:24}
+                  ]
+                }}
+              />
+            )
+          }
+        },
+        headerContent:()=><Header/>,
+        body:({navId})=><Mozakerat key={navId} mode={navId}/>
+      }),
       access,
       client_id,
       roles: keycloak.tokenParsed.resource_access.exhibition.roles,
@@ -74,10 +101,10 @@ class Main extends Component {
     }
   }
   async get_mozakere_konandegan(){
-    let {services,setConfirm} = this.state;
+    let {services,rsa} = this.state;
     let res = await services({type:'mozakere_konandegan'});
     if(typeof res === 'string'){
-      setConfirm({type:'error',text:'دریافت لیست مذاکره کنندگان با خطا مواجه شد',subtext:res})
+      rsa.addAlert({type:'error',text:'دریافت لیست مذاکره کنندگان با خطا مواجه شد',subtext:res})
     }
     else {
       this.setState({mozakere_konandegan:res})
@@ -91,88 +118,34 @@ class Main extends Component {
       ...this.state
     }
   }
-  header_layout(){
-    return {
-      size:60,
-      html:(
-        <>
-          <img src={headerSrc} width='100%'/>
-          <img src={titleSrc} width='140' height='24' style={{position:'absolute',right:12,top:24}}/>
-        </>
-      )
-    }
-  }
-  body_layout(){
-    let navs = [
-      {text:'میز کار',id:'mize_kar',icon:()=><Icon path={mdiCheckbook } size={1}/>},
-      {text:'تاریخچه',id:'tarikhche',icon:()=><Icon path={mdiHistory} size={1}/>}
-    ]
-    let {name, logout} = this.state
-    return {
-      flex:1,
-      html:(
-        <RSA
-          style={{height:'calc(100% - 60px)',top:60}}
-          rtl={true}
-          navs={navs}
-          header={({addPopup})=><Header addPopup={addPopup} name = {name} logout = {logout} />}
-          body={({navId})=><Mozakerat key={navId} mode={navId}/>}
-          getActions={(obj)=>{this.state = {...this.state,...obj}; this.setState(obj)}}
-        />
-      )
-    }
-  }
   render(){
-    let {name, access} = this.state;
-    // if(access === false){
-    //   return (
-    //     <div 
-    //       style={{
-    //         position:'fixed',width:'100%',height:'100%',left:0,top:0,fontWeight:'bold',fontSize:18,
-    //         display:'flex',alignItems:'center',justifyContent:'center'
-    //       }}
-    //     >'شما دسترسی به این اپلیکیشن ندارید'</div>        
-    //   )
-    // }
+    let {rsa} = this.state
     return (
       <AppContext.Provider value={this.getContext()}>
-        <RVD layout={{column:[this.header_layout(),this.body_layout()]}}/>
-        <Loading/>
+        {rsa.render()}
       </AppContext.Provider>   
     );
   }
 }
 class Header extends Component{
+  static contextType = AppContext;
   render(){
-    let {addPopup, name, logout} = this.props;
+    let {rsa, name, logout} = this.context;
     return (
       <RVD
         layout={{
           gap: 6,
           row:[
             {align: 'vh', html:<Icon  path={mdiBell} size={0.7}/>,attrs:{
-              onClick:()=>{
-                addPopup({
-                  style:{background:'#fff'},title:'اعلان ها',type:'fullscreen',
-                  content:()=><Notification/>
-                })
-              }
+              onClick:()=>rsa.addModal({header:{title:'اعلان ها'},body:{render:()=><Notification/>}})
             }},
             {
               html: (
-                <AIOButton 
-                  type='select'
-                  text={name}
-                  options={[
-                    {text:'خروج از حساب کاربری' ,value:'logout'}
-                  ]}
-                  onChange={
-                    (value)=>{
-                      if (value === 'logout'){
-                        logout()
-                      }
-                    }
-                  }
+                <AIOInput 
+                  before={<Icon path={mdiAccount} size={.8}/>}
+                  type='select' text={name}
+                  options={[{text:'خروج از حساب کاربری' ,value:'logout'}]}
+                  onChange={(value)=>{if (value === 'logout'){logout()}}}
                 />
               ), align: 'v'
             }
@@ -202,26 +175,3 @@ class Result extends Component{
 }
 
 
-class Loading extends Component{
-  render(){
-    return (
-      <div className='loading' style={{position:'fixed',left:0,top:0,width:'100%',height:'100%',zIndex:1000000000000000000000000,display:'none',alignItems:'center',justifyContent:'center'}}>
-        <div className='loading-box'>
-          <AIOLoading config={{
-              "name": "cubes2",
-              "count": 5,
-              "size": 60,
-              "gap": 3,
-              "thickness": [
-                  4,
-                  30
-              ],
-              "fill": "#ffffff",
-              "duration": 1.3,
-              "delay": 0.1
-          }}/>
-        </div>
-      </div>
-    )
-  }
-}

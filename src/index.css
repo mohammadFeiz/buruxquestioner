@@ -10,6 +10,15 @@ button{
   justify-content: center;
   align-items: center;
 }
+.rsa-navigation{
+  background:#2d4566 !important;
+}
+.rsa-toggle-icon{
+  display: none !important;
+}
+.rsa-navigation-item{
+  font-size:14px !important;
+}
 .page{
   padding:12px;
   background:#f2f2f2;

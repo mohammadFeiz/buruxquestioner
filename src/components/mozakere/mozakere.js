@@ -32,26 +32,23 @@ export default class Mozakere extends Component{
         this.setState({model:JSON.parse(this.state.initModel)})
     }
     header_layout(){
-        let {removePopup} = this.context;
+        let {rsa} = this.context;
         let {form,disabled} = this.props;
         return {
-            size:48,childsProps:{align:'v'},
+            size:48,
             className:'padding-0-12',
             style:{borderBottom:'1px solid #ccc'},
             row:[
                 {
-                    flex:1,
-                    attrs:{
-                        onClick:()=>removePopup()
-                    },
+                    align:'v',flex:1,onClick:()=>rsa.removeModal(),
                     row:[
                         {size:24,html:<Icon path={mdiChevronRight} size={0.8}/>,align:'vh'},
                         {html:'بستن',className:'bold'}
                     ]
                 },
-                {html:form.title,className:'size16 bold'},
+                {align:'v',html:form.title,className:'size16 bold'},
                 {
-                    flex:1,
+                    align:'v',flex:1,
                     row:[
                         {flex:1},
                         {html:<Icon path={mdiPrinter} size={1}/>,attrs:{onClick:()=>this.print()}},
@@ -65,20 +62,19 @@ export default class Mozakere extends Component{
     details_layout(){
         let {name,city,mobile,activityZone,company,phone,cardCode} = this.props;
         return {
-            childsProps:{size:30,align:'v'},
             className:'padding-12',
             style:{
                 borderTop:'1px solid #ccc',
                 borderBottom:'1px solid #ccc',
             },
             column:[
-                {row:[{html:'نام و نام خانوادگی :'},{html:name}]},
-                {row:[{html:'شهر :'},{html:city}]},
-                {row:[{html:'شماره همراه :'},{html:mobile}]},
-                {row:[{html:'حوزه فعالیت :'},{html:activityZone}]},
-                {row:[{html:'شرکت/فروشگاه :'},{html:company}]},
-                {row:[{html:'شماره ثابت :'},{html:phone}]},
-                {row:[{html:'کارت کد :'},{html:cardCode}]}
+                {size:30,align:'v',row:[{html:'نام و نام خانوادگی :'},{html:name}]},
+                {size:30,align:'v',row:[{html:'شهر :'},{html:city}]},
+                {size:30,align:'v',row:[{html:'شماره همراه :'},{html:mobile}]},
+                {size:30,align:'v',row:[{html:'حوزه فعالیت :'},{html:activityZone}]},
+                {size:30,align:'v',row:[{html:'شرکت/فروشگاه :'},{html:company}]},
+                {size:30,align:'v',row:[{html:'شماره ثابت :'},{html:phone}]},
+                {size:30,align:'v',row:[{html:'کارت کد :'},{html:cardCode}]}
             ]
         }
     }
@@ -123,19 +119,20 @@ export default class Mozakere extends Component{
     }
     form_layout(){
         let {form} = this.props;
+        debugger
         return this['form_layout' + form.type]()
     }
     async submit(mode){
-        let {services,setConfirm,removePopup} = this.context;
+        let {services,rsa} = this.context;
         let {form} = this.props;
         let {model} = this.state;
         let res = await services({type:'sabte_mozakere',parameter:{mode,type:form.type,model}})
         if(typeof res === 'string'){
-            setConfirm({type:'error',text:mode === 'submit'?'ثبت فرم با خطا روبرو شد':'پیشنویس فرم با خطا روبرو شد',subtext:res})
+            rsa.addAlert({type:'error',text:mode === 'submit'?'ثبت فرم با خطا روبرو شد':'پیشنویس فرم با خطا روبرو شد',subtext:res})
         }
         else if(res === true){
-            setConfirm({type:'success',text:mode === 'submit'?'فرم با موفقیت ثبت شد':'فرم با موفقیت پیشنویس شد'})
-            removePopup()
+            rsa.addAlert({type:'success',text:mode === 'submit'?'فرم با موفقیت ثبت شد':'فرم با موفقیت پیشنویس شد'})
+            rsa.removeModal()
         }
     }
     footer_layout(){
@@ -156,12 +153,11 @@ export default class Mozakere extends Component{
             <RVD
                 layout={{
                     style:{background:'#fff',height:'90%',maxWidth:560,borderRadius:16},
-                    scroll:'v',
-                    className:'size12 mozakere-form',
+                    className:'size12 mozakere-form ofy-auto',
                     column:[
                         this.header_layout(),
                         {
-                            flex:1,scroll:'v',
+                            flex:1,className:'ofy-auto',
                             column:[
                                 this.details_layout(),
                                 this.form_layout(),

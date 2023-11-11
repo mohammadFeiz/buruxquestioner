@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
-import AIOButton from 'aio-button';
+import AIOInput from 'aio-button';
 import AppContext from '../../app-context';
 import './index.css';
 export default class VirayesheMozakere extends Component{
@@ -77,15 +77,14 @@ export default class VirayesheMozakere extends Component{
         let {mozakere_konande} = this.state;
         return {
             html:(
-                <AIOButton
+                <AIOInput
                     type='select'
-                    popupWidth='fit'
+                    popover={{fitHorizontal:true,attrs:{className:'mozakere-konande-popover'}}}
                     className='mozakere-konande-select'
                     options={mozakere_konandegan}
                     optionText={(o)=>getText(o)}
                     optionValue='option.id'
                     optionStyle='{color:"#fff"}'
-                    popupAttrs={{className:'mozakere-konande-popover'}}
                     text={mozakere_konande === false?'جستجوی مذاکره کننده':getText(mozakere_konandegan.find((o)=>o.id === mozakere_konande))}
                     onChange={(mozakere_konande)=>this.setState({mozakere_konande})}
                 />
@@ -131,7 +130,7 @@ export default class VirayesheMozakere extends Component{
         
     }
     action_layout(){
-        let {services,removePopup,mozakere_konandegan,setConfirm} = this.context;
+        let {services,rsa,mozakere_konandegan} = this.context;
         let {type,object,onRemove} = this.props;
         let {mozakere_konande,description} = this.state;
         let canSubmit = false,onClick = ()=>{};
@@ -141,12 +140,12 @@ export default class VirayesheMozakere extends Component{
                 let obj = mozakere_konandegan.find((o)=>o.id === mozakere_konande)
                 let res = await services({type:'erja',parameter:{object,mozakere_konande: obj,description}});
                 if(res === true){
-                    removePopup(); 
+                    rsa.removeModal(); 
                     onRemove(); 
-                    setConfirm({type:'success',text:`ارجاع به ${obj.name} انجام شد`})
+                    rsa.addAlert({type:'success',text:`ارجاع به ${obj.name} انجام شد`})
                 }
                 else if(typeof res === 'string'){
-                    setConfirm({type:'error',text:`ارجاع به ${obj.name} انجام نشد`,subtext:res})
+                    rsa.addAlert({type:'error',text:`ارجاع به ${obj.name} انجام نشد`,subtext:res})
                 }
             }    
         }
@@ -155,20 +154,20 @@ export default class VirayesheMozakere extends Component{
             onClick = async ()=>{
                 let res = await services({type:'enseraf',parameter:{object,description}});
                 if(res === true){
-                    removePopup(); 
+                    rsa.removeModal(); 
                     onRemove(); 
-                    setConfirm({type:'success',text:`انصراف انجام شد`})
+                    rsa.addAlert({type:'success',text:`انصراف انجام شد`})
                 }
                 else if(typeof res === 'string'){
-                    setConfirm({type:'error',text:`انصراف انجام نشد`,subtext:res})
+                    rsa.addAlert({type:'error',text:`انصراف انجام نشد`,subtext:res})
                 }
             }
         } 
         return {
             row:[
                 {flex:1},
-                {show:canSubmit,html:()=>this.getSvg('submit'),style:{margin:'0 24px'},attrs:{onClick}},
-                {html:this.getSvg('close'),style:{margin:'0 24px'},attrs:{onClick:()=>removePopup()}},
+                {show:canSubmit,html:()=>this.getSvg('submit'),style:{margin:'0 24px'},onClick},
+                {html:this.getSvg('close'),style:{margin:'0 24px'},onClick:()=>rsa.removeModal()},
                 {flex:1}
             ]
         }
