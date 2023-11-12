@@ -10,23 +10,17 @@ export default class Notification extends Component{
         this.state = {items:[]}
     }
     async componentDidMount(){
-        let {services,rsa} = this.context;
-        let res = await services({type:'notifications'});
+        let {apis,rsa} = this.context;
+        let res = await apis.request({
+            type:'notifications',description:'دریافت اعلان ها',
+            onSuccess:(items)=>this.setState({items})
+        });
         if(typeof res === 'string'){
             rsa.addAlert({type:'error',text:'دریافت اعلان ها با خطا مواجه شد',subtext:res})
         }
-        else if(Array.isArray(res)){
-            this.setState({items:res})
-        }
-        else {
-            alert(
-                'خطای دولوپمنت . لیست اعلان ها باید آرایه باشد'
-            )
-        }
-        
     }
     render(){
-        let {services,rsa} = this.context;
+        let {apis} = this.context;
         let {items} = this.state;
         return (
             <RVD
@@ -35,14 +29,11 @@ export default class Notification extends Component{
                     style:{background:'#fff',width:'100%',height:'100%'},
                     column:items.map((o)=>{
                         return {
-                            html:<NotificationCard key={o.id} object={o} onRemove={async ()=>{
-                                let res = await services({type:'removeNotification',parameter:{id:o.id}});
-                                if(res === true){
-                                    this.setState({items:this.state.items.filter((item)=>item.id !== o.id)})
-                                }
-                                else if(typeof res === 'string'){
-                                    rsa.addAlert({type:'error',text:'حذف اعلان با خطا مواجه شد',subtext:res})
-                                }
+                            html:<NotificationCard key={o.id} object={o} onRemove={()=>{
+                                apis.request({
+                                    api:'removeNotification',description:'حذف اعلان',parameter:{id:o.id},
+                                    onSuccess:()=>this.setState({items:this.state.items.filter((item)=>item.id !== o.id)})
+                                });
                             }}/>
                         }
                     })

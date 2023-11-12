@@ -7,7 +7,7 @@ import {Icon} from '@mdi/react';
 import {mdiBell,mdiThumbUpOutline,mdiThumbDownOutline,mdiPhone,mdiStarOutline,mdiHistory,mdiCheckbook, mdiAccount} from '@mdi/js';
 import RVD from 'react-virtual-dom';
 import Notification from './components/notification/index';
-import apis from './apis';
+import getApiFunctions from './apis';
 import headerSrc from './images/header.png';
 import titleSrc from './images/title.png';
 import AIOInput from './npm/aio-input/aio-input';
@@ -82,7 +82,11 @@ class Main extends Component {
       username:keycloak.tokenParsed.username,
       token: keycloak.token,
       logout:keycloak.logout,
-      services:AIOService({getState:()=>this.state,apis}),
+      apis:new AIOService({
+        id:'buruxnegotiator',
+        getApiFunctions,
+        token:keycloak.token
+      }),
       mozakereStatuses:[
         {value:'0',text:'در انتظار مذاکره',color:'#108ABE'},
         {value:'1',text:'در حال مذاکره',color:'#CD9100'},
@@ -101,14 +105,11 @@ class Main extends Component {
     }
   }
   async get_mozakere_konandegan(){
-    let {services,rsa} = this.state;
-    let res = await services({type:'mozakere_konandegan'});
-    if(typeof res === 'string'){
-      rsa.addAlert({type:'error',text:'دریافت لیست مذاکره کنندگان با خطا مواجه شد',subtext:res})
-    }
-    else {
-      this.setState({mozakere_konandegan:res})
-    }
+    let {apis} = this.state;
+    apis.request({
+      api:'mozakere_konandegan',description:'دریافت لیست مذاکره کنندگان',def:[],
+      onSuccess:(mozakere_konandegan)=>this.setState({mozakere_konandegan})
+    });
   }
   componentDidMount(){
     this.get_mozakere_konandegan();

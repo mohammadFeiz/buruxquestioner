@@ -35,7 +35,7 @@ function getCurrentDate() {
   return `${year}-${month}-${day}`;
 }
 
-export default function apis({ Axios, getState }) {
+export default function getApiFunctions({ Axios, getState }) {
   //status:'0',text:'در انتظار مذاکره'
   //status:'1',text:'در حال مذاکره'
   //status:'2',text:'پایان مذاکره'
@@ -95,42 +95,21 @@ export default function apis({ Axios, getState }) {
 
   return {
     // **********لیست مذاکره کنندگان *****************
-    async mozakere_konandegan() {
-      let client_id = getState().client_id;
-      let negotiator_username = getState().username;
-      let result;
-      let url = `${base_url}/api/users/personnels`;
-      try {
-        let response_data = await Axios.get(url);
-        result = response_data.data.data.map((o) => {
-          return {
-            id: o.id,
-            table: o.table,
-            city: o.province_name,
-            name: `${o.first_name} ${o.last_name}`,
-            src: `${base_url}${o.profile_photo_url}`,
-            status: o.personnel_status_desc,
-            username: o.username,
-          };
-        });
-        result = result.filter((o) => {
-          //فیلتر خود آن مذاکره کننده
-          return o.username !== negotiator_username;
-        });
-
-        return result;
-      } catch (err) {
-        debugger;
-        return "خطا در دریافت لیست مذاکره کنندگان";
-      }
-
-      // return [
-      //     {name:'علی قربانی',city:'تهران',table:'2',id:'0'},
-      //     {name:'علی قربانی',city:'تهران',table:'2',id:'1'},
-      //     {name:'علی قربانی',city:'تهران',table:'2',id:'2'},
-      //     {name:'علی قربانی',city:'تهران',table:'2',id:'3'},
-      //     {name:'علی قربانی',city:'تهران',table:'2',id:'4'}
-      // ]
+    async mozakere_konandegan(parameter,{client_id,username}) {
+      let response = await Axios.get(`${base_url}/api/users/personnels`);
+      let result = response.data.data.map((o) => {
+        return {
+          id: o.id,
+          table: o.table,
+          city: o.province_name,
+          name: `${o.first_name} ${o.last_name}`,
+          src: `${base_url}${o.profile_photo_url}`,
+          status: o.personnel_status_desc,
+          username: o.username,
+        };
+      });
+      result = result.filter((o) => o.username !== username);
+      return {response,result};
     },
 
     // **********لیست مذاکره های من *****************

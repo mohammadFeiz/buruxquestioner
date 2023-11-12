@@ -130,37 +130,32 @@ export default class VirayesheMozakere extends Component{
         
     }
     action_layout(){
-        let {services,rsa,mozakere_konandegan} = this.context;
+        let {apis,rsa,mozakere_konandegan} = this.context;
         let {type,object,onRemove} = this.props;
         let {mozakere_konande,description} = this.state;
         let canSubmit = false,onClick = ()=>{};
         if(type === 'erja'){
             canSubmit = mozakere_konande !== false;
-            onClick = async ()=>{
+            onClick = ()=>{
                 let obj = mozakere_konandegan.find((o)=>o.id === mozakere_konande)
-                let res = await services({type:'erja',parameter:{object,mozakere_konande: obj,description}});
-                if(res === true){
-                    rsa.removeModal(); 
-                    onRemove(); 
-                    rsa.addAlert({type:'success',text:`ارجاع به ${obj.name} انجام شد`})
-                }
-                else if(typeof res === 'string'){
-                    rsa.addAlert({type:'error',text:`ارجاع به ${obj.name} انجام نشد`,subtext:res})
-                }
+                apis.request({
+                    api:'erja',description:'ارجاع',parameter:{object,mozakere_konande: obj,description},
+                    onSuccess:()=>{rsa.removeModal(); onRemove();},
+                    message:{success:`ارجاع به ${obj.name} انجام شد`}
+                });
             }    
         }
         else if(type === 'enseraf'){
             canSubmit = description.length >= 10    
-            onClick = async ()=>{
-                let res = await services({type:'enseraf',parameter:{object,description}});
-                if(res === true){
-                    rsa.removeModal(); 
-                    onRemove(); 
-                    rsa.addAlert({type:'success',text:`انصراف انجام شد`})
-                }
-                else if(typeof res === 'string'){
-                    rsa.addAlert({type:'error',text:`انصراف انجام نشد`,subtext:res})
-                }
+            onClick = ()=>{
+                apis.request({
+                    api:'enseraf',description:'انصراف',parameter:{object,description},
+                    onSuccess:()=>{
+                        rsa.removeModal(); 
+                        onRemove(); 
+                    },
+                    message:{success:true}
+                });
             }
         } 
         return {

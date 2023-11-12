@@ -155,7 +155,7 @@ export default class MozakereCard extends Component {
     }
     action_layout(status, mode) {
         if (mode !== 'mize_kar') { return false }
-        let { rsa, services } = this.context;
+        let { rsa, apis } = this.context;
         let text = {
             '0': 'شروع مذاکره',
             '1': 'ادامه مذاکره',
@@ -163,15 +163,17 @@ export default class MozakereCard extends Component {
 
         return {
             align: 'v', className: 'color783C8C size12',
-            attrs: {
-                onClick: async () => {
-                    let { object } = this.props;
-                    await services({ type: 'shorooe_mozakere', parameter: object })
-                    rsa.addModal({
-                        header: false,
-                        body:{render: () => <Mozakere {...object} />}
-                    })
-                }
+            onClick: async () => {
+                let { object } = this.props;
+                apis.request({ 
+                    api: 'shorooe_mozakere', parameter: object,description:'شروع مذاکره' ,
+                    onSuccess:()=>{
+                        rsa.addModal({
+                            header: false,
+                            body:{render: () => <Mozakere {...object} />}
+                        })
+                    }
+                })
             },
             row: [
                 { html: text },

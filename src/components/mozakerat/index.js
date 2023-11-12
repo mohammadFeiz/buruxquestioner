@@ -30,7 +30,7 @@ Mozakerat
 -------------------------------------------------------------------------------
  context    | type             | description
 -------------------------------------------------------------------------------
- services   | function         | تابع ارتباط با سرور
+ apis   | function         | تابع ارتباط با سرور
  results    | array of objects | دیکشنری انواع نتیجه
  getPopups  | function         | برای تشخیص اینکه آیا پاپاپی باز است یا خیر که اگر باز بود این کامپوننت محو شود
 -------------------------------------------------------------------------------
@@ -55,16 +55,18 @@ export default class Mozakerat extends Component{
         super(props);
         this.state = {searchValue:'',items:[],tab:'all',filterResult:'all'}
     }
-    async fetchData(){
-        let {services} = this.context;
+    fetchData(){
+        let {apis} = this.context;
         let {mode} = this.props;
-        let apiType = {
+        let api = {
             'mize_kar':'mozakere_haye_man',
             'tarikhche':'tarikhche'
         }[mode]
-        let items = await services({type:apiType});
-        debugger
-        this.setState({items})
+        let description = {
+            'mize_kar':'دریافت لیست مذاکره های من',
+            'tarikhche':'دریافت تاریخچه'
+        }[mode]
+        apis.request({api,description,onSuccess:(items)=>this.setState({items}),def:[]});
     }
     componentDidMount(){
         this.fetchData()

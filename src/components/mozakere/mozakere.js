@@ -123,17 +123,13 @@ export default class Mozakere extends Component{
         return this['form_layout' + form.type]()
     }
     async submit(mode){
-        let {services,rsa} = this.context;
+        let {apis,rsa} = this.context;
         let {form} = this.props;
         let {model} = this.state;
-        let res = await services({type:'sabte_mozakere',parameter:{mode,type:form.type,model}})
-        if(typeof res === 'string'){
-            rsa.addAlert({type:'error',text:mode === 'submit'?'ثبت فرم با خطا روبرو شد':'پیشنویس فرم با خطا روبرو شد',subtext:res})
-        }
-        else if(res === true){
-            rsa.addAlert({type:'success',text:mode === 'submit'?'فرم با موفقیت ثبت شد':'فرم با موفقیت پیشنویس شد'})
-            rsa.removeModal()
-        }
+        apis.request({
+            api:'sabte_mozakere',description:mode === 'submit'?'ثبت مذاکره':'پیشنویس مذاکره',parameter:{mode,type:form.type,model},
+            onSuccess:()=>rsa.removeModal(),message:{success:true}
+        })
     }
     footer_layout(){
         let {model} = this.state;

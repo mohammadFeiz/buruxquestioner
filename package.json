@@ -12,7 +12,7 @@
     "aio-form-react": "^4.0.4",
     "aio-loading": "^1.0.0",
     "aio-popup": "^3.0.1",
-    "aio-service": "^1.0.0",
+    "aio-service": "^6.0.0",
     "aio-storage": "^4.0.0",
     "jquery": "^3.6.1",
     "react": "^18.2.0",
