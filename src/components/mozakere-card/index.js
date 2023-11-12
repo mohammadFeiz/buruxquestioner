@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RVD from 'react-virtual-dom';
-import AIOInput from 'aio-button';
+import AIOInput from './../../npm/aio-input/aio-input';
 import AppContext from '../../app-context';
 import VirayesheMozakere from '../virayeshe-mozakere';
 import { Icon } from '@mdi/react';

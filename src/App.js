@@ -103,6 +103,7 @@ class Main extends Component {
       ],
       mozakere_konandegan:[]
     }
+    this.state.apis.setProperty('getState',()=>this.state)
   }
   async get_mozakere_konandegan(){
     let {apis} = this.state;

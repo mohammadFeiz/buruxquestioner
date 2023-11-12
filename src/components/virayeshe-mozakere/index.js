@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
-import AIOInput from 'aio-button';
+import AIOInput from './../../npm/aio-input/aio-input';
 import AppContext from '../../app-context';
 import './index.css';
 export default class VirayesheMozakere extends Component{
@@ -79,8 +79,8 @@ export default class VirayesheMozakere extends Component{
             html:(
                 <AIOInput
                     type='select'
-                    popover={{fitHorizontal:true,attrs:{className:'mozakere-konande-popover'}}}
                     className='mozakere-konande-select'
+                    popover={{fitHorizontal:true,attrs:{className:'mozakere-konande-popover'}}}
                     options={mozakere_konandegan}
                     optionText={(o)=>getText(o)}
                     optionValue='option.id'

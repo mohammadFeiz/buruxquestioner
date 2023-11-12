@@ -47,8 +47,6 @@ Mozakerat
 
 **********************************/
 
-
-
 export default class Mozakerat extends Component{
     static contextType = AppContext
     constructor(props){

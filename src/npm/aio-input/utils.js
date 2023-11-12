@@ -12,7 +12,7 @@ export function getMainProperties(props,getProp,types){
     let style = p('style');
     let onClick = p('onClick',undefined,true);
     let attrs = {...p('attrs',{})};
-    let justify = {...p('justify')};
+    let justify = p('justify');
     if(className){attrs.className = className}
     if(style){attrs.style = style}
     if(onClick){attrs.onClick = onClick}
@@ -20,7 +20,6 @@ export function getMainProperties(props,getProp,types){
         props:{...props},
         value,type,rtl,loading,disabled:loading || disabled,attrs,justify,
         onChange: p('onChange',undefined,true),
-        justify: p('justify'),
         text: p('text'),
         before: p('before'),after: p('after'),subtext: p('subtext'),label: p('label'),
         className: p('className'),style: p('style')

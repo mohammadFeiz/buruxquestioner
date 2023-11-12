@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
 import Form from 'aio-form-react';
+import AIOInput from '../../npm/aio-input/aio-input';
 import {Icon} from '@mdi/react';
 import {mdiChevronRight,mdiPlusCircle,mdiDelete,mdiPrinter} from '@mdi/js';
 import AppContext from '../../app-context';
@@ -117,9 +118,34 @@ export default class Mozakere extends Component{
             )
         }
     }
+    form_layout4(){
+        let {model} = this.state;
+        let {disabled} = this.props;
+        return {
+            html:(
+                <Form4
+                    onChange={(model)=>this.setState({model})}
+                    model={model}
+                    disabled={disabled}
+                />
+            )
+        }
+    }
+    form_layout5(){
+        let {model} = this.state;
+        let {disabled} = this.props;
+        return {
+            html:(
+                <Form4
+                    onChange={(model)=>this.setState({model})}
+                    model={model}
+                    disabled={disabled}
+                />
+            )
+        }
+    }
     form_layout(){
         let {form} = this.props;
-        debugger
         return this['form_layout' + form.type]()
     }
     async submit(mode){
@@ -613,6 +639,217 @@ class Form3 extends Component{
         )
     }
 }
+
+
+class Form4 extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            ahle_kharide_online_hastid_options:['بله','خیر'],
+            che_kalahayi_ra_online_mikharid:['برقی و ابزار','دیجیتال','لباس','غذا','لوازم خانگی برقی'],
+            az_che_site_hayi_bishtar_kharid_mikonid_options:['دیجی کالا','با سلام','اسنپ'],
+            chetori_be_yek_site_etemad_mikonid_options:['ای نماد','درگاه پرداخت بانکی معتبر','تبلیغات','معرفی دوستان','سرشناس بودن سایت'],
+            nahve_pardakhte_morede_nazare_shoma_options:['درب منزل','آنلاین'],
+            avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options:['تنوع محصولات','زیبایی بصری سایت','تخفیفات','کاربری آسان'],
+            moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options:['دیجی کالا','ایمالز','ترب'],
+            bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options:['نیاز','تبلیغ'],
+            natije_mozakere_options:[
+                {value:'0',text:'موفق'},
+                {value:'1',text:'ناموفق'},
+                {value:'2',text:'نیاز به پیگیری'},
+                {value:'3',text:'نیاز به تماس'}
+            ],
+        }
+    }
+    getModel(){
+        return {
+            'ahle_kharide_online_hastid':'',
+            'che_kalahayi_ra_online_mikharid':'',
+            'che_kalahayi_ra_online_mikharid_description':'',
+            'dar_mah_chand_bar_online_kharid_mikonid':'',
+            'akharin_bar_key_kharide_online_anjam_dadid':'',
+            'az_che_site_hayi_bishtar_kharid_mikonid':'',
+            'az_che_site_hayi_bishtar_kharid_mikonid_description':'',
+            'chetori_be_yek_site_etemad_mikonid':'',
+            'chetori_be_yek_site_etemad_mikonid_description':'',
+            'hazine_ersal_ta_che_haddi_maghool_ast':'',
+            'ersale_rayegan_ta_che_had_dar_kharide_shoma_tasir_gozar_ast':'',
+            'nahve_pardakhte_morede_nazare_shoma':'',
+            'avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad':'',
+            'avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_description':'',
+            'moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand':'',
+            'moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_description':'',
+            'bar_hasbe_niaz_kharid_mikonid_ya_tabligh':'',
+        }
+    }
+    body_layout(){
+        let {
+            ahle_kharide_online_hastid_options,
+            che_kalahayi_ra_online_mikharid_options,
+            az_che_site_hayi_bishtar_kharid_mikonid_options,
+            chetori_be_yek_site_etemad_mikonid_options,
+            nahve_pardakhte_morede_nazare_shoma_options,
+            avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options,
+            moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options,
+            bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options,
+            natije_mozakere_options
+        } = this.state;
+        let {model,onChange} = this.props;
+        return {
+            html:(
+                <AIOInput
+                    type='form' lang='fa'
+                    value={model}
+                    onChange={(model)=>onChange(model)}
+                    inputs={{
+                        column:[
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ahle_kharide_online_hastid_options},label:'اهل خرید آنلاین هستید ؟',field:'value.ahle_kharide_online_hastid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:che_kalahayi_ra_online_mikharid_options,multiple:true},label:'معمولا چه کالا هایی را آنلاین می خرید ؟',field:'value.che_kalahayi_ra_online_mikharid'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.che_kalahayi_ra_online_mikharid_description'},
+                            {input:{type:'number'},label:'در ماه چند بار آنلاین خرید می کنید ؟',field:'value.dar_mah_chand_bar_online_kharid_mikonid'},
+                            {input:{type:'text'},label:'آخرین بار کی خرید آنلاین انجام دادید ؟',field:'value.akharin_bar_key_kharide_online_anjam_dadid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:az_che_site_hayi_bishtar_kharid_mikonid_options,multiple:true},label:'از چه سایت هایی بیشتر خرید می کنید ؟',field:'value.az_che_site_hayi_bishtar_kharid_mikonid'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.az_che_site_hayi_bishtar_kharid_mikonid_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chetori_be_yek_site_etemad_mikonid_options,multiple:true},label:'چطوری به یک سایت اعتماد میکنید ؟',field:'value.chetori_be_yek_site_etemad_mikonid'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.chetori_be_yek_site_etemad_mikonid_description'},
+                            {input:{type:'text'},label:'هزینه ارسال تا چه حدی معقول است ؟',field:'value.hazine_ersal_ta_che_haddi_maghool_ast'},
+                            {input:{type:'text'},label:'ارسال رایگان تا چه حد در خرید شما تاثیر گذار است ؟',field:'value.ersale_rayegan_ta_che_had_dar_kharide_shoma_tasir_gozar_ast'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:nahve_pardakhte_morede_nazare_shoma_options},label:'نحوه پرداخت مورد نظر شما ؟',field:'value.nahve_pardakhte_morede_nazare_shoma'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options},label:'اولین چیزی که در یک سایت نظر شما را جلب می کند چیست ؟',field:'value.avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options,multiple:true},label:'موقع خرید یک محصول اولین سایت هایی که چک میکنید چه سایت هایی هستند ؟',field:'value.moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options},label:'بر حسب نیاز خرید میکنید یا تبلیغ ؟',field:'value.bar_hasbe_niaz_kharid_mikonid_ya_tabligh'},
+                            {
+                                input:{type:'radio',options:natije_mozakere_options},
+                                label:'نتیجه مذاکره را چگونه ارزیابی میکنید؟',
+                                field:'value.natije_mozakere',
+                                validations:[['required']]
+                            },
+                        ]
+                    }}
+                />
+            )
+        }
+    }
+    render(){
+        return (
+            <RVD
+                layout={{
+                    column:[
+                        this.body_layout()
+                    ]
+                }}
+            />    
+        )
+    }
+}
+
+
+class Form5 extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            ahle_kharide_online_hastid_options:['بله','خیر'],
+            che_kalahayi_ra_online_mikharid:['برقی و ابزار','دیجیتال','لباس','غذا','لوازم خانگی برقی'],
+            az_che_site_hayi_bishtar_kharid_mikonid_options:['دیجی کالا','با سلام','اسنپ'],
+            chetori_be_yek_site_etemad_mikonid_options:['ای نماد','درگاه پرداخت بانکی معتبر','تبلیغات','معرفی دوستان','سرشناس بودن سایت'],
+            nahve_pardakhte_morede_nazare_shoma_options:['درب منزل','آنلاین'],
+            avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options:['تنوع محصولات','زیبایی بصری سایت','تخفیفات','کاربری آسان'],
+            moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options:['دیجی کالا','ایمالز','ترب'],
+            bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options:['نیاز','تبلیغ'],
+            natije_mozakere_options:[
+                {value:'0',text:'موفق'},
+                {value:'1',text:'ناموفق'},
+                {value:'2',text:'نیاز به پیگیری'},
+                {value:'3',text:'نیاز به تماس'}
+            ],
+        }
+    }
+    getModel(){
+        return {
+            'ahle_kharide_online_hastid':'',
+            'che_kalahayi_ra_online_mikharid':'',
+            'che_kalahayi_ra_online_mikharid_description':'',
+            'dar_mah_chand_bar_online_kharid_mikonid':'',
+            'akharin_bar_key_kharide_online_anjam_dadid':'',
+            'az_che_site_hayi_bishtar_kharid_mikonid':'',
+            'az_che_site_hayi_bishtar_kharid_mikonid_description':'',
+            'chetori_be_yek_site_etemad_mikonid':'',
+            'chetori_be_yek_site_etemad_mikonid_description':'',
+            'hazine_ersal_ta_che_haddi_maghool_ast':'',
+            'ersale_rayegan_ta_che_had_dar_kharide_shoma_tasir_gozar_ast':'',
+            'nahve_pardakhte_morede_nazare_shoma':'',
+            'avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad':'',
+            'avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_description':'',
+            'moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand':'',
+            'moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_description':'',
+            'bar_hasbe_niaz_kharid_mikonid_ya_tabligh':'',
+        }
+    }
+    body_layout(){
+        let {
+            ahle_kharide_online_hastid_options,
+            che_kalahayi_ra_online_mikharid_options,
+            az_che_site_hayi_bishtar_kharid_mikonid_options,
+            chetori_be_yek_site_etemad_mikonid_options,
+            nahve_pardakhte_morede_nazare_shoma_options,
+            avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options,
+            moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options,
+            bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options,
+            natije_mozakere_options
+        } = this.state;
+        let {model,onChange} = this.props;
+        return {
+            html:(
+                <AIOInput
+                    type='form' lang='fa'
+                    value={model}
+                    onChange={(model)=>onChange(model)}
+                    inputs={{
+                        column:[
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ahle_kharide_online_hastid_options},label:'اهل خرید آنلاین هستید ؟',field:'value.ahle_kharide_online_hastid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:che_kalahayi_ra_online_mikharid_options,multiple:true},label:'معمولا چه کالا هایی را آنلاین می خرید ؟',field:'value.che_kalahayi_ra_online_mikharid'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.che_kalahayi_ra_online_mikharid_description'},
+                            {input:{type:'number'},label:'در ماه چند بار آنلاین خرید می کنید ؟',field:'value.dar_mah_chand_bar_online_kharid_mikonid'},
+                            {input:{type:'text'},label:'آخرین بار کی خرید آنلاین انجام دادید ؟',field:'value.akharin_bar_key_kharide_online_anjam_dadid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:az_che_site_hayi_bishtar_kharid_mikonid_options,multiple:true},label:'از چه سایت هایی بیشتر خرید می کنید ؟',field:'value.az_che_site_hayi_bishtar_kharid_mikonid'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.az_che_site_hayi_bishtar_kharid_mikonid_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chetori_be_yek_site_etemad_mikonid_options,multiple:true},label:'چطوری به یک سایت اعتماد میکنید ؟',field:'value.chetori_be_yek_site_etemad_mikonid'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.chetori_be_yek_site_etemad_mikonid_description'},
+                            {input:{type:'text'},label:'هزینه ارسال تا چه حدی معقول است ؟',field:'value.hazine_ersal_ta_che_haddi_maghool_ast'},
+                            {input:{type:'text'},label:'ارسال رایگان تا چه حد در خرید شما تاثیر گذار است ؟',field:'value.ersale_rayegan_ta_che_had_dar_kharide_shoma_tasir_gozar_ast'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:nahve_pardakhte_morede_nazare_shoma_options},label:'نحوه پرداخت مورد نظر شما ؟',field:'value.nahve_pardakhte_morede_nazare_shoma'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options},label:'اولین چیزی که در یک سایت نظر شما را جلب می کند چیست ؟',field:'value.avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options,multiple:true},label:'موقع خرید یک محصول اولین سایت هایی که چک میکنید چه سایت هایی هستند ؟',field:'value.moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options},label:'بر حسب نیاز خرید میکنید یا تبلیغ ؟',field:'value.bar_hasbe_niaz_kharid_mikonid_ya_tabligh'},
+                            {
+                                input:{type:'radio',options:natije_mozakere_options},
+                                label:'نتیجه مذاکره را چگونه ارزیابی میکنید؟',
+                                field:'value.natije_mozakere',
+                                validations:[['required']]
+                            },
+                        ]
+                    }}
+                />
+            )
+        }
+    }
+    render(){
+        return (
+            <RVD
+                layout={{
+                    column:[
+                        this.body_layout()
+                    ]
+                }}
+            />    
+        )
+    }
+}
+
 
 
 class Priority extends Component{
