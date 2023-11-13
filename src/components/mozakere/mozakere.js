@@ -564,12 +564,18 @@ class Form3 extends Component{
                 {value:'3',text:'تولید کننده و فروشنده مواد پلیمری'},
                 {value:'4',text:'صنایع چاپ و بسته بندی'},
                 {value:'5',text:'شرکت حمل و نقل'},
-                {value:'6',text:'شرکت های بازرگانی و صادرات'},
+                {value:'6',text:'تولید کننده سیم و کابل'},
+                {value:'7',text:'تولید کننده فیوز مینیاتوری'},
+                {value:'8',text:'تولید کننده چسب درزین'},
+                {value:'9',text:'تولید کننده رابط و چند راهی'},
+                {value:'10',text:'تولید کننده ابزار'},
                 {value:'sayer',text:'سایر'},
             ],
             noe_hamkari_options:[
-                {value:'0',text:'خرید قطعات لامپ'},
-                {value:'1',text:'خرید خدمات'}
+                {value:'100',text:'خرید قطعات لامپ'},
+                {value:'101',text:'خرید خدمات'},
+                {value:'102',text:'فروش کالا'},
+                {value:'103',text:'فروش خدمات'},
             ]
         }
     }
@@ -874,7 +880,9 @@ class Form6 extends Component{
             'dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid':'',
             'dar_hoze_abzar_ba_che_brandhaee_kar_mikonid':'',
             'bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid':'',
+            'bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_description':'',
             'aya_dar_proje_ha_sherkat_mikonid':'',
+            'tozihat': '',
             'natije_mozakere':'',
         }
     }
@@ -897,12 +905,14 @@ class Form6 extends Component{
                     onChange={(model)=>onChange(model)}
                     inputs={{
                         column:[
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast_option},label:'چند درصد از ',field:'value.chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chand_darsad_az_kharid_shoma_dar_mah_abzar_ast_option,multiple:true},label:'درچه سایت هایی فعالیت داشتید ؟',field:'value.chand_darsad_az_kharid_shoma_dar_mah_abzar_ast'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid_option},label:'آیا همچنان در این سایت ها فعالیت دارید ؟',field:'value.dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_hoze_abzar_ba_che_brandhaee_kar_mikonid_option},label:'تا حالا چالش داشتید ؟',field:'value.dar_hoze_abzar_ba_che_brandhaee_kar_mikonid'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option, multiple:true},label:'چه چالش هایی داشتید ؟',field:'value.bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_dar_proje_ha_sherkat_mikonid_option},label:'آیا تمایل دارید کالاهاتون رو داخل ویترین ثبت کنید ؟',field:'value.aya_dar_proje_ha_sherkat_mikonid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast_option},label:'چند درصد از خرید شما در ماه محصولات روشنایی است ؟',field:'value.chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chand_darsad_az_kharid_shoma_dar_mah_abzar_ast_option},label:'چند درصد از خرید شما در ماه ابزار است ؟',field:'value.chand_darsad_az_kharid_shoma_dar_mah_abzar_ast'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid_option,multiple:true},label:'درحوزه روشنایی با چه برندهایی کار میکنید ؟',field:'value.dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_hoze_abzar_ba_che_brandhaee_kar_mikonid_option,multiple:true},label:'درحوزه ابزار با چه برندهایی کار میکنید ؟',field:'value.dar_hoze_abzar_ba_che_brandhaee_kar_mikonid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option, multiple:true},label:'بیشتر چه کالایی از ابزار را خریداری میکنید ؟',field:'value.bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_description'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_dar_proje_ha_sherkat_mikonid_option},label:'آیا در پروژه ها شرکت میکنید ؟',field:'value.aya_dar_proje_ha_sherkat_mikonid'},
+                            {input:{type:'textarea'},label:'توضیحات',field:'value.tozihat'},
                             {
                                 input:{type:'radio',options:natije_mozakere_options},
                                 label:'نتیجه مذاکره را چگونه ارزیابی میکنید؟',

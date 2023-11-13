@@ -74,15 +74,18 @@ export default class Mozakerat extends Component{
         this.socket.close();
     }
     async startSocket(){
-        let {username} = this.context;
+        let {username, rsa} = this.context;
         let socket = await new WebSocket("wss://" + `exhibition.bbeta.ir` + `/ws/personnel/${username}`);
         // let socket = await new WebSocket("ws://" + `127.0.0.1:8000` + `/ws/personnel/${username}`);
         this.socket = socket
         socket.onmessage = async (event)=>{
             const parsedObject = JSON.parse(event.data);
-            console.log(parsedObject);
             console.log(parsedObject.en_notif_title);
-            alert(parsedObject.info.message)
+            if (parsedObject.en_notif_title === 'cancel_negotiation') {
+                rsa.addAlert({type:'error', text: 'پیام جدید دارید', subtext: `${parsedObject.info.message}`})
+            }else {
+                rsa.addAlert({type:'info', text: 'پیام جدید دارید', subtext: `${parsedObject.info.message}`})
+            }
             await this.fetchData()
         }
     }
