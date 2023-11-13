@@ -147,6 +147,19 @@ export default class Mozakere extends Component{
             )
         }
     }
+    form_layout6(){
+        let {model} = this.state;
+        let {disabled} = this.props;
+        return {
+            html:(
+                <Form6
+                    onChange={(model)=>this.change(model)}
+                    model={model}
+                    disabled={disabled}
+                />
+            )
+        }
+    }
     form_layout(){
         let {form} = this.props;
         return this['form_layout' + form.type]()
@@ -830,6 +843,83 @@ class Form5 extends Component{
 }
 
 
+class Form6 extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            ta_hala_forosh_online_dashtin_option:['بله','خیر'],
+            dar_che_sitehaee_faaliat_dashtin_option:['ترب','ایمالز','دیجی کالا','اینستاگرام','با سلام'],
+            aya_hamchenan_dar_in_siteha_faaliat_darid_option:['بله','خیر'],
+            ta_hala_chalesh_dashtid_option:['بله','خیر'],
+            che_chaleshhaee_dashtin_option:['کمیسیون', 'ارسال' , 'بسته بندی', 'مرجوعی' , 'تسویه' , 'هزینه حمل', 'سایر'],
+            aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option:['بله','خیر'],
+            natije_mozakere_options:[
+                {value:'0',text:'موفق'},
+                {value:'1',text:'ناموفق'},
+                {value:'2',text:'نیاز به پیگیری'},
+                {value:'3',text:'نیاز به تماس'}
+            ],
+        }
+    }
+    getModel(){
+        return {
+            'ta_hala_forosh_online_dashtin':'',
+            'dar_che_sitehaee_faaliat_dashtin':'',
+            'aya_hamchenan_dar_in_siteha_faaliat_darid':'',
+            'ta_hala_chalesh_dashtid':'',
+            'che_chaleshhaee_dashtin':'',
+            'natije_mozakere':'',
+        }
+    }
+    body_layout(){
+        let {
+            ta_hala_forosh_online_dashtin_option,
+            dar_che_sitehaee_faaliat_dashtin_option,
+            aya_hamchenan_dar_in_siteha_faaliat_darid_option,
+            ta_hala_chalesh_dashtid_option,
+            che_chaleshhaee_dashtin_option,
+            aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option,
+            natije_mozakere_options,
+        } = this.state;
+        let {model,onChange} = this.props;
+        return {
+            html:(
+                <AIOInput
+                    type='form' lang='fa'
+                    value={model}
+                    onChange={(model)=>onChange(model)}
+                    inputs={{
+                        column:[
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_forosh_online_dashtin_option},label:'تا حالا فروش آنلاین داشتید ؟',field:'value.ta_hala_forosh_online_dashtin'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_che_sitehaee_faaliat_dashtin_option,multiple:true},label:'درچه سایت هایی فعالیت داشتید ؟',field:'value.dar_che_sitehaee_faaliat_dashtin'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_hamchenan_dar_in_siteha_faaliat_darid_option},label:'آیا همچنان در این سایت ها فعالیت دارید ؟',field:'value.aya_hamchenan_dar_in_siteha_faaliat_darid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_chalesh_dashtid_option},label:'تا حالا چالش داشتید ؟',field:'value.ta_hala_chalesh_dashtid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:che_chaleshhaee_dashtin_option, multiple:true},label:'چه چالش هایی داشتید ؟',field:'value.che_chaleshhaee_dashtin'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option},label:'آیا تمایل دارید کالاهاتون رو داخل ویترین ثبت کنید ؟',field:'value.aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin'},
+                            {
+                                input:{type:'radio',options:natije_mozakere_options},
+                                label:'نتیجه مذاکره را چگونه ارزیابی میکنید؟',
+                                field:'value.natije_mozakere',
+                                validations:[['required']]
+                            },
+                        ]
+                    }}
+                />
+            )
+        }
+    }
+    render(){
+        return (
+            <RVD
+                layout={{
+                    column:[
+                        this.body_layout()
+                    ]
+                }}
+            />    
+        )
+    }
+}
 
 class Priority extends Component{
     box_layout(text,index){
