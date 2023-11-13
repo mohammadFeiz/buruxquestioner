@@ -153,11 +153,11 @@ export default class Mozakere extends Component{
     }
     async submit(mode){
         let {apis,rsa} = this.context;
-        let {form} = this.props;
+        let {form,fetchData} = this.props;
         let {model} = this.state;
         apis.request({
             api:'sabte_mozakere',description:mode === 'submit'?'ثبت مذاکره':'پیشنویس مذاکره',parameter:{mode,type:form.type,model},
-            onSuccess:()=>{this.fetchData(); rsa.removeModal();},message:{success:true}
+            onSuccess:()=>{fetchData(); rsa.removeModal();},message:{success:true}
         })
     }
     footer_layout(){
