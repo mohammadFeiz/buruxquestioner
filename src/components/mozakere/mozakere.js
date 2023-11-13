@@ -802,8 +802,8 @@ class Form5 extends Component{
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_forosh_online_dashtin_option},label:'تا حالا فروش آنلاین داشتید ؟',field:'value.ta_hala_forosh_online_dashtin'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_che_sitehaee_faaliat_dashtin_option,multiple:true},label:'درچه سایت هایی فعالیت داشتید ؟',field:'value.dar_che_sitehaee_faaliat_dashtin'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_hamchenan_dar_in_siteha_faaliat_darid_option},label:'آیا همچنان در این سایت ها فعالیت دارید ؟',field:'value.aya_hamchenan_dar_in_siteha_faaliat_darid'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_chalesh_dashtid_option,multiple:true},label:'تا حالا چالش داشتید ؟',field:'value.ta_hala_chalesh_dashtid'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:che_chaleshhaee_dashtin_option},label:'چه چالش هایی داشتید ؟',field:'value.che_chaleshhaee_dashtin'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_chalesh_dashtid_option},label:'تا حالا چالش داشتید ؟',field:'value.ta_hala_chalesh_dashtid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:che_chaleshhaee_dashtin_option, multiple:true},label:'چه چالش هایی داشتید ؟',field:'value.che_chaleshhaee_dashtin'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option},label:'آیا تمایل دارید کالاهاتون رو داخل ویترین ثبت کنید ؟',field:'value.aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin'},
                             {
                                 input:{type:'radio',options:natije_mozakere_options},
