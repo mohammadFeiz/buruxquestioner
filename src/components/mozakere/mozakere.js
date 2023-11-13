@@ -79,13 +79,18 @@ export default class Mozakere extends Component{
             ]
         }
     }
+    change(model){
+        let {fetchData} = this.props;
+        this.setState({model});
+        fetchData();
+    }
     form_layout1(){
         let {model} = this.state;
         let {disabled} = this.props;
         return {
             html:(
                 <Form1
-                    onChange={(model)=>this.setState({model})}
+                    onChange={(model)=>this.change(model)}
                     model={model}
                     disabled={disabled}
                 />
@@ -98,7 +103,7 @@ export default class Mozakere extends Component{
         return {
             html:(
                 <Form2
-                    onChange={(model)=>this.setState({model})}
+                    onChange={(model)=>this.change(model)}
                     model={model}
                     disabled={disabled}
                 />
@@ -111,7 +116,7 @@ export default class Mozakere extends Component{
         return {
             html:(
                 <Form3
-                    onChange={(model)=>this.setState({model})}
+                    onChange={(model)=>this.change(model)}
                     model={model}
                     disabled={disabled}
                 />
@@ -124,7 +129,7 @@ export default class Mozakere extends Component{
         return {
             html:(
                 <Form4
-                    onChange={(model)=>this.setState({model})}
+                    onChange={(model)=>this.change(model)}
                     model={model}
                     disabled={disabled}
                 />
@@ -137,7 +142,7 @@ export default class Mozakere extends Component{
         return {
             html:(
                 <Form5
-                    onChange={(model)=>this.setState({model})}
+                    onChange={(model)=>this.change(model)}
                     model={model}
                     disabled={disabled}
                 />

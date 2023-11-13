@@ -172,7 +172,7 @@ export default class MozakereCard extends Component {
                         if(status === '0'){fetchData()}
                         rsa.addModal({
                             header: false,
-                            body:{render: () => <Mozakere {...object} />}
+                            body:{render: () => <Mozakere {...object} fetchData={fetchData}/>}
                         })
                     }
                 })
