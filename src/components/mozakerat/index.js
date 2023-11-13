@@ -67,7 +67,15 @@ export default class Mozakerat extends Component{
         apis.request({api,description,onSuccess:(items)=>this.setState({items}),def:[]});
     }
     componentDidMount(){
-        this.fetchData()
+        this.fetchData();
+        this.startSocket()
+    }
+    startSocket(){
+        let {username} = this.context;
+        const socket = new WebSocket(`/ws/personnel/${username}`);
+        socket.onmessage = (event)=>{
+            alert('call by socket')
+        }
     }
     search_layout(){
         let {results} = this.context;

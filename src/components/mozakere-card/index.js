@@ -12,6 +12,7 @@ export default class MozakereCard extends Component {
     constructor(props) {
         super(props);
         this.state = { time: this.getTime() }
+        
         this.interval = setInterval(() => {
             this.setState({ time: this.getTime() })
         }, 60000)
