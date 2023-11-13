@@ -853,12 +853,12 @@ class Form6 extends Component{
     constructor(props){
         super(props);
         this.state = {
-            ta_hala_forosh_online_dashtin_option:['بله','خیر'],
-            dar_che_sitehaee_faaliat_dashtin_option:['ترب','ایمالز','دیجی کالا','اینستاگرام','با سلام'],
-            aya_hamchenan_dar_in_siteha_faaliat_darid_option:['بله','خیر'],
-            ta_hala_chalesh_dashtid_option:['بله','خیر'],
-            che_chaleshhaee_dashtin_option:['کمیسیون', 'ارسال' , 'بسته بندی', 'مرجوعی' , 'تسویه' , 'هزینه حمل', 'سایر'],
-            aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option:['بله','خیر'],
+            chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast_option:['از 0 تا 20 درصد','از 21 تا 30 درصد', 'از 31 درصد تا 40 درصد', 'از 41 درصد تا 50 درصد', 'از 51 درصد تا 60 درصد', 'بیشتر از 60 درصد'],
+            chand_darsad_az_kharid_shoma_dar_mah_abzar_ast_option:['از 0 تا 20 درصد','از 21 تا 30 درصد', 'از 31 درصد تا 40 درصد', 'از 41 درصد تا 50 درصد', 'از 51 درصد تا 60 درصد', 'بیشتر از 60 درصد'],
+            dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid_option:['نمانور','پارس شعاع توس','ایران زمین','تک تاب','سایر'],
+            dar_hoze_abzar_ba_che_brandhaee_kar_mikonid_option:['توسن','رونیکس','آروا', 'سایر'],
+            bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option:['دستی','برقی'],
+            aya_dar_proje_ha_sherkat_mikonid_option:['بله','خیر'],
             natije_mozakere_options:[
                 {value:'0',text:'موفق'},
                 {value:'1',text:'ناموفق'},
@@ -869,22 +869,23 @@ class Form6 extends Component{
     }
     getModel(){
         return {
-            'ta_hala_forosh_online_dashtin':'',
-            'dar_che_sitehaee_faaliat_dashtin':'',
-            'aya_hamchenan_dar_in_siteha_faaliat_darid':'',
-            'ta_hala_chalesh_dashtid':'',
-            'che_chaleshhaee_dashtin':'',
+            'chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast':'',
+            'chand_darsad_az_kharid_shoma_dar_mah_abzar_ast':'',
+            'dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid':'',
+            'dar_hoze_abzar_ba_che_brandhaee_kar_mikonid':'',
+            'bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid':'',
+            'aya_dar_proje_ha_sherkat_mikonid':'',
             'natije_mozakere':'',
         }
     }
     body_layout(){
         let {
-            ta_hala_forosh_online_dashtin_option,
-            dar_che_sitehaee_faaliat_dashtin_option,
-            aya_hamchenan_dar_in_siteha_faaliat_darid_option,
-            ta_hala_chalesh_dashtid_option,
-            che_chaleshhaee_dashtin_option,
-            aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option,
+            chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast_option,
+            chand_darsad_az_kharid_shoma_dar_mah_abzar_ast_option,
+            dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid_option,
+            dar_hoze_abzar_ba_che_brandhaee_kar_mikonid_option,
+            bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option,
+            aya_dar_proje_ha_sherkat_mikonid_option,
             natije_mozakere_options,
         } = this.state;
         let {model,onChange} = this.props;
@@ -896,12 +897,12 @@ class Form6 extends Component{
                     onChange={(model)=>onChange(model)}
                     inputs={{
                         column:[
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_forosh_online_dashtin_option},label:'تا حالا فروش آنلاین داشتید ؟',field:'value.ta_hala_forosh_online_dashtin'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_che_sitehaee_faaliat_dashtin_option,multiple:true},label:'درچه سایت هایی فعالیت داشتید ؟',field:'value.dar_che_sitehaee_faaliat_dashtin'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_hamchenan_dar_in_siteha_faaliat_darid_option},label:'آیا همچنان در این سایت ها فعالیت دارید ؟',field:'value.aya_hamchenan_dar_in_siteha_faaliat_darid'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_chalesh_dashtid_option},label:'تا حالا چالش داشتید ؟',field:'value.ta_hala_chalesh_dashtid'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:che_chaleshhaee_dashtin_option, multiple:true},label:'چه چالش هایی داشتید ؟',field:'value.che_chaleshhaee_dashtin'},
-                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option},label:'آیا تمایل دارید کالاهاتون رو داخل ویترین ثبت کنید ؟',field:'value.aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast_option},label:'چند درصد از ',field:'value.chand_darsad_az_kharid_shoma_dar_mah_mahsoolat_roshanaee_ast'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:chand_darsad_az_kharid_shoma_dar_mah_abzar_ast_option,multiple:true},label:'درچه سایت هایی فعالیت داشتید ؟',field:'value.chand_darsad_az_kharid_shoma_dar_mah_abzar_ast'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid_option},label:'آیا همچنان در این سایت ها فعالیت دارید ؟',field:'value.dar_hoze_roshanaee_ba_che_brandhaee_kar_mikonid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_hoze_abzar_ba_che_brandhaee_kar_mikonid_option},label:'تا حالا چالش داشتید ؟',field:'value.dar_hoze_abzar_ba_che_brandhaee_kar_mikonid'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option, multiple:true},label:'چه چالش هایی داشتید ؟',field:'value.bishtar_che_kalahaee_az_abzar_ra_kharidari_mikonid_option'},
+                            {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_dar_proje_ha_sherkat_mikonid_option},label:'آیا تمایل دارید کالاهاتون رو داخل ویترین ثبت کنید ؟',field:'value.aya_dar_proje_ha_sherkat_mikonid'},
                             {
                                 input:{type:'radio',options:natije_mozakere_options},
                                 label:'نتیجه مذاکره را چگونه ارزیابی میکنید؟',
