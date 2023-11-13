@@ -118,6 +118,9 @@ export default class MozakereCard extends Component {
     city_layout(city) {
         return { html: city, className: 'mozakere-card-city' }
     }
+    company_related_layout(company) {
+        return { html: company, className: 'mozakere-card-company' }
+    }
     result_layout(result) {
         if (!result) { return false }
         let { results } = this.context;
@@ -190,7 +193,7 @@ export default class MozakereCard extends Component {
     }
     render() {
         let { object, mode } = this.props;
-        let { name, status, company, city, result, time, referencedTo } = object;
+        let { name, status, company, city, result, related_company_name ,time, referencedTo } = object;
         return (
             <RVD
                 layout={{
@@ -213,6 +216,7 @@ export default class MozakereCard extends Component {
                                 this.company_layout(company),
                                 { size: 6 },
                                 this.city_layout(city),
+                                this.company_related_layout(related_company_name),
                                 { flex: 1 },
                                 this.result_layout(result),
                                 this.reference_layout(referencedTo)

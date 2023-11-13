@@ -6,8 +6,8 @@ import { data } from "jquery";
 // const base_url = "http://localhost:8000";
 // const base_url = "http://192.168.118.1:8000";
 // const base_url = "http://192.168.10.50:8054";
-//const base_url = "https://exhibition.bbeta.ir";
-const base_url = "https://exhibitiontest.bbeta.ir";
+const base_url = "https://exhibition.bbeta.ir";
+// const base_url = "https://exhibitiontest.bbeta.ir";
 // const base_url = "http://91.107.159.118:8054";
 
 let form1_default_market = ["AG", "E", "A", "S", "T", "TS"]; // لامپ پایدار
@@ -144,6 +144,7 @@ export default function getApiFunctions({ Axios }) {
           name: name,
           status: state,
           company: user.company_name || "",
+          related_company_name: attendance.company_name ||"",
           city: user.province_name || "",
           id: o.id,
           process_instance_id: o.attendance_info.id,
