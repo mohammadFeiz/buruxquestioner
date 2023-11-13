@@ -665,7 +665,7 @@ class Form4 extends Component{
             che_kalahayi_ra_online_mikharid_options:['برقی و ابزار','دیجیتال','لباس','غذا','لوازم خانگی برقی'],
             az_che_site_hayi_bishtar_kharid_mikonid_options:['دیجی کالا','با سلام','اسنپ'],
             chetori_be_yek_site_etemad_mikonid_options:['ای نماد','درگاه پرداخت بانکی معتبر','تبلیغات','معرفی دوستان','سرشناس بودن سایت'],
-            nahve_pardakhte_morede_nazare_shoma_options:['درب منزل','آنلاین'],
+            nahve_pardakhte_morede_nazare_shoma_options:['درب منزل','آنلاین', 'فرقی نداره'],
             avalin_chizi_ke_dar_yek_site_nazare_shoma_ra_jalb_mikonad_options:['تنوع محصولات','زیبایی بصری سایت','تخفیفات','کاربری آسان'],
             moghe_kharide_yek_mahsool_avalin_site_hayi_ke_check_mikonid_che_site_hayi_hastand_options:['دیجی کالا','ایمالز','ترب'],
             bar_hasbe_niaz_kharid_mikonid_ya_tabligh_options:['نیاز','تبلیغ'],
@@ -675,7 +675,6 @@ class Form4 extends Component{
                 {value:'2',text:'نیاز به پیگیری'},
                 {value:'3',text:'نیاز به تماس'}
             ],
-
         }
     }
     getModel(){
@@ -769,7 +768,7 @@ class Form5 extends Component{
         super(props);
         this.state = {
             ta_hala_forosh_online_dashtin_option:['بله','خیر'],
-            dar_che_sitehaee_faaliat_dashtin_option:['ترب','ایمالز','دیجی کالا','اینستاگرام','با سلام'],
+            dar_che_sitehaee_faaliat_dashtin_option:['ترب','ایمالز','دیجی کالا','اینستاگرام','تلگرام', 'با سلام'],
             aya_hamchenan_dar_in_siteha_faaliat_darid_option:['بله','خیر'],
             ta_hala_chalesh_dashtid_option:['بله','خیر'],
             che_chaleshhaee_dashtin_option:['کمیسیون', 'ارسال' , 'بسته بندی', 'مرجوعی' , 'تسویه' , 'هزینه حمل', 'سایر'],
@@ -786,9 +785,13 @@ class Form5 extends Component{
         return {
             'ta_hala_forosh_online_dashtin':'',
             'dar_che_sitehaee_faaliat_dashtin':'',
+            'dar_che_sitehaee_faaliat_dashtin_description': '',
             'aya_hamchenan_dar_in_siteha_faaliat_darid':'',
             'ta_hala_chalesh_dashtid':'',
             'che_chaleshhaee_dashtin':'',
+            'che_chaleshhaee_dashtin_description':'',
+            'aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin': '',
+            'aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_description': '',
             'natije_mozakere':'',
         }
     }
@@ -813,10 +816,13 @@ class Form5 extends Component{
                         column:[
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_forosh_online_dashtin_option},label:'تا حالا فروش آنلاین داشتید ؟',field:'value.ta_hala_forosh_online_dashtin'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:dar_che_sitehaee_faaliat_dashtin_option,multiple:true},label:'درچه سایت هایی فعالیت داشتید ؟',field:'value.dar_che_sitehaee_faaliat_dashtin'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.dar_che_sitehaee_faaliat_dashtin_description'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_hamchenan_dar_in_siteha_faaliat_darid_option},label:'آیا همچنان در این سایت ها فعالیت دارید ؟',field:'value.aya_hamchenan_dar_in_siteha_faaliat_darid'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:ta_hala_chalesh_dashtid_option},label:'تا حالا چالش داشتید ؟',field:'value.ta_hala_chalesh_dashtid'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:che_chaleshhaee_dashtin_option, multiple:true},label:'چه چالش هایی داشتید ؟',field:'value.che_chaleshhaee_dashtin'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.che_chaleshhaee_dashtin_description'},
                             {input:{type:'radio',optionText:'option',optionValue:'option',options:aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_option},label:'آیا تمایل دارید کالاهاتون رو داخل ویترین ثبت کنید ؟',field:'value.aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin'},
+                            {input:{type:'textarea'},label:'توضیح بیشتر ؟',field:'value.aya_tamayol_darid_kalahatoon_ro_dakhel_vitrin_sabt_konin_description'},
                             {
                                 input:{type:'radio',options:natije_mozakere_options},
                                 label:'نتیجه مذاکره را چگونه ارزیابی میکنید؟',
