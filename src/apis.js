@@ -170,17 +170,18 @@ export default function getApiFunctions({ Axios }) {
       let url = `${base_url}/api/attendance_tracker/negotiations?negotiator_username=${negotiator_username}&negotiation_status=3,4,5`;
 
       let response = await Axios.get(url)
+      let status;
       let result = response.data.data.map((o) => {
         attendance = o.attendance_info;
         user = attendance.user_info;
         name = `${user.first_name} ${user.last_name}`
         business_scope = user.business_scope
         if (attendance.result_status !== null) {
-          result = attendance.result_status;
-          if (result === "1") { result = "0"; } //'موفق ها'
-          if (result === "4") { result = "1"; } //'نا موفق ها'
-          if (result === "2") { result = "2"; } //'نیاز به تماس ها'
-          if (result === "3") { result = "3"; } //'نیاز به پیگیری ها'
+          status = attendance.result_status;
+          if (status === "1") { status = "0"; } //'موفق ها'
+          if (status === "4") { status = "1"; } //'نا موفق ها'
+          if (status === "2") { status = "2"; } //'نیاز به تماس ها'
+          if (status === "3") { status = "3"; } //'نیاز به پیگیری ها'
         }
 
         if (Object.values(o.negotiation_status).length !== 0) {
@@ -226,7 +227,7 @@ export default function getApiFunctions({ Axios }) {
           city: user.province_name || "",
           id: o.id || "0",
           time: new Date(o.updated_at).getTime(),
-          result: result || undefined,
+          result: status || undefined,
           referencedTo: o.referred_to,
           guest_id: user.id,
           person_id: o.negotiator_id,
