@@ -80,9 +80,7 @@ export default class Mozakere extends Component{
         }
     }
     change(model){
-        let {fetchData} = this.props;
         this.setState({model});
-        fetchData();
     }
     form_layout1(){
         let {model} = this.state;
@@ -159,7 +157,7 @@ export default class Mozakere extends Component{
         let {model} = this.state;
         apis.request({
             api:'sabte_mozakere',description:mode === 'submit'?'ثبت مذاکره':'پیشنویس مذاکره',parameter:{mode,type:form.type,model},
-            onSuccess:()=>rsa.removeModal(),message:{success:true}
+            onSuccess:()=>{this.fetchData(); rsa.removeModal();},message:{success:true}
         })
     }
     footer_layout(){
@@ -651,7 +649,7 @@ class Form4 extends Component{
         super(props);
         this.state = {
             ahle_kharide_online_hastid_options:['بله','خیر'],
-            che_kalahayi_ra_online_mikharid:['برقی و ابزار','دیجیتال','لباس','غذا','لوازم خانگی برقی'],
+            che_kalahayi_ra_online_mikharid_options:['برقی و ابزار','دیجیتال','لباس','غذا','لوازم خانگی برقی'],
             az_che_site_hayi_bishtar_kharid_mikonid_options:['دیجی کالا','با سلام','اسنپ'],
             chetori_be_yek_site_etemad_mikonid_options:['ای نماد','درگاه پرداخت بانکی معتبر','تبلیغات','معرفی دوستان','سرشناس بودن سایت'],
             nahve_pardakhte_morede_nazare_shoma_options:['درب منزل','آنلاین'],
@@ -664,6 +662,7 @@ class Form4 extends Component{
                 {value:'2',text:'نیاز به پیگیری'},
                 {value:'3',text:'نیاز به تماس'}
             ],
+
         }
     }
     getModel(){
