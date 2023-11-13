@@ -137,6 +137,7 @@ export default class Mozakerat extends Component{
                         return {
                             html:(
                                 <MozakereCard 
+                                    fetchData={this.fetchData.bind(this)}
                                     key={o.id}
                                     onRemove={()=>{
                                         let {items} = this.state;

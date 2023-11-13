@@ -156,6 +156,7 @@ export default class MozakereCard extends Component {
     action_layout(status, mode) {
         if (mode !== 'mize_kar') { return false }
         let { rsa, apis } = this.context;
+        let {fetchData} = this.props;
         let text = {
             '0': 'شروع مذاکره',
             '1': 'ادامه مذاکره',
@@ -168,6 +169,7 @@ export default class MozakereCard extends Component {
                 apis.request({ 
                     api: 'shorooe_mozakere', parameter: object,description:'شروع مذاکره' ,
                     onSuccess:()=>{
+                        if(status === '0'){fetchData()}
                         rsa.addModal({
                             header: false,
                             body:{render: () => <Mozakere {...object} />}
