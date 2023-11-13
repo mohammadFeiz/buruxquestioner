@@ -80,9 +80,7 @@ export default class Mozakere extends Component{
         }
     }
     change(model){
-        let {fetchData} = this.props;
         this.setState({model});
-        fetchData();
     }
     form_layout1(){
         let {model} = this.state;
@@ -159,7 +157,7 @@ export default class Mozakere extends Component{
         let {model} = this.state;
         apis.request({
             api:'sabte_mozakere',description:mode === 'submit'?'ثبت مذاکره':'پیشنویس مذاکره',parameter:{mode,type:form.type,model},
-            onSuccess:()=>rsa.removeModal(),message:{success:true}
+            onSuccess:()=>{this.fetchData(); rsa.removeModal();},message:{success:true}
         })
     }
     footer_layout(){
@@ -664,6 +662,7 @@ class Form4 extends Component{
                 {value:'2',text:'نیاز به پیگیری'},
                 {value:'3',text:'نیاز به تماس'}
             ],
+
         }
     }
     getModel(){
