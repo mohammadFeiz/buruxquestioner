@@ -1,4 +1,3 @@
-import { data } from "jquery";
 
 
 // const base_url = `http://manage.paydarnoor.ir`;
@@ -10,9 +9,9 @@ const base_url = "https://exhibition.bbeta.ir";
 // const base_url = "https://exhibitiontest.bbeta.ir";
 // const base_url = "http://91.107.159.118:8054";
 
-let form1_default_market = ["AG", "E", "A", "S", "T", "TS"]; // لامپ پایدار
-let form2_default_market = ["G", "PR", "CO", "Co"]; // لامپ پایدار سازمانی
-let form3_default_market = ["P"]; // آریا
+// let form1_default_market = ["AG", "E", "A", "S", "T", "TS"]; // لامپ پایدار
+// let form2_default_market = ["G", "PR", "CO", "Co"]; // لامپ پایدار سازمانی
+// let form3_default_market = ["P"]; // آریا
 
 function getCurrentDate() {
   const today = new Date();

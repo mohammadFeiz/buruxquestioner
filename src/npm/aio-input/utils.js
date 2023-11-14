@@ -266,7 +266,7 @@ export class AIOInputValidate {
             },
             tabs: {
                 type: '"tabs"', value: 'any',before: 'any', after: 'any', subtext,disabled, loading: 'any',optionAttrs: 'any',
-                options, optionText, optionValue, optionBefore, optionAfter, optionSubtext, optionDisabled, optionAttrs, optionCheckIcon,
+                options, optionText, optionValue, optionBefore, optionAfter, optionSubtext, optionDisabled, optionCheckIcon,
             },
             multiselect: {
                 type: '"multiselect"', value: 'array|undefined',before: 'any', after: 'any', subtext,text: 'any',
@@ -291,7 +291,7 @@ export class AIOInputValidate {
             select: {
                 type: '"select"', value: 'number|string|undefined', optionStyle: 'object|undefined',
                 caret: 'any',placeholder: 'any',options: 'array', optionText: 'any', optionValue: 'any',
-                search: 'boolean|undefined',optionAttrs: 'function|string|undefined|object',disabled, loading: 'any',
+                search: 'boolean|undefined',disabled, loading: 'any',
                 before: 'any', after: 'any', subtext,optionAttrs: 'any',popover: 'object|undefined',onSwap: 'function|undefined',
                 optionClose: 'any',optionChecked: 'string|function|boolean|undefined',optionDisabled: 'any',optionCheckIcon: 'any',
                 optionBefore: 'any', optionAfter: 'any', optionSubtext: 'string|number|function|undefined'

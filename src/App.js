@@ -8,11 +8,8 @@ import {mdiBell,mdiThumbUpOutline,mdiThumbDownOutline,mdiPhone,mdiStarOutline,md
 import RVD from 'react-virtual-dom';
 import Notification from './components/notification/index';
 import getApiFunctions from './apis';
-import headerSrc from './images/header.png';
-import titleSrc from './images/title.png';
 import AIOInput from './npm/aio-input/aio-input';
 import RKS from 'react-keycloak-spa';
-import AIOLoading from 'aio-loading';
 import "./index.css";
 AIOInput.defaults.validate = true;
 export default class App extends Component{
