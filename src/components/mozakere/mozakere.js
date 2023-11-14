@@ -190,7 +190,7 @@ export default class Mozakere extends Component{
         return (
             <RVD
                 layout={{
-                    style:{background:'#fff',height:'90%',maxWidth:560,borderRadius:16},
+                    style:{background:'#fff',height:'100%',maxWidth:560,borderRadius:16},
                     className:'size12 mozakere-form ofy-auto',
                     column:[
                         this.header_layout(),

@@ -144,6 +144,8 @@ class Header extends Component{
             {
               html: (
                 <AIOInput 
+                  className='profile-button'  
+                  popover={{fitHorizontal:false,attrs:{style:{width:160}}}}
                   before={<Icon path={mdiAccount} size={.8}/>}
                   type='select' text={name}
                   options={[{text:'خروج از حساب کاربری' ,value:'logout'}]}

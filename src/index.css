@@ -94,3 +94,21 @@ button{
     background: rgba(0,0,0,0.6);
     border-radius: 12px;
 }
+
+.aio-popup-position-right{
+  backdrop-filter: blur(3px);
+  background:rgba(0, 0, 0, 0.5) !important;
+}
+.aio-popup-position-bottom{
+  backdrop-filter: blur(3px);
+  background:rgba(0, 0, 0, 0.5) !important;
+}
+
+.profile-button{
+  background:orange !important;
+  color:#fff !important;
+}
+.aio-input-radio-option{
+  font-size:10px;
+  font-weight: bold;
+}

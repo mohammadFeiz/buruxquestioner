@@ -92,12 +92,14 @@ export default class MozakereCard extends Component {
                         }
                         else if (value === 'joziate_payan_yafte') {
                             rsa.addModal({
+                                position:'right',
                                 header: false,
                                 body: {render:() => <Mozakere {...object} disabled={true} />},
                             })
                         }
                         else if (value === 'virayeshe_payan_yafte') {
                             rsa.addModal({
+                                position:'right',
                                 header: false,
                                 body: {render:() => <Mozakere {...object} mode={value} disabled={this.dif > 24 * 60 * 60 * 1000} />}
                             })

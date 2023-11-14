@@ -94,7 +94,7 @@ export default class Mozakerat extends Component{
         let {searchValue,filterResult,tab} = this.state;
         let {mode} = this.props;
         return {
-            style:{overflow:'visible'},
+            style:{overflow:'visible'},size:36,gap:12,
             row:[
                 {style:{overflow:'visible'},flex:1,html:(<SearchBox value={searchValue} onChange={(searchValue)=>this.setState({searchValue})}/>)},
                 {
@@ -102,7 +102,7 @@ export default class Mozakerat extends Component{
                     html:()=>(
                         <AIOInput
                             type='select' caret={false}
-                            style={{color:'#00B5A5',fontSize:14}}
+                            style={{color:'#00B5A5',fontSize:14,height:30}}
                             options={results}
                             after={<Icon path={mdiFilterVariant} size={0.7}/>}
                             value={filterResult}
