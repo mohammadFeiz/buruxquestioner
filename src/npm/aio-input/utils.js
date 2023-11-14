@@ -289,7 +289,7 @@ export class AIOInputValidate {
                 before: 'any', after: 'any', subtext,disabled, loading: 'any',checkIcon: 'any',
             },
             select: {
-                type: '"select"', value: 'number|string|undefined', optionStyle: 'object|undefind',
+                type: '"select"', value: 'number|string|undefined', optionStyle: 'object|undefined',
                 caret: 'any',placeholder: 'any',options: 'array', optionText: 'any', optionValue: 'any',
                 search: 'boolean|undefined',optionAttrs: 'function|string|undefined|object',disabled, loading: 'any',
                 before: 'any', after: 'any', subtext,optionAttrs: 'any',popover: 'object|undefined',onSwap: 'function|undefined',
