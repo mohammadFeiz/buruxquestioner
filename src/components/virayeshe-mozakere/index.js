@@ -84,7 +84,7 @@ export default class VirayesheMozakere extends Component{
                     options={mozakere_konandegan}
                     optionText={(o)=>getText(o)}
                     optionValue='option.id'
-                    optionStyle='{color:"#fff"}'
+                    optionStyle={{color:"#fff"}}
                     text={mozakere_konande === false?'جستجوی مذاکره کننده':getText(mozakere_konandegan.find((o)=>o.id === mozakere_konande))}
                     onChange={(mozakere_konande)=>this.setState({mozakere_konande})}
                 />
